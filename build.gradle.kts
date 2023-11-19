@@ -18,6 +18,11 @@ publishing {
     }
 }
 
+java {
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
+}
+
 group = "com.faangx.ktp"
 version = "1.0"
 
