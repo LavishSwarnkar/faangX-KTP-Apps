@@ -10,4 +10,4 @@ pluginManagement {
     }
 }
 
-rootProject.name = "KtPlay"
+rootProject.name = "faangX-KTP-Apps"
