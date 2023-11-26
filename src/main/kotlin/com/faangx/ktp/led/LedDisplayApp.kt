@@ -79,6 +79,8 @@ private fun AppScreen(boxSize: Float, rows: Int, cols: Int) {
     val onColor = Color.White
     val offColor = Color(0xFF1c1c1c)
 
+    val radius = boxSize / 2
+
     MaterialTheme {
         val flow = remember { getFlow(rows, cols) }
         val onLed = flow.collectAsState(Coordinate.Zero)
@@ -90,11 +92,10 @@ private fun AppScreen(boxSize: Float, rows: Int, cols: Int) {
                 .background(Color.Black)
         ) {
 
-            drawRoundRect(
+            drawCircle(
                 color = onColor,
-                topLeft = Offset(x.value, y.value),
-                size = Size(boxSize, boxSize),
-                cornerRadius = CornerRadius(25f, 25f)
+                radius = radius,
+                center = Offset(x.value + radius, y.value + radius)
             )
         }
     }
@@ -103,7 +104,7 @@ private fun AppScreen(boxSize: Float, rows: Int, cols: Int) {
 fun ledDisplayApp() = application {
     val state = rememberWindowState(placement = WindowPlacement.Maximized)
 
-    val boxSize = 100f
+    val boxSize = 200f
 
     val (rows, cols) = with(LocalDensity.current) {
         val size = Toolkit.getDefaultToolkit().screenSize
