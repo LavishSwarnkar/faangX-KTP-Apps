@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.window.Window
@@ -44,7 +45,7 @@ fun getFlow(rows: Int, cols: Int): Flow<Coordinate> {
     return flow {
         while (true) {
             emit(current)
-            delay(10)
+            delay(30)
 
             when (phase) {
                 Right -> {
@@ -69,9 +70,7 @@ fun getFlow(rows: Int, cols: Int): Flow<Coordinate> {
 }
 
 @Composable
-private fun AppScreen(boxSize: Int, padding: Int, rows: Int, cols: Int) {
-    val radius = (boxSize / 2).toFloat()
-
+private fun AppScreen(boxSize: Float, rows: Int, cols: Int) {
     val onColor = Color.White
     val offColor = Color(0xFF1c1c1c)
 
@@ -86,10 +85,10 @@ private fun AppScreen(boxSize: Int, padding: Int, rows: Int, cols: Int) {
 
             repeat(rows) { y ->
                 repeat(cols) { x ->
-                    drawCircle(
+                    drawRect(
                         color = if (Coordinate(x, y) == onLed.value) onColor else offColor,
-                        radius = radius - padding,
-                        center = Offset(radius + (x * boxSize), radius + (y * boxSize))
+                        topLeft = Offset(x * boxSize, y * boxSize),
+                        size = Size(boxSize, boxSize)
                     )
                 }
             }
@@ -100,8 +99,7 @@ private fun AppScreen(boxSize: Int, padding: Int, rows: Int, cols: Int) {
 fun ledDisplayApp() = application {
     val state = rememberWindowState(placement = WindowPlacement.Maximized)
 
-    val boxSize = 25
-    val padding = 2
+    val boxSize = 50f
 
     val (rows, cols) = with(LocalDensity.current) {
         val h = state.size.height.toPx() - 56
@@ -110,6 +108,6 @@ fun ledDisplayApp() = application {
     }
 
     Window(onCloseRequest = ::exitApplication, state = state) {
-        AppScreen(boxSize, padding, rows, cols)
+        AppScreen(boxSize, rows, cols)
     }
 }
