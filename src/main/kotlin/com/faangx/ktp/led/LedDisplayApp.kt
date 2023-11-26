@@ -1,12 +1,16 @@
 package com.faangx.ktp.led
 
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
@@ -19,6 +23,7 @@ import com.faangx.ktp.led.Phase.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import java.awt.Toolkit
 
 fun main() {
     ledDisplayApp()
@@ -75,23 +80,22 @@ private fun AppScreen(boxSize: Float, rows: Int, cols: Int) {
     val offColor = Color(0xFF1c1c1c)
 
     MaterialTheme {
-
-        val onLed = getFlow(rows, cols).collectAsState(Coordinate.Zero)
+        val flow = remember { getFlow(rows, cols) }
+        val onLed = flow.collectAsState(Coordinate.Zero)
+        val x = animateFloatAsState(onLed.value.x * boxSize)
+        val y = animateFloatAsState(onLed.value.y * boxSize)
 
         Canvas(
             modifier = Modifier.fillMaxSize()
                 .background(Color.Black)
         ) {
 
-            repeat(rows) { y ->
-                repeat(cols) { x ->
-                    drawRect(
-                        color = if (Coordinate(x, y) == onLed.value) onColor else offColor,
-                        topLeft = Offset(x * boxSize, y * boxSize),
-                        size = Size(boxSize, boxSize)
-                    )
-                }
-            }
+            drawRoundRect(
+                color = onColor,
+                topLeft = Offset(x.value, y.value),
+                size = Size(boxSize, boxSize),
+                cornerRadius = CornerRadius(25f, 25f)
+            )
         }
     }
 }
@@ -99,11 +103,12 @@ private fun AppScreen(boxSize: Float, rows: Int, cols: Int) {
 fun ledDisplayApp() = application {
     val state = rememberWindowState(placement = WindowPlacement.Maximized)
 
-    val boxSize = 50f
+    val boxSize = 100f
 
     val (rows, cols) = with(LocalDensity.current) {
-        val h = state.size.height.toPx() - 56
-        val w = state.size.width.toPx()
+        val size = Toolkit.getDefaultToolkit().screenSize
+        val h = (size.height - 56) * density
+        val w = size.width * density
         (h / boxSize).toInt() to (w / boxSize).toInt()
     }
 
