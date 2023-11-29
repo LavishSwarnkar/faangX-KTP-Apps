@@ -1,119 +1,79 @@
 package com.faangx.ktp.led
 
-import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.animateIntAsState
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowPlacement
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
-import com.faangx.ktp.led.Phase.*
-import kotlinx.coroutines.delay
+import com.faangx.ktp.led.LedDisplayAppConfig.BOX_SIZE
+import com.faangx.ktp.led.LedDisplayAppConfig.backgroundColor
+import com.faangx.ktp.led.LedDisplayAppConfig.objectColor
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 import java.awt.Toolkit
 
-fun main() {
-    ledDisplayApp()
-}
-
-data class Coordinate(val x: Int, val y: Int) {
-    companion object {
-        val Zero = Coordinate(0, 0)
-    }
-    fun up() = Coordinate(x, y - 1)
-    fun down() = Coordinate(x, y + 1)
-    fun right() = Coordinate(x + 1, y)
-    fun left() = Coordinate(x - 1, y)
-}
-
-enum class Phase {
-    Right, Down, Left, Up
-}
-
-fun getFlow(rows: Int, cols: Int): Flow<Coordinate> {
-    var current = Coordinate.Zero
-    var phase = Right
-
-    return flow {
-        while (true) {
-            emit(current)
-            delay(30)
-
-            when (phase) {
-                Right -> {
-                    current = current.right()
-                    if (current.x == cols - 1) phase = Down
-                }
-                Down -> {
-                    current = current.down()
-                    if (current.y == rows - 1) phase = Left
-                }
-                Left -> {
-                    current = current.left()
-                    if (current.x == 0) phase = Up
-                }
-                Up -> {
-                    current = current.up()
-                    if (current.y == 0) phase = Right
-                }
-            }
-        }
-    }
+fun interface LedDisplayAppFunctionality {
+    fun getCoordinateFlow(
+        height: Int,
+        width: Int
+    ): Flow<Coordinate>
 }
 
 @Composable
-private fun AppScreen(boxSize: Float, rows: Int, cols: Int) {
-    val onColor = Color.White
-    val offColor = Color(0xFF1c1c1c)
-
-    val radius = boxSize / 2
+private fun AppScreen(
+    height: Int,
+    width: Int,
+    functionality: LedDisplayAppFunctionality
+) {
+    val radius = BOX_SIZE / 2
 
     MaterialTheme {
-        val flow = remember { getFlow(rows, cols) }
-        val onLed = flow.collectAsState(Coordinate.Zero)
-        val x = animateFloatAsState(onLed.value.x * boxSize)
-        val y = animateFloatAsState(onLed.value.y * boxSize)
+        val flow = remember { functionality.getCoordinateFlow(height, width) }
+        val onLed = flow.collectAsState(Coordinate.circle(radius))
+        val x = animateIntAsState(onLed.value.x)
+        val y = animateIntAsState(onLed.value.y)
 
         Canvas(
             modifier = Modifier.fillMaxSize()
-                .background(Color.Black)
+                .background(backgroundColor)
         ) {
 
             drawCircle(
-                color = onColor,
-                radius = radius,
-                center = Offset(x.value + radius, y.value + radius)
+                color = objectColor,
+                radius = radius.toFloat(),
+                center = Offset(x.value.toFloat(), y.value.toFloat())
             )
         }
     }
 }
 
-fun ledDisplayApp() = application {
+fun ledDisplayApp(
+    functionality: LedDisplayAppFunctionality
+) = application {
     val state = rememberWindowState(placement = WindowPlacement.Maximized)
 
-    val boxSize = 200f
-
-    val (rows, cols) = with(LocalDensity.current) {
+    val (height, width) = with(LocalDensity.current) {
         val size = Toolkit.getDefaultToolkit().screenSize
+
         val h = (size.height - 56) * density
         val w = size.width * density
-        (h / boxSize).toInt() to (w / boxSize).toInt()
+        h.toInt() to w.toInt()
     }
 
-    Window(onCloseRequest = ::exitApplication, state = state) {
-        AppScreen(boxSize, rows, cols)
+    Window(
+        onCloseRequest = ::exitApplication,
+        state = state,
+        title = "LedDisplayApp"
+    ) {
+        AppScreen(height, width, functionality)
     }
 }
