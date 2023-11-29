@@ -7,9 +7,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.MaterialTheme
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -23,6 +21,10 @@ import androidx.compose.ui.window.rememberWindowState
 import com.faangx.ktp.led.LedDisplayAppConfig.BOX_SIZE
 import com.faangx.ktp.led.LedDisplayAppConfig.backgroundColor
 import com.faangx.ktp.led.LedDisplayAppConfig.objectColor
+import com.faangx.ktp.led.style.LedDisplayAppStyle
+import com.faangx.ktp.led.style.LedDisplayAppStyle.*
+import com.faangx.ktp.led.style.LedDisplayClearAndDrawStyle
+import com.faangx.ktp.led.style.LedDisplayOverDrawStyle
 import kotlinx.coroutines.flow.Flow
 import java.awt.Toolkit
 
@@ -38,38 +40,20 @@ private fun AppScreen(
     height: Int,
     width: Int,
     usableSize: DpSize,
-    functionality: LedDisplayAppFunctionality
+    functionality: LedDisplayAppFunctionality,
+    style: LedDisplayAppStyle
 ) {
-    val radius = BOX_SIZE / 2
-
-    MaterialTheme {
-        val flow = remember { functionality.getCoordinateFlow(height, width) }
-        val onLed = flow.collectAsState(Coordinate.circle(radius))
-        val x = animateIntAsState(onLed.value.x)
-        val y = animateIntAsState(onLed.value.y)
-
-        Box(
-            Modifier.fillMaxSize()
-                .background(backgroundColor)
-        ) {
-            Canvas(
-                modifier = Modifier.size(usableSize)
-                    .align(Alignment.Center)
-
-            ) {
-
-                drawCircle(
-                    color = objectColor,
-                    radius = radius.toFloat(),
-                    center = Offset(x.value.toFloat(), y.value.toFloat())
-                )
-            }
-        }
+    when (style) {
+        ClearAnDraw ->
+            LedDisplayClearAndDrawStyle(height, width, usableSize, functionality, style)
+        DrawOver ->
+            LedDisplayOverDrawStyle(height, width, usableSize, functionality)
     }
 }
 
 fun ledDisplayApp(
-    functionality: LedDisplayAppFunctionality
+    functionality: LedDisplayAppFunctionality,
+    style: LedDisplayAppStyle
 ) = application {
     val state = rememberWindowState(placement = WindowPlacement.Maximized)
 
@@ -95,6 +79,6 @@ fun ledDisplayApp(
         state = state,
         title = "LedDisplayApp"
     ) {
-        AppScreen(height, width, usableSize, functionality)
+        AppScreen(height, width, usableSize, functionality, style)
     }
 }
