@@ -18,9 +18,9 @@ val rectangleLoop = LedDisplayAppFunctionality { height, width ->
     var phase = Phase.Right
 
     val xExtreme =
-        ((width / radius.toFloat()).toInt() * radius) - radius
+        ((width / radius) * radius) - radius
     val yExtreme =
-        ((height / radius.toFloat()).toInt() * radius) - radius
+        ((height / radius) * radius) - radius
 
     flow {
         while (true) {
