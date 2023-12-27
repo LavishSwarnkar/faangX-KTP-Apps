@@ -1,6 +1,8 @@
 package com.faangx.ktp.patterns
 
 import java.io.ByteArrayOutputStream
+import com.faangx.ktp.util.println
+import com.faangx.ktp.util.print
 
 fun main() {
     patternsApp(
