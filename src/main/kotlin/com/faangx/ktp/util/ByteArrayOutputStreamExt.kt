@@ -1,4 +1,4 @@
-package com.faangx.ktp.patterns
+package com.faangx.ktp.util
 
 import java.io.ByteArrayOutputStream
 
@@ -10,8 +10,6 @@ fun ByteArrayOutputStream.print(string: String) {
     write(string.toByteArray())
 }
 
-fun ByteArrayOutputStream.println() = println("\n")
-
-fun ByteArrayOutputStream.println(string: String) {
-    write(string.toByteArray())
+fun ByteArrayOutputStream.println(string: String = "") {
+    write((string + "\n").toByteArray())
 }

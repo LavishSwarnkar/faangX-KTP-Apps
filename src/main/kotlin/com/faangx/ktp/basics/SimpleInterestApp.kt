@@ -1,4 +1,4 @@
-package com.faangx.ktp
+package com.faangx.ktp.basics
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
+import com.faangx.ktp.SMILE_EMOJI
 
 fun interface SimpleInterestAppFunctionality {
     fun getInterest(
@@ -26,8 +27,15 @@ private fun AppScreen(functionality: SimpleInterestAppFunctionality) {
     var rate by remember { mutableStateOf("") }
     var time by remember { mutableStateOf("") }
     
-    var interest by remember { mutableStateOf("NA") }
-    
+    val interest = derivedStateOf {
+        calculateInterest(principal, rate, time, functionality)
+    }
+    val totalAmount = derivedStateOf {
+        val p = principal.toFloatOrNull() ?: return@derivedStateOf null
+        val i = interest.value?.toFloatOrNull() ?: return@derivedStateOf null
+        p + i
+    }
+
     MaterialTheme {
         Column(
             Modifier.fillMaxSize(),
@@ -43,36 +51,36 @@ private fun AppScreen(functionality: SimpleInterestAppFunctionality) {
             OutlinedTextField(
                 label = { Text("Principal amount") },
                 value = principal,
-                onValueChange = { principal = it }
+                onValueChange = { principal = it },
+                textStyle = MaterialTheme.typography.h5
             )
             Spacer(Modifier.size(8.dp))
             
             OutlinedTextField(
                 label = { Text("Rate in %") },
                 value = rate,
-                onValueChange = { rate = it }
+                onValueChange = { rate = it },
+                textStyle = MaterialTheme.typography.h5
             )
             Spacer(Modifier.size(8.dp))
             
             OutlinedTextField(
                 label = { Text("Time in years") },
                 value = time,
-                onValueChange = { time = it }
+                onValueChange = { time = it },
+                textStyle = MaterialTheme.typography.h5
             )
-            Spacer(Modifier.size(16.dp))
-            
-            Button(
-                onClick = {
-                    interest = calculateInterest(principal, rate, time, functionality) ?: "NA"
-                }
-            ) {
-                Text("CALCULATE INTEREST")
-            }
             Spacer(Modifier.size(16.dp))
 
             Text(
-                text = "Interest = $interest",
-                style = MaterialTheme.typography.h6
+                text = "Interest = ${interest.value ?: SMILE_EMOJI}",
+                style = MaterialTheme.typography.h5
+            )
+            Spacer(Modifier.size(16.dp))
+
+            Text(
+                text = "Total amount = ${totalAmount.value ?: SMILE_EMOJI}",
+                style = MaterialTheme.typography.h5
             )
         }
     }
@@ -93,7 +101,16 @@ fun calculateInterest(
 fun simpleInterestApp(
     functionality: SimpleInterestAppFunctionality
 ) = application {
-    Window(onCloseRequest = ::exitApplication) {
+    Window(
+        onCloseRequest = ::exitApplication,
+        title = "SimpleInterestCalculator"
+    ) {
         AppScreen(functionality)
+    }
+}
+
+fun main() {
+    simpleInterestApp { p, r, t ->
+        p * r * t / 100
     }
 }
