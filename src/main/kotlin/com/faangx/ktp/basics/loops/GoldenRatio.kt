@@ -77,8 +77,8 @@ enum class CircleCenter {
 @Composable
 fun GoldenRatioSpiral() {
     val scale = 100f
-    val list = listOf(1) + (1..70).toList()
-//    val list = listOf(1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987, 1597)
+//    val list = listOf(1, 1, 2, 3, 3, 2, 1, 1, 2, 3, 3, 2, 1, 1, 5, 6, 6, 5, 1, 1, 5, 6, 6, 5)
+    val list = listOf(1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987, 1597)
 //    val list = listOf(1, 1)
     var pointer = Offset(0f, 0f)
     var direction = Left
