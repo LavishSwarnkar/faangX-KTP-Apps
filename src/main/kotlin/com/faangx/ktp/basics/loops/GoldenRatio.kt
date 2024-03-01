@@ -22,6 +22,7 @@ import androidx.compose.ui.window.rememberWindowState
 import com.faangx.ktp.basics.loops.CircleCenter.*
 import com.faangx.ktp.basics.loops.Direction.*
 import kotlinx.coroutines.delay
+import kotlin.math.roundToInt
 
 fun main() {
     goldenRatioApp()
@@ -75,9 +76,10 @@ enum class CircleCenter {
 
 @Composable
 fun GoldenRatioSpiral() {
-    val scale = 10f
-//    val list = listOf(1) + (1..70).toList()
-    val list = listOf(1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987, 1597)
+    val scale = 100f
+    val list = listOf(1) + (1..70).toList()
+//    val list = listOf(1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987, 1597)
+//    val list = listOf(1, 1)
     var pointer = Offset(0f, 0f)
     var direction = Left
     var prevNum = list.first()
@@ -90,13 +92,14 @@ fun GoldenRatioSpiral() {
     val animatedMainScale = animateFloatAsState(
         mainScale,
         animationSpec = keyframes {
-            durationMillis = 61000
             var delay = 700f
+            var duration = 0f
             for (i in (9 downTo 1).toList() + listOf(0.75f, 0.5f, 0.25f)) {
                 i.toFloat() at delay.toInt()
-                println(delay)
+                duration += delay
                 delay *= 1.5f
             }
+            durationMillis = duration.roundToInt()
         }
     )
 
@@ -105,7 +108,7 @@ fun GoldenRatioSpiral() {
     LaunchedEffect(Unit) {
         while (true) {
             delay(100)
-            rotation -= 1
+            rotation += 1
         }
     }
 
@@ -116,7 +119,7 @@ fun GoldenRatioSpiral() {
             .scale(animatedMainScale.value)
             .rotate(animatedRotation.value)
     ) {
-        inset(left = size.width / 2f, top = size.height / 2f - 200f, right = 0f, bottom = 0f) {
+        inset(left = size.width / 2f - 50f, top = size.height / 2f - 50f, right = 0f, bottom = 0f) {
 
             list.forEachIndexed { index, num ->
                 if (index != 0) {
@@ -137,7 +140,7 @@ fun GoldenRatioSpiral() {
                     color = Color.White,
                     size = size,
                     topLeft = pointer.scale(scale),
-                    style = Stroke(width = 0.2f)
+                    style = Stroke(width = 1f)
                 )
 
                 drawArc(
@@ -151,7 +154,7 @@ fun GoldenRatioSpiral() {
                         num * scale
                     ),
                     size = Size(size.width * 2, size.height * 2),
-                    style = Stroke(4f)
+                    style = Stroke(8f)
                 )
 
                 angle -= 90
