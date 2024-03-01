@@ -101,12 +101,14 @@ private fun Content(
     }
 }
 
-fun main() {
-    maxOfTwoNumsApp { x, y ->
-        if (x > y) {
-            x
-        } else {
-            y
-        }
+fun maxOf(x: Int, y: Int): Int {
+    if (x > y) {
+        return x
+    } else {
+        return y
     }
+}
+
+fun main() {
+    maxOfTwoNumsApp(::maxOf)
 }

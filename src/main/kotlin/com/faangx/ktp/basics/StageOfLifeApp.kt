@@ -12,26 +12,26 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import com.faangx.ktp.SMILE_EMOJI
 
-fun oddEvenCheckApp(
-    checkEvenOdd: (Int) -> String
+fun stageOfLifeApp(
+    stageOfLife: (Int) -> String
 ) = application {
     Window(
         onCloseRequest = ::exitApplication,
-        title = "OddEvenCheck"
+        title = "VoteAgeCheck"
     ) {
         MaterialTheme {
-            Content(checkEvenOdd)
+            Content(stageOfLife)
         }
     }
 }
 
 @Composable
 private fun Content(
-    checkEvenOdd: (Int) -> String
+    stageOfLife: (Int) -> String
 ) {
-    var num by remember { mutableStateOf("") }
-    val type = derivedStateOf {
-        num.toIntOrNull()?.run(checkEvenOdd) ?: SMILE_EMOJI
+    var age by remember { mutableStateOf("") }
+    val result = derivedStateOf {
+        age.toIntOrNull()?.run(stageOfLife) ?: SMILE_EMOJI
     }
 
     Row (
@@ -40,39 +40,40 @@ private fun Content(
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically
     ) {
+        Text(
+            text = "Person with age  ",
+            style = MaterialTheme.typography.h5
+        )
+
         OutlinedTextField(
             modifier = Modifier.width(120.dp),
-            value = num,
-            onValueChange = { if (it.length <= 5) num = it },
+            value = age,
+            onValueChange = { if (it.length <= 5) age = it },
             textStyle = MaterialTheme.typography.h5
         )
 
         Text(
-            text = "  is an",
+            text = "  years is in",
             style = MaterialTheme.typography.h5
         )
 
         Text(
-            text = " ${type.value} ",
+            text = " ${result.value} ",
             style = MaterialTheme.typography.h4
         )
-
-        Text(
-            text = "number",
-            style = MaterialTheme.typography.h5
-        )
     }
 }
 
-fun checkOddEven(num: Int): String {
-    if (num % 2 == 0) {
-        return "EE"
-    } else {
-        return "Odd"
+fun stageOfLife(age: Int): String {
+    return when {
+        age >= 60 -> "Old age"
+        age >= 18 -> "Adulthood"
+        age >= 12 -> "Teenage"
+        age >= 3 -> "Childhood"
+        else -> "Infancy"
     }
 }
 
-// +, -, *, /, %
 fun main() {
-    oddEvenCheckApp(::checkOddEven)
+    stageOfLifeApp(::stageOfLife)
 }
