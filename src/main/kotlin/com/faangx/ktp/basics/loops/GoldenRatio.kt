@@ -78,7 +78,8 @@ enum class CircleCenter {
 
 @Composable
 fun GoldenRatioSpiral() {
-    var scale by remember { mutableStateOf(22f) }
+    var scale by remember { mutableStateOf(300f) }
+    val animatedScale = animateFloatAsState(scale)
 
     val list = listOf(1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987, 1597)
     var pointer = Offset(0f, 0f)
@@ -90,7 +91,12 @@ fun GoldenRatioSpiral() {
 
     LaunchedEffect(rotateDegree) {
         delay(10)
-        rotateDegree += 0.1f
+        rotateDegree -= 0.1f
+    }
+
+    LaunchedEffect(scale) {
+        delay((200 - scale).toLong())
+        if (scale != 2f) scale -= 1f
     }
 
     Box (
@@ -117,12 +123,12 @@ fun GoldenRatioSpiral() {
                             prevNum = num
                         }
 
-                        val size = Size(num * scale, num * scale)
+                        val size = Size(num * animatedScale.value, num * animatedScale.value)
 
                         drawRect(
                             color = Color.White,
                             size = size,
-                            topLeft = pointer.scale(scale),
+                            topLeft = pointer.scale(animatedScale.value),
                             style = Stroke(width = 0.2f)
                         )
 
@@ -133,8 +139,8 @@ fun GoldenRatioSpiral() {
                             useCenter = false,
                             topLeft = arcOffsetForCircleCenter(
                                 Companion.forDirection(direction),
-                                pointer.scale(scale),
-                                num * scale
+                                pointer.scale(animatedScale.value),
+                                num * animatedScale.value
                             ),
                             size = Size(size.width * 2, size.height * 2),
                             style = Stroke(4f)

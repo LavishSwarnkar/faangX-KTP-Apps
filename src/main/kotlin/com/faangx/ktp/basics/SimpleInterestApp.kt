@@ -110,8 +110,7 @@ fun simpleInterestApp(
 }
 
 fun main() {
-//    simpleInterestApp { p, r, t ->
-//        p * r * t / 100
-//    }
-    println(1 / 0)
+    simpleInterestApp { p, r, t ->
+        p * r * t / 100
+    }
 }
