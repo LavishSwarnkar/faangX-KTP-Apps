@@ -25,10 +25,10 @@ import kotlinx.coroutines.delay
 import kotlin.math.roundToInt
 
 fun main() {
-    goldenRatioApp()
+    spiralApp()
 }
 
-fun goldenRatioApp() = application {
+fun spiralApp() = application {
     val state = rememberWindowState(
         placement = WindowPlacement.Maximized,
         width = 1312.dp,
@@ -44,7 +44,8 @@ fun goldenRatioApp() = application {
         title = "The Golden Ratio",
         state = state
     ) {
-        GoldenRatioSpiral()
+        Spiral(SpiralConfig.GoldenRatio)
+//        Spiral(SpiralConfig.Basic)
     }
 }
 
@@ -74,54 +75,88 @@ enum class CircleCenter {
     }
 }
 
-@Composable
-fun GoldenRatioSpiral() {
-    val scale = 100f
-//    val list = listOf(1, 1, 2, 3, 3, 2, 1, 1, 2, 3, 3, 2, 1, 1, 5, 6, 6, 5, 1, 1, 5, 6, 6, 5)
-    val list = listOf(1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987, 1597)
-//    val list = listOf(1, 1)
-    var pointer = Offset(0f, 0f)
-    var direction = Left
-    var prevNum = list.first()
-    var angle = 0f
-
-    var mainScale by remember { mutableStateOf(10f) }
-
-    LaunchedEffect(Unit) { delay(1); mainScale = 0.25f }
-
-    val animatedMainScale = animateFloatAsState(
-        mainScale,
-        animationSpec = keyframes {
-            var delay = 700f
-            var duration = 0f
-            for (i in (9 downTo 1).toList() + listOf(0.75f, 0.5f, 0.25f)) {
-                i.toFloat() at delay.toInt()
-                duration += delay
-                delay *= 1.5f
-            }
-            durationMillis = duration.roundToInt()
-        }
+sealed class SpiralConfig(
+    val boxSize: Float = 100f,
+    val radii: List<Int>,
+    val centerOffset: Offset = Offset.Zero,
+    val scale: Float = 10f,
+    val scaleAnimation: Boolean = true,
+    val scaleAnimationInitialDelay: Float = 300f,
+    val scaleAnimationIncreaseFactor: Float = 1.5f,
+    val rotateAnimation: Boolean = true,
+    val rotateAnimationDelta: Int = 1, // -1 ACW, 1 CW
+    val rotateAnimationDelay: Long = 5,
+    val showBoxes: Boolean = false
+) {
+    object Basic: SpiralConfig(
+        radii = listOf(1) + (1..70).toList(),
+        centerOffset = Offset(-100f, -100f)
     )
 
+    object GoldenRatio: SpiralConfig(
+        radii = listOf(1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987, 1597),
+        centerOffset = Offset(-100f, -100f)
+    )
+}
+
+@Composable
+fun Spiral(
+    config: SpiralConfig
+) {
+    val scale = config.boxSize
+    var pointer = Offset(0f, 0f)
+    var direction = Left
+    var prevNum = config.radii.first()
+    var angle = 0f
+
+    var mainScale by remember { mutableStateOf(config.scale) }
+
+    val animatedMainScale = if (config.scaleAnimation) {
+        LaunchedEffect(Unit) { mainScale = 0.25f }
+
+        animateFloatAsState(
+            mainScale,
+            animationSpec = keyframes {
+                var delay = config.scaleAnimationInitialDelay
+                var duration = 0f
+                for (i in ((config.scale - 1).toInt() downTo 1).toList() + listOf(0.75f, 0.5f, 0.25f)) {
+                    i.toFloat() at delay.toInt()
+                    duration += delay
+                    delay *= config.scaleAnimationIncreaseFactor
+                }
+                durationMillis = duration.roundToInt()
+            }
+        )
+    } else null
+
+
     var rotation by remember { mutableStateOf(0f) }
-    val animatedRotation = animateFloatAsState(rotation)
-    LaunchedEffect(Unit) {
-        while (true) {
-            delay(100)
-            rotation += 1
+
+    val animatedRotation = if (config.rotateAnimation) {
+        LaunchedEffect(Unit) {
+            while (true) {
+                delay(config.rotateAnimationDelay)
+                rotation += config.rotateAnimationDelta
+            }
         }
-    }
+
+        animateFloatAsState(rotation)
+    } else null
 
     Canvas(
         modifier = Modifier.fillMaxSize()
             .background(Color(0xff570bb7))
-//            .scale(mainScale)
-            .scale(animatedMainScale.value)
-            .rotate(animatedRotation.value)
+            .scale(animatedMainScale?.value ?: mainScale)
+            .rotate(animatedRotation?.value ?: rotation)
     ) {
-        inset(left = size.width / 2f - 50f, top = size.height / 2f - 50f, right = 0f, bottom = 0f) {
+        inset(
+            left = size.width / 2f + config.centerOffset.x,
+            top = size.height / 2f + config.centerOffset.y,
+            right = 0f,
+            bottom = 0f
+        ) {
 
-            list.forEachIndexed { index, num ->
+            config.radii.forEachIndexed { index, num ->
                 if (index != 0) {
                     pointer = when (direction) {
                         Left -> Offset(pointer.x - num, pointer.y)
@@ -136,12 +171,14 @@ fun GoldenRatioSpiral() {
 
                 val size = Size(num * scale, num * scale)
 
-                drawRect(
-                    color = Color.White,
-                    size = size,
-                    topLeft = pointer.scale(scale),
-                    style = Stroke(width = 1f)
-                )
+                if (config.showBoxes) {
+                    drawRect(
+                        color = Color.White,
+                        size = size,
+                        topLeft = pointer.scale(scale),
+                        style = Stroke(width = 1f)
+                    )
+                }
 
                 drawArc(
                     color = Color.White,
