@@ -66,7 +66,7 @@ private fun Content(
 
 fun checkOddEven(num: Int): String {
     if (num % 2 == 0) {
-        return "EE"
+        return "Even"
     } else {
         return "Odd"
     }

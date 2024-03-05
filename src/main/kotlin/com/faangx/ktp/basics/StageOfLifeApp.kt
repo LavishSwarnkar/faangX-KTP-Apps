@@ -17,7 +17,7 @@ fun stageOfLifeApp(
 ) = application {
     Window(
         onCloseRequest = ::exitApplication,
-        title = "VoteAgeCheck"
+        title = "Stages of life"
     ) {
         MaterialTheme {
             Content(stageOfLife)

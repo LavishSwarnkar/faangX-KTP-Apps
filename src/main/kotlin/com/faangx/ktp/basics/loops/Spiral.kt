@@ -44,8 +44,8 @@ fun spiralApp() = application {
         title = "The Golden Ratio",
         state = state
     ) {
-        Spiral(SpiralConfig.GoldenRatio)
-//        Spiral(SpiralConfig.Basic)
+//        Spiral(SpiralConfig.GoldenRatio)
+        Spiral(SpiralConfig.Basic)
     }
 }
 
@@ -85,7 +85,7 @@ sealed class SpiralConfig(
     val scaleAnimationIncreaseFactor: Float = 1.5f,
     val rotateAnimation: Boolean = true,
     val rotateAnimationDelta: Int = 1, // -1 ACW, 1 CW
-    val rotateAnimationDelay: Long = 5,
+    val rotateAnimationDelay: Long = 3,
     val showBoxes: Boolean = false
 ) {
     object Basic: SpiralConfig(
@@ -112,7 +112,7 @@ fun Spiral(
     var mainScale by remember { mutableStateOf(config.scale) }
 
     val animatedMainScale = if (config.scaleAnimation) {
-        LaunchedEffect(Unit) { mainScale = 0.25f }
+        LaunchedEffect(Unit) { delay(20000); mainScale = 0.25f }
 
         animateFloatAsState(
             mainScale,
@@ -134,6 +134,7 @@ fun Spiral(
 
     val animatedRotation = if (config.rotateAnimation) {
         LaunchedEffect(Unit) {
+            delay(20000)
             while (true) {
                 delay(config.rotateAnimationDelay)
                 rotation += config.rotateAnimationDelta
