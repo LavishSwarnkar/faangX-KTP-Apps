@@ -126,7 +126,7 @@ private fun Content(
                     OutlinedTextField(
                         modifier = Modifier.width(80.dp),
                         value = n.value,
-                        textStyle = MaterialTheme.typography.titleMedium,
+                        textStyle = MaterialTheme.typography.titleLarge,
                         onValueChange = { if (it.length <= 2) n.value = it }
                     )
 
@@ -140,7 +140,7 @@ private fun Content(
                     OutlinedTextField(
                         modifier = Modifier.padding(top = 80.dp, start = 8.dp).width(80.dp),
                         value = r.value,
-                        textStyle = MaterialTheme.typography.titleMedium,
+                        textStyle = MaterialTheme.typography.titleLarge,
                         onValueChange = { if (it.length <= 2) r.value = it }
                     )
                 }
@@ -174,7 +174,7 @@ fun main() {
     }
 
     val permutationsOf = { n: Long, r: Long ->
-        ((n - r - 1)..n).fold(1L) { acc, i -> acc * i }
+        ((n - r + 1)..n).fold(1L) { acc, i -> acc * i }
     }
 
     factorialCalculatorApp(
