@@ -14,22 +14,8 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import com.faangx.ktp.SMILE_EMOJI
 
-fun perimeterAndAreaOfRectApp(
-    getPerimeterOfRectangle: (Int, Int) -> Int,
-    getAreaOfRectangle: (Int, Int) -> Int
-) = application {
-    Window(
-        onCloseRequest = ::exitApplication,
-        title = "PerimeterAndAreaOfRectangle"
-    ) {
-        MaterialTheme {
-            Content(getPerimeterOfRectangle, getAreaOfRectangle)
-        }
-    }
-}
-
 @Composable
-private fun Content(
+fun PerimeterAndAreaOfRectApp(
     getPerimeterOfRectangle: (Int, Int) -> Int,
     getAreaOfRectangle: (Int, Int) -> Int
 ) {
@@ -122,19 +108,4 @@ private fun Content(
             )
         }
     }
-}
-
-fun getPerimeterOfRectangle(l: Int, b: Int): Int {
-    return 2 * (l + b)
-}
-
-fun getAreaOfRectangle(l: Int, b: Int): Int {
-    return l * b
-}
-
-fun main() {
-    perimeterAndAreaOfRectApp(
-        ::getPerimeterOfRectangle,
-        ::getAreaOfRectangle
-    )
 }

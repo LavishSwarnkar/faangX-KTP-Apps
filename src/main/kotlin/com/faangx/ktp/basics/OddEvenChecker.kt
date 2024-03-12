@@ -8,25 +8,10 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Window
-import androidx.compose.ui.window.application
 import com.faangx.ktp.SMILE_EMOJI
 
-fun oddEvenCheckApp(
-    checkEvenOdd: (Int) -> String
-) = application {
-    Window(
-        onCloseRequest = ::exitApplication,
-        title = "OddEvenCheck"
-    ) {
-        MaterialTheme {
-            Content(checkEvenOdd)
-        }
-    }
-}
-
 @Composable
-private fun Content(
+fun OddEvenChecker(
     checkEvenOdd: (Int) -> String
 ) {
     var num by remember { mutableStateOf("") }
@@ -62,17 +47,4 @@ private fun Content(
             style = MaterialTheme.typography.h5
         )
     }
-}
-
-fun checkOddEven(num: Int): String {
-    if (num % 2 == 0) {
-        return "Even"
-    } else {
-        return "Odd"
-    }
-}
-
-// +, -, *, /, %
-fun main() {
-    oddEvenCheckApp(::checkOddEven)
 }

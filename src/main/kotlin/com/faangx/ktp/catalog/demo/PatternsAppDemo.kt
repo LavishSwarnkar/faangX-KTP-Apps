@@ -1,11 +1,14 @@
-package com.faangx.ktp.patterns
+package com.faangx.ktp.catalog.demo
 
-import java.io.ByteArrayOutputStream
-import com.faangx.ktp.util.println
+import androidx.compose.runtime.Composable
+import com.faangx.ktp.patterns.PatternsApp
 import com.faangx.ktp.util.print
+import com.faangx.ktp.util.println
+import java.io.ByteArrayOutputStream
 
-fun main() {
-    patternsApp(
+@Composable
+fun PatternsAppDemo() {
+    PatternsApp(
         printPattern = { patternNo, lines, customization, stream ->
             when (patternNo) {
                 1 -> stream.pattern1(lines, customization.first())

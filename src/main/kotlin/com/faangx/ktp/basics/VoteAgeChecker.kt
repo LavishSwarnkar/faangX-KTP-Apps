@@ -8,25 +8,10 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Window
-import androidx.compose.ui.window.application
 import com.faangx.ktp.SMILE_EMOJI
 
-fun voteAgeCheckApp(
-    canVote: (Int) -> Boolean
-) = application {
-    Window(
-        onCloseRequest = ::exitApplication,
-        title = "VoteAgeCheck"
-    ) {
-        MaterialTheme {
-            Content(canVote)
-        }
-    }
-}
-
 @Composable
-private fun Content(
+fun VoteAgeChecker(
     canVote: (Int) -> Boolean
 ) {
     var num by remember { mutableStateOf("") }
@@ -63,15 +48,5 @@ private fun Content(
             text = " ${result.value} ",
             style = MaterialTheme.typography.h4
         )
-    }
-}
-
-fun main() {
-    voteAgeCheckApp {
-        if (it >= 18) {
-            return@voteAgeCheckApp true
-        } else {
-            return@voteAgeCheckApp false
-        }
     }
 }

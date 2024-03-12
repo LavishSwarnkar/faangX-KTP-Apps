@@ -1,7 +1,6 @@
 package com.faangx.ktp.basics
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
@@ -22,7 +21,7 @@ fun interface SimpleInterestAppFunctionality {
 }
 
 @Composable
-private fun AppScreen(functionality: SimpleInterestAppFunctionality) {
+fun SimpleInterestCalculator(functionality: SimpleInterestAppFunctionality) {
     var principal by remember { mutableStateOf("") }
     var rate by remember { mutableStateOf("") }
     var time by remember { mutableStateOf("") }
@@ -86,7 +85,7 @@ private fun AppScreen(functionality: SimpleInterestAppFunctionality) {
     }
 }
 
-fun calculateInterest(
+private fun calculateInterest(
     principal: String,
     rate: String,
     time: String,
@@ -96,21 +95,4 @@ fun calculateInterest(
     val r = rate.toFloatOrNull() ?: return null
     val t = time.toFloatOrNull() ?: return null
     return String.format("%.2f", functionality.getInterest(p, r, t))
-}
-
-fun simpleInterestApp(
-    functionality: SimpleInterestAppFunctionality
-) = application {
-    Window(
-        onCloseRequest = ::exitApplication,
-        title = "SimpleInterestCalculator"
-    ) {
-        AppScreen(functionality)
-    }
-}
-
-fun main() {
-    simpleInterestApp { p, r, t ->
-        p * r * t / 100
-    }
 }

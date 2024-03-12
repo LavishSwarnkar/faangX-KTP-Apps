@@ -15,21 +15,8 @@ import androidx.compose.ui.window.application
 import com.faangx.ktp.LIGHT_GREEN
 import com.faangx.ktp.SMILE_EMOJI
 
-fun maxOfThreeNumsApp(
-    maxOf: (Int, Int, Int) -> Int
-) = application {
-    Window(
-        onCloseRequest = ::exitApplication,
-        title = "MaxOfThreeNums"
-    ) {
-        MaterialTheme {
-            Content(maxOf)
-        }
-    }
-}
-
 @Composable
-private fun Content(
+fun MaxOfThreeNumsApp(
     maxOf: (Int, Int, Int) -> Int
 ) {
     var num1 by remember { mutableStateOf("") }
@@ -116,17 +103,5 @@ private fun Content(
             )
         }
 
-    }
-}
-
-fun main() {
-    maxOfThreeNumsApp { x, y, z ->
-        if (x > y && x > z) {
-            x
-        } else if (y > x && y > z) {
-            y
-        } else {
-            z
-        }
     }
 }

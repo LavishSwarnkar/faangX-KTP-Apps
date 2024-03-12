@@ -24,31 +24,6 @@ import com.faangx.ktp.basics.loops.Direction.*
 import kotlinx.coroutines.delay
 import kotlin.math.roundToInt
 
-fun main() {
-    spiralApp()
-}
-
-fun spiralApp() = application {
-    val state = rememberWindowState(
-        placement = WindowPlacement.Maximized,
-        width = 1312.dp,
-        height = 818.dp
-    )
-
-    LaunchedEffect(state.size) {
-        println("size = (${state.size})")
-    }
-
-    Window(
-        onCloseRequest = ::exitApplication,
-        title = "The Golden Ratio",
-        state = state
-    ) {
-//        Spiral(SpiralConfig.GoldenRatio)
-        Spiral(SpiralConfig.Basic)
-    }
-}
-
 enum class Direction {
     Left, Down, Right, Up;
 
@@ -75,7 +50,7 @@ enum class CircleCenter {
     }
 }
 
-sealed class SpiralConfig(
+class SpiralConfig(
     val boxSize: Float = 100f,
     val radii: List<Int>,
     val centerOffset: Offset = Offset.Zero,
@@ -87,15 +62,16 @@ sealed class SpiralConfig(
     val rotateAnimationDelta: Int = 1, // -1 ACW, 1 CW
     val rotateAnimationDelay: Long = 3,
     val showBoxes: Boolean = false
-) {
-    object Basic: SpiralConfig(
-        radii = listOf(1) + (1..70).toList(),
-        centerOffset = Offset(-100f, -100f)
-    )
+)
 
-    object GoldenRatio: SpiralConfig(
-        radii = listOf(1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987, 1597),
-        centerOffset = Offset(-100f, -100f)
+@Composable
+fun SpiralApp(
+    getNums: () -> List<Int>
+) {
+    Spiral(
+        SpiralConfig(
+            radii = getNums()
+        )
     )
 }
 

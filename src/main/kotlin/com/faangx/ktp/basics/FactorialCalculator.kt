@@ -28,29 +28,12 @@ import com.faangx.ktp.comp.HighlightedText
 import com.streamliners.compose.comp.select.RadioGroup
 import com.streamliners.utils.safeLet
 
-fun factorialCalculatorApp(
-    factorialOf: (Long) -> Long,
-    permutationsOf: (n: Long, r: Long) -> Long,
-    combinationsOf: (n: Long, r: Long) -> Long
-) = application {
-    Window(
-        onCloseRequest = ::exitApplication,
-        title = "Factorial Calculator"
-    ) {
-        MaterialTheme {
-            Content(
-                factorialOf, permutationsOf, combinationsOf
-            )
-        }
-    }
-}
-
 enum class Operation {
     Permutations, Combinations
 }
 
 @Composable
-private fun Content(
+fun FactorialCalculatorApp(
     factorialOf: (Long) -> Long,
     permutationsOf: (n: Long, r: Long) -> Long,
     combinationsOf: (n: Long, r: Long) -> Long
@@ -166,22 +149,4 @@ private fun Content(
             )
         }
     }
-}
-
-fun main() {
-    val factorialOf = { x: Long ->
-        (2L..x).fold(1L) { acc, i -> acc * i }
-    }
-
-    val permutationsOf = { n: Long, r: Long ->
-        ((n - r + 1)..n).fold(1L) { acc, i -> acc * i }
-    }
-
-    factorialCalculatorApp(
-        factorialOf = factorialOf,
-        permutationsOf = permutationsOf,
-        combinationsOf = { n, r ->
-            permutationsOf(n, r) / factorialOf(r)
-        }
-    )
 }

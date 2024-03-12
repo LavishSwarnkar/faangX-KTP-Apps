@@ -12,21 +12,8 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import com.faangx.ktp.SMILE_EMOJI
 
-fun stageOfLifeApp(
-    stageOfLife: (Int) -> String
-) = application {
-    Window(
-        onCloseRequest = ::exitApplication,
-        title = "Stages of life"
-    ) {
-        MaterialTheme {
-            Content(stageOfLife)
-        }
-    }
-}
-
 @Composable
-private fun Content(
+fun StageOfLifeApp(
     stageOfLife: (Int) -> String
 ) {
     var age by remember { mutableStateOf("") }
@@ -62,18 +49,4 @@ private fun Content(
             style = MaterialTheme.typography.h4
         )
     }
-}
-
-fun stageOfLife(age: Int): String {
-    return when {
-        age >= 60 -> "Old age"
-        age >= 18 -> "Adulthood"
-        age >= 12 -> "Teenage"
-        age >= 3 -> "Childhood"
-        else -> "Infancy"
-    }
-}
-
-fun main() {
-    stageOfLifeApp(::stageOfLife)
 }

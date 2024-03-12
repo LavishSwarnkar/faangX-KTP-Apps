@@ -12,21 +12,8 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import com.faangx.ktp.SMILE_EMOJI
 
-fun leapYearCheckApp(
-    isLeapYear: (Int) -> Boolean
-) = application {
-    Window(
-        onCloseRequest = ::exitApplication,
-        title = "LeapYearCheck"
-    ) {
-        MaterialTheme {
-            Content(isLeapYear)
-        }
-    }
-}
-
 @Composable
-private fun Content(
+fun LeapYearChecker(
     isLeapYear: (Int) -> Boolean
 ) {
     var year by remember { mutableStateOf("") }
@@ -63,15 +50,5 @@ private fun Content(
             text = " ${result.value} ",
             style = MaterialTheme.typography.h4
         )
-    }
-}
-
-fun main() {
-    leapYearCheckApp { year ->
-        if ((year % 4 == 0 && year % 100 != 0) || (year % 400 == 0)) {
-            return@leapYearCheckApp true
-        } else {
-            return@leapYearCheckApp false
-        }
     }
 }

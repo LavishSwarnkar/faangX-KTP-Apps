@@ -19,21 +19,8 @@ import androidx.compose.ui.window.application
 import com.faangx.ktp.LIGHT_GREEN
 import com.faangx.ktp.SMILE_EMOJI
 
-fun gradeCalculatorApp(
-    getGrade: (Int, Int, Int, Int, Int) -> String
-) = application {
-    Window(
-        onCloseRequest = ::exitApplication,
-        title = "Grade Calculator"
-    ) {
-        MaterialTheme {
-            Content(getGrade)
-        }
-    }
-}
-
 @Composable
-private fun Content(
+fun GradeCalculatorApp(
     getGrade: (Int, Int, Int, Int, Int) -> String
 ) {
     val marks1 = remember { mutableStateOf("") }
@@ -104,16 +91,5 @@ private fun Content(
 }
 
 fun main() {
-    gradeCalculatorApp { m1, m2, m3, m4, m5 ->
-        val average = (m1 + m2 + m3 + m4 + m5) / 50f
-        when (average) {
-            in 9f..10f -> "A+"
-            in 8f..9f -> "A"
-            in 7f..8f -> "B"
-            in 6f..7f -> "C"
-            in 5f..6f -> "D"
-            in 3f..5f -> "E"
-            else -> "Fail"
-        }
-    }
+
 }

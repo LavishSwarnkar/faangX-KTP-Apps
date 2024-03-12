@@ -15,21 +15,8 @@ import androidx.compose.ui.window.application
 import com.faangx.ktp.LIGHT_GREEN
 import com.faangx.ktp.SMILE_EMOJI
 
-fun maxOfTwoNumsApp(
-    maxOf: (Int, Int) -> Int
-) = application {
-    Window(
-        onCloseRequest = ::exitApplication,
-        title = "MaxOfTwoNums"
-    ) {
-        MaterialTheme {
-            Content(maxOf)
-        }
-    }
-}
-
 @Composable
-private fun Content(
+fun MaxOfTwoNumsApp(
     maxOf: (Int, Int) -> Int
 ) {
     var num1 by remember { mutableStateOf("") }
@@ -99,16 +86,4 @@ private fun Content(
         }
 
     }
-}
-
-fun maxOf(x: Int, y: Int): Int {
-    if (x > y) {
-        return x
-    } else {
-        return y
-    }
-}
-
-fun main() {
-    maxOfTwoNumsApp(::maxOf)
 }

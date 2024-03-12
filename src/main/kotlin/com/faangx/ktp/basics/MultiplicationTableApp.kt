@@ -16,21 +16,8 @@ import com.faangx.ktp.SMILE_EMOJI
 import com.faangx.ktp.util.println
 import java.io.ByteArrayOutputStream
 
-fun multiplicationTableApp(
-    printTable: ByteArrayOutputStream.(Int, Int, Int) -> Unit
-) = application {
-    Window(
-        onCloseRequest = ::exitApplication,
-        title = "VoteAgeCheck"
-    ) {
-        MaterialTheme {
-            Content(printTable)
-        }
-    }
-}
-
 @Composable
-private fun Content(
+fun MultiplicationTableApp(
     printTable: ByteArrayOutputStream.(Int, Int, Int) -> Unit
 ) {
     var num by remember { mutableStateOf("7") }
@@ -113,14 +100,6 @@ private fun Content(
                     style = MaterialTheme.typography.h6
                 )
             }
-        }
-    }
-}
-
-fun main() {
-    multiplicationTableApp { num, start, end ->
-        for (i in start..end) {
-            println("$num X $i = ${num * i}")
         }
     }
 }

@@ -1,7 +1,6 @@
 package com.faangx.ktp.patterns
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -31,7 +30,7 @@ typealias GetDefaultCustomization = (
 ) -> String?
 
 @Composable
-private fun AppScreen(
+fun PatternsApp(
     printPattern: PrintPatternFunctionality,
     getDefaultCustomization: GetDefaultCustomization
 ) {
@@ -130,14 +129,5 @@ private fun AppScreen(
                 )
             }
         }
-    }
-}
-
-fun patternsApp(
-    printPattern: PrintPatternFunctionality,
-    getDefaultCustomization: GetDefaultCustomization
-) = application {
-    Window(onCloseRequest = ::exitApplication) {
-        AppScreen(printPattern, getDefaultCustomization)
     }
 }
