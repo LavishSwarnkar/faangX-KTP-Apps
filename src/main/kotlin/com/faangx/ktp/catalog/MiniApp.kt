@@ -12,7 +12,6 @@ enum class MiniApp(
     /**
      *
      * repeat, for :
-     * - factorsOf()
      * - Currency Denominations
      */
     SquareOfNum(
@@ -82,6 +81,12 @@ enum class MiniApp(
         category = "Control flow",
         subcategory = "for loop",
         demo = { MultiplicationTableAppDemo() }
+    ),
+    FactorCalculator(
+        title = "Factor Calculator, Prime Checker",
+        category = "Control flow",
+        subcategory = "for loop",
+        demo = { FactorCalculatorDemo() }
     ),
     FactorialCalculator(
         title = "Factorial Calculator",
