@@ -2,10 +2,14 @@ package com.faangx.ktp.catalog
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material3.*
@@ -16,10 +20,16 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.DpSize
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
+import androidx.compose.ui.window.rememberWindowState
 import com.faangx.ktp.catalog.comp.MiniAppsMenu
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -67,9 +77,11 @@ fun MiniAppsCatalog() {
                 MiniAppsMenu(selectedApp)
             }
 
-            Box(modifier = Modifier.weight(1f)) {
-                selectedApp.value.demo()
-            }
+            MiniAppComp(
+                modifier = Modifier.weight(1f),
+                title = selectedApp.value.title,
+                composable = selectedApp.value.demo
+            )
         }
     }
 }
@@ -77,7 +89,8 @@ fun MiniAppsCatalog() {
 fun main() = application {
     Window(
         onCloseRequest = ::exitApplication,
-        title = "Mini Apps Catalog"
+        title = "Mini Apps Catalog",
+        state = rememberWindowState(size = DpSize(1200.dp, 700.dp))
     ) {
         MaterialTheme {
             MiniAppsCatalog()

@@ -35,7 +35,8 @@ fun MiniAppsMenu(
         modifier = Modifier
             .width(300.dp)
             .verticalScroll(rememberScrollState())
-            .padding(12.dp),
+            .padding(vertical = 16.dp)
+            .padding(start = 16.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
 
@@ -60,7 +61,8 @@ private fun CategoryCard(
         ) {
             Text(
                 category,
-                style = MaterialTheme.typography.titleMedium
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.primary
             )
 
             val subcategories = remember { apps.groupedBySubcategory() }
@@ -90,7 +92,8 @@ private fun SubcategoryCard(
         if (subcategory != "NA") {
             Text(
                 subcategory,
-                style = MaterialTheme.typography.titleSmall
+                style = MaterialTheme.typography.titleSmall,
+                color = MaterialTheme.colorScheme.primary
             )
         }
 

@@ -41,12 +41,6 @@ fun SimpleInterestCalculator(functionality: SimpleInterestAppFunctionality) {
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(
-                text = "Simple Interest Calculator",
-                style = MaterialTheme.typography.h4
-            )
-            Spacer(Modifier.size(50.dp))
-            
             OutlinedTextField(
                 label = { Text("Principal amount") },
                 value = principal,
