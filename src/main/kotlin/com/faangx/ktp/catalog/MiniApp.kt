@@ -10,8 +10,6 @@ enum class MiniApp(
     val demo: @Composable () -> Unit
 ) {
     /**
-     * if-else-if, when
-     * - ProfitLossCalculator
      *
      * repeat, for :
      * - factorsOf()
@@ -31,6 +29,11 @@ enum class MiniApp(
         title = "Simple Interest Calculator",
         category = "Simple one line Functions",
         demo = { SimpleInterestCalculatorDemo() }
+    ),
+    ProfitLossCalculator(
+        title = "Profit & Loss Calculator",
+        category = "Simple one line Functions",
+        demo = { ProfitLossCalculatorDemo() }
     ),
     VoteAgeChecker(
         title = "Vote Age Checker",
@@ -85,6 +88,12 @@ enum class MiniApp(
         category = "Control flow",
         subcategory = "for loop",
         demo = { FactorialCalculatorDemo() }
+    ),
+    PatternsApp(
+        title = "Patterns",
+        category = "Control flow",
+        subcategory = "for loop",
+        demo = { PatternsAppDemo() }
     );
 
     companion object
