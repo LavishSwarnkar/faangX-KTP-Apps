@@ -1,71 +1,73 @@
 package com.faangx.ktp.catalog
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
-import com.faangx.ktp.catalog.comp.DrawerContent
-import kotlinx.coroutines.launch
+import com.faangx.ktp.catalog.comp.MiniAppsMenu
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MiniAppsCatalog() {
 
-    val drawerState = rememberDrawerState(DrawerValue.Closed)
-
+    var menuVisible by remember { mutableStateOf(true) }
     val selectedApp = remember { mutableStateOf(MiniApp.SquareOfNum) }
 
-    ModalNavigationDrawer(
-        drawerState = drawerState,
-        drawerContent = { DrawerContent(selectedApp) }
-    ) {
-        Scaffold(
-            topBar = {
-                val scope = rememberCoroutineScope()
-
-                CenterAlignedTopAppBar(
-                    colors = TopAppBarDefaults.topAppBarColors(
-                        containerColor = MaterialTheme.colorScheme.primaryContainer,
-                        titleContentColor = MaterialTheme.colorScheme.primary,
-                    ),
-                    title = {
-                        Text(
-                            "Mini Apps Catalog",
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis
+    Scaffold(
+        topBar = {
+            CenterAlignedTopAppBar(
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.primaryContainer,
+                    titleContentColor = MaterialTheme.colorScheme.primary,
+                ),
+                title = {
+                    Text(
+                        "Mini Apps Catalog",
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                },
+                navigationIcon = {
+                    IconButton(
+                        onClick = { menuVisible = !menuVisible }
+                    ) {
+                        val rotation = remember { derivedStateOf { if (menuVisible) 0f else 180f } }
+                        val animatedRotation = animateFloatAsState(rotation.value)
+                        Icon(
+                            modifier = Modifier.rotate(animatedRotation.value),
+                            imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
+                            contentDescription = "Menu"
                         )
-                    },
-                    navigationIcon = {
-                        IconButton(
-                            onClick = {
-                                scope.launch {
-                                    drawerState.open()
-                                }
-                            }
-                        ) {
-                            Icon(
-                                imageVector = Icons.Filled.Menu,
-                                contentDescription = "Menu"
-                            )
-                        }
                     }
-                )
-            },
-        ) { innerPadding ->
-            Box(modifier = Modifier.padding(innerPadding)) {
+                }
+            )
+        },
+    ) { innerPadding ->
+        Row (
+            modifier = Modifier.fillMaxSize()
+                .padding(innerPadding)
+        ) {
+            AnimatedVisibility(menuVisible) {
+                MiniAppsMenu(selectedApp)
+            }
+
+            Box(modifier = Modifier.weight(1f)) {
                 selectedApp.value.demo()
             }
         }
@@ -75,7 +77,7 @@ fun MiniAppsCatalog() {
 fun main() = application {
     Window(
         onCloseRequest = ::exitApplication,
-        title = "Stages of life"
+        title = "Mini Apps Catalog"
     ) {
         MaterialTheme {
             MiniAppsCatalog()
