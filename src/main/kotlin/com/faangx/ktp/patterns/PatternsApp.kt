@@ -4,17 +4,16 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Window
-import androidx.compose.ui.window.application
 import com.faangx.ktp.patterns.comp.PatternCard
 import java.io.ByteArrayOutputStream
 
@@ -61,12 +60,6 @@ fun PatternsApp(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(
-                text = "Patterns",
-                style = MaterialTheme.typography.h4
-            )
-            Spacer(Modifier.size(50.dp))
-
             LazyRow(
                 Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(12.dp)
@@ -118,13 +111,14 @@ fun PatternsApp(
                 modifier = Modifier
                     .fillMaxWidth()
                     .clip(RoundedCornerShape(8.dp))
-                    .background(Color.White)
+                    .background(MaterialTheme.colorScheme.surfaceVariant)
+                    .verticalScroll(rememberScrollState())
                     .padding(12.dp)
             ) {
                 Text(
                     modifier = Modifier.align(Alignment.Center),
                     text = pattern,
-                    style = MaterialTheme.typography.body1,
+                    style = MaterialTheme.typography.titleLarge,
                     fontFamily = FontFamily.Monospace
                 )
             }
