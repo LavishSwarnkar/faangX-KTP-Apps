@@ -11,14 +11,20 @@ fun PatternsAppDemo() {
     PatternsApp(
         printPattern = { patternNo, lines, customization, stream ->
             when (patternNo) {
-                1 -> stream.pattern1(lines, customization.first())
+                1 -> stream.pattern1(
+                    lines = lines,
+                    char = customization.firstOrNull() ?: '*'
+                )
                 2 -> stream.pattern2(lines)
                 3 -> stream.pattern3(lines)
                 4 -> stream.pattern4(lines)
                 5 -> stream.pattern5(customization)
                 6 -> stream.pattern6(customization)
                 7 -> stream.pattern7(lines)
-                8 -> stream.pattern8(lines)
+                8 -> stream.pattern8(
+                    lines = lines,
+                    char = customization.getOrNull(0) ?: '*'
+                )
                 9 -> stream.pattern9(lines)
                 10 -> stream.pattern10(
                     lines = lines,
@@ -103,10 +109,10 @@ fun ByteArrayOutputStream.pattern7(lines: Int) {
     }
 }
 
-fun ByteArrayOutputStream.pattern8(lines: Int) {
+fun ByteArrayOutputStream.pattern8(lines: Int, char: Char) {
     for (i in 1..lines) {
         repeat(lines - i) { print(" ") }
-        repeat(2 * i - 1) { print("*") }
+        repeat(2 * i - 1) { print(char) }
         println()
     }
 }

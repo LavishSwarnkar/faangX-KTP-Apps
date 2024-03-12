@@ -96,7 +96,7 @@ fun PatternsApp(
                 )
 
                 OutlinedTextField(
-                    modifier = Modifier.weight(1f),
+                    modifier = Modifier.weight(2f),
                     label = { Text("Customization") },
                     value = customization,
                     onValueChange = {
@@ -111,7 +111,7 @@ fun PatternsApp(
                 modifier = Modifier
                     .fillMaxWidth()
                     .clip(RoundedCornerShape(8.dp))
-                    .background(MaterialTheme.colorScheme.surfaceVariant)
+                    .background(MaterialTheme.colorScheme.primaryContainer)
                     .verticalScroll(rememberScrollState())
                     .padding(12.dp)
             ) {
@@ -119,6 +119,7 @@ fun PatternsApp(
                     modifier = Modifier.align(Alignment.Center),
                     text = pattern,
                     style = MaterialTheme.typography.titleLarge,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer,
                     fontFamily = FontFamily.Monospace
                 )
             }
