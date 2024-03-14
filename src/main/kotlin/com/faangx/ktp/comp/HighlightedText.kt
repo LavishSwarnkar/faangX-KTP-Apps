@@ -14,11 +14,12 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun HighlightedText(
+    modifier: Modifier = Modifier.padding(8.dp),
     text: String,
     style: TextStyle = MaterialTheme.typography.titleLarge
 ) {
     Text(
-        modifier = Modifier.padding(8.dp)
+        modifier = modifier
             .clip(RoundedCornerShape(16.dp))
             .background(MaterialTheme.colorScheme.surface)
             .border(
