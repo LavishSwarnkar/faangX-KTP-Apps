@@ -19,6 +19,7 @@ import androidx.compose.ui.input.pointer.PointerEventType
 import androidx.compose.ui.input.pointer.onPointerEvent
 import androidx.compose.ui.unit.dp
 import com.faangx.ktp.basics.NumberSystem.*
+import com.faangx.ktp.comp.RadioButtonOptionalTextField
 
 enum class NumberSystem(val base: Int) {
     Decimal(10),
@@ -90,7 +91,7 @@ fun NumberSystemConverter(convertNumber: ConvertNumber) {
 
             listOf(decimal, binary, hexadecimal, octal).forEach { state ->
 
-                OptionalTextField(
+                RadioButtonOptionalTextField(
                     selected = selection.value?.name == numberSystemOf(state).name,
                     onClick = { selection.value = numberSystemOf(state) },
                     hint = numberSystemOf(state).name,
@@ -99,40 +100,5 @@ fun NumberSystemConverter(convertNumber: ConvertNumber) {
                 )
             }
         }
-    }
-}
-
-@Composable
-private fun OptionalTextField(
-    modifier: Modifier = Modifier,
-    selected: Boolean,
-    onClick: () -> Unit,
-    hint: String,
-    input: MutableState<String>,
-    showRadioButtons: MutableState<Boolean>
-) {
-    Row (
-        modifier.width(400.dp)
-            .clip(RoundedCornerShape(8.dp))
-            .clickable { onClick() }
-            .padding(8.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Row (Modifier.size(40.dp)) {
-            AnimatedVisibility(showRadioButtons.value) {
-                RadioButton(selected, onClick)
-            }
-        }
-
-        OutlinedTextField(
-            modifier = Modifier.padding(start = 8.dp).weight(1f),
-            label = { Text(hint) },
-            value = input.value,
-            onValueChange = { input.value = it },
-            enabled = selected,
-            textStyle = MaterialTheme.typography.titleLarge,
-            singleLine = true,
-            maxLines = 1
-        )
     }
 }
