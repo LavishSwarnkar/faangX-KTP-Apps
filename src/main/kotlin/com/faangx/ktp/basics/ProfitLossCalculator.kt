@@ -209,7 +209,7 @@ fun ProfitLossCalculator(
 }
 
 @Composable
-fun OptionalTextField(
+private fun OptionalTextField(
     modifier: Modifier = Modifier,
     isChecked: Boolean,
     onCheckChanged: (Boolean) -> Unit,
