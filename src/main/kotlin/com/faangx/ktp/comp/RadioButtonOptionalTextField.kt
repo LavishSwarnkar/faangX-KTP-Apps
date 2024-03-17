@@ -25,7 +25,8 @@ fun RadioButtonOptionalTextField(
     onClick: () -> Unit,
     hint: String,
     input: MutableState<String>,
-    showRadioButtons: MutableState<Boolean>
+    showRadioButtons: MutableState<Boolean>,
+    singleLine: Boolean = true
 ) {
     Row (
         modifier.width(400.dp)
@@ -47,8 +48,8 @@ fun RadioButtonOptionalTextField(
             onValueChange = { input.value = it },
             enabled = selected,
             textStyle = MaterialTheme.typography.titleLarge,
-            singleLine = true,
-            maxLines = 1
+            singleLine = singleLine,
+            maxLines = if (singleLine) 1 else 10
         )
     }
 }

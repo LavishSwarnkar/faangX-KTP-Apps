@@ -99,6 +99,39 @@ enum class MiniApp(
         category = "Control flow",
         subcategory = "for loop",
         demo = { PatternsAppDemo() }
+    ),
+    AtmSimulatorApp(
+        title = "Atm Simulator",
+        category = "Control flow",
+        subcategory = "for loop",
+        demo = { AtmSimulatorDemo() }
+    ),
+    NumberSystemConverter(
+        title = "Number System Converter",
+        category = "Control flow",
+        subcategory = "while loop",
+        demo = { NumberSystemConverterDemo() }
+    ),
+    LcmHcf(
+        title = "LCM HCF Calculator",
+        category = "Control flow",
+        subcategory = "while loop",
+        demo = { LcmHcfCalculatorDemo() }
+    ),
+    PasswordStrengthChecker(
+        title = "Password Strength Checker",
+        category = "String",
+        demo = { PasswordStrengthCheckerDemo() }
+    ),
+    CeaserCipher(
+        title = "Ceaser's Cipher",
+        category = "String",
+        demo = { CeaserCipherDemo() }
+    ),
+    Base64(
+        title = "Base64 Converter",
+        category = "String",
+        demo = { Base64AppDemo() }
     );
 
     companion object
