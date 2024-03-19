@@ -64,7 +64,7 @@ fun GradeCalculatorApp(
                     modifier = Modifier.width(80.dp),
                     value = state.value,
                     textStyle = MaterialTheme.typography.h5,
-                    onValueChange = { if (it.length <= 2) state.value = it }
+                    onValueChange = { if (it.length <=3) state.value = it }
                 )
             }
         }

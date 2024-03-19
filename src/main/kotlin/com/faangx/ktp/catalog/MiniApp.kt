@@ -61,19 +61,19 @@ enum class MiniApp(
     MaxOfThreeNums(
         title = "Max of three Nums",
         category = "Control flow",
-        subcategory = "if-else-if",
+        subcategory = "if-else-if, when",
         demo = { MaxOfThreeNumsDemo() }
     ),
     StageOfLifeApp(
         title = "Stage of Life",
         category = "Control flow",
-        subcategory = "when",
+        subcategory = "if-else-if, when",
         demo = { StageOfLifeAppDemo() }
     ),
     GradeCalculator(
         title = "Grade Calculator",
         category = "Control flow",
-        subcategory = "when",
+        subcategory = "if-else-if, when",
         demo = { GradeCalculatorDemo() }
     ),
     MultiplicationTableApp(
