@@ -23,10 +23,29 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.faangx.ktp.comp.HighlightedText
 import com.streamliners.compose.comp.select.LabelledCheckBox
+import java.io.ByteArrayOutputStream
+
+@Composable
+fun FactorCalculator(
+    printFactorsOf: ByteArrayOutputStream.(Int) -> Unit,
+    isPrime: (Int) -> Boolean
+) {
+    FactorCalculatorV1(
+        getFactorsOf = { num ->
+            val outputStream = ByteArrayOutputStream()
+            outputStream.printFactorsOf(num)
+            outputStream.toString()
+                .split(", ")
+                .dropLast(1)
+                .map { it.toInt() }
+        },
+        isPrime = isPrime
+    )
+}
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun FactorCalculator(
+fun FactorCalculatorV1(
     getFactorsOf: (Int) -> List<Int>,
     isPrime: (Int) -> Boolean
 ) {
