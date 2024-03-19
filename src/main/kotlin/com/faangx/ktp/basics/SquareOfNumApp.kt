@@ -21,6 +21,15 @@ import com.faangx.ktp.SMILE_EMOJI
 
 @Composable
 fun SquareOfNumApp(
+    getSquareOf: (Int) -> Int
+) {
+    SquareOfNumAppV1 {
+        getSquareOf(it.toInt()).toLong()
+    }
+}
+
+@Composable
+fun SquareOfNumAppV1(
     getSquareOf: (Long) -> Long
 ) {
     var num by remember { mutableStateOf("") }
