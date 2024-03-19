@@ -17,7 +17,7 @@ enum class MiniApp(
     SquareOfNum(
         title = "Square Of Number",
         category = "Simple one line Functions",
-        demo = { SquareOfNumAppDemo() }
+        demo = { SquareOfNumAppV1Demo() }
     ),
     PerimeterAndAreaOfRectApp(
         title = "Perimeter & Area of Rectangle",
@@ -27,7 +27,7 @@ enum class MiniApp(
     SimpleInterestCalculator(
         title = "Simple Interest Calculator",
         category = "Simple one line Functions",
-        demo = { SimpleInterestCalculatorDemo() }
+        demo = { SimpleInterestCalculatorV1Demo() }
     ),
     ProfitLossCalculator(
         title = "Profit & Loss Calculator",
