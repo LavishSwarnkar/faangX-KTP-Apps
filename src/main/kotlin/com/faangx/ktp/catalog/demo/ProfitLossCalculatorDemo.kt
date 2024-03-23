@@ -4,38 +4,49 @@ import androidx.compose.runtime.Composable
 import com.faangx.ktp.basics.ProfitLossCalculator
 import kotlin.math.roundToInt
 
+fun getSp1(cp: Int, pl: Int): Int {
+    return cp * (100 + pl) / 100
+}
+fun getSp2(cp: Int, absPL: Int): Int {
+    return cp + absPL
+}
+fun getCp1(sp: Int, pl: Int): Int {
+    return sp * 100 / (100 + pl)
+}
+fun getCp2(sp: Int, absPL: Int): Int {
+    return sp - absPL
+}
+fun getPl1(cp: Int, sp: Int): Int {
+    return (sp - cp) / cp * 100
+}
+fun getPl2(cp: Int, absPL: Int): Int {
+    return absPL / cp * 100
+}
+fun getPl3(sp: Int, absPL: Int): Int {
+    return absPL / (sp - absPL) * 100
+}
+fun getAbsPL1(cp: Int, sp: Int): Int {
+    return sp - cp
+}
+fun getAbsPL2(cp: Int, pl: Int): Int {
+    return cp * pl / 100
+}
+fun getAbsPL3(sp: Int, pl: Int): Int {
+    return sp * pl / (100 + pl)
+}
+
 @Composable
 fun ProfitLossCalculatorDemo() {
     ProfitLossCalculator(
-        getSp1 = { cp, pl ->
-            (cp * ((100 + pl) / 100f)).roundToInt()
-        },
-        getSp2 = { cp, absPL ->
-            cp + absPL
-        },
-        getCp1 = { sp, pl ->
-            (sp * (100f / (100 + pl))).roundToInt()
-        },
-        getCp2 = { sp, absPL ->
-            sp - absPL
-        },
-        getPl1 = { cp, sp ->
-            (((sp - cp) / cp.toFloat()) * 100).roundToInt()
-        },
-        getPl2 = { cp, absPL ->
-            (absPL / cp.toFloat() * 100).roundToInt()
-        },
-        getPl3 = { sp, absPL ->
-            (absPL / (sp - absPL).toFloat() * 100).roundToInt()
-        },
-        getAbsPL1 = { cp, sp ->
-            sp - cp
-        },
-        getAbsPL2 = { cp, pl ->
-            (cp * (pl / 100f)).roundToInt()
-        },
-        getAbsPL3 = { sp, pl ->
-            ((sp * pl) / (100f + pl)).roundToInt()
-        },
+        getSp1 = ::getSp1,
+        getSp2 = ::getSp2,
+        getCp1 = ::getCp1,
+        getCp2 = ::getCp2,
+        getPl1 = ::getPl1,
+        getPl2 = ::getPl2,
+        getPl3 = ::getPl3,
+        getAbsPL1 = ::getAbsPL1,
+        getAbsPL2 = ::getAbsPL2,
+        getAbsPL3 = ::getAbsPL3,
     )
 }

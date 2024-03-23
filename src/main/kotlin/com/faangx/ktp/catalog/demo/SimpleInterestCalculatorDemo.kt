@@ -4,16 +4,18 @@ import androidx.compose.runtime.Composable
 import com.faangx.ktp.basics.SimpleInterestCalculator
 import com.faangx.ktp.basics.SimpleInterestCalculatorV1
 
+fun getInterest(p: Int, r: Int, t: Int): Int {
+    return p * r * t / 100
+}
+
 @Composable
 fun SimpleInterestCalculatorDemo() {
-    SimpleInterestCalculator { p, r, t ->
-        p * r * t / 100
-    }
+    SimpleInterestCalculator(::getInterest)
 }
 
 @Composable
 fun SimpleInterestCalculatorV1Demo() {
-    SimpleInterestCalculatorV1 { p, r, t ->
+    SimpleInterestCalculator { p, r, t ->
         p * r * t / 100
     }
 }

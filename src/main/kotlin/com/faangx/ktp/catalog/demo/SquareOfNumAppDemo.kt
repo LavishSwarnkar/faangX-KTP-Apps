@@ -4,7 +4,9 @@ import androidx.compose.runtime.Composable
 import com.faangx.ktp.basics.SquareOfNumApp
 import com.faangx.ktp.basics.SquareOfNumAppV1
 
-fun square(x: Int) = x * x * x
+fun square(x: Int): Int {
+    return x * x
+}
 
 fun square(x: Long) = x * x * x
 

@@ -4,11 +4,10 @@ import androidx.compose.runtime.Composable
 import com.faangx.ktp.basics.VoteAgeChecker
 
 fun canVote(age: Int): Boolean {
-
-    return if (age >= 18) {
-        true
+    if (age >= 18) {
+        return true
     } else {
-        false
+        return false
     }
 }
 
