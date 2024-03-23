@@ -80,7 +80,7 @@ enum class MiniApp(
         title = "Multiplication Table",
         category = "Control flow",
         subcategory = "for loop",
-        demo = { MultiplicationTableAppDemo() }
+        demo = { MultiplicationTableAppV1Demo() }
     ),
     FactorCalculator(
         title = "Factor Calculator, Prime Checker",

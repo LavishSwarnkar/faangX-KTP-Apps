@@ -10,15 +10,34 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Window
-import androidx.compose.ui.window.application
-import com.faangx.ktp.SMILE_EMOJI
-import com.faangx.ktp.util.println
 import java.io.ByteArrayOutputStream
+
+typealias MultiplicationTableApp = ByteArrayOutputStream
 
 @Composable
 fun MultiplicationTableApp(
+    printTable: ByteArrayOutputStream.(Int) -> Unit
+) {
+    Content(
+        printTable = { num, _, _ -> printTable(num) },
+        customizeEndPoints = false
+    )
+}
+
+@Composable
+fun MultiplicationTableAppV1(
     printTable: ByteArrayOutputStream.(Int, Int, Int) -> Unit
+) {
+    Content(
+        printTable = printTable,
+        customizeEndPoints = true
+    )
+}
+
+@Composable
+private fun Content(
+    printTable: ByteArrayOutputStream.(Int, Int, Int) -> Unit,
+    customizeEndPoints: Boolean
 ) {
     var num by remember { mutableStateOf("7") }
     var start by remember { mutableStateOf("1") }
@@ -63,29 +82,31 @@ fun MultiplicationTableApp(
                 textStyle = MaterialTheme.typography.h5
             )
 
-            Text(
-                text = "  from  ",
-                style = MaterialTheme.typography.h5
-            )
+            if (customizeEndPoints) {
+                Text(
+                    text = "  from  ",
+                    style = MaterialTheme.typography.h5
+                )
 
-            OutlinedTextField(
-                modifier = Modifier.width(80.dp),
-                value = start,
-                onValueChange = { if (it.length <= 3) start = it },
-                textStyle = MaterialTheme.typography.h5
-            )
+                OutlinedTextField(
+                    modifier = Modifier.width(80.dp),
+                    value = start,
+                    onValueChange = { if (it.length <= 3) start = it },
+                    textStyle = MaterialTheme.typography.h5
+                )
 
-            Text(
-                text = "  to  ",
-                style = MaterialTheme.typography.h5
-            )
+                Text(
+                    text = "  to  ",
+                    style = MaterialTheme.typography.h5
+                )
 
-            OutlinedTextField(
-                modifier = Modifier.width(80.dp),
-                value = end,
-                onValueChange = { if (it.length <= 3) end = it },
-                textStyle = MaterialTheme.typography.h5
-            )
+                OutlinedTextField(
+                    modifier = Modifier.width(80.dp),
+                    value = end,
+                    onValueChange = { if (it.length <= 3) end = it },
+                    textStyle = MaterialTheme.typography.h5
+                )
+            }
 
             Text(
                 text = " : ",
