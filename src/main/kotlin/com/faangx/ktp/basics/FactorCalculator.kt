@@ -25,6 +25,8 @@ import com.faangx.ktp.comp.HighlightedText
 import com.streamliners.compose.comp.select.LabelledCheckBox
 import java.io.ByteArrayOutputStream
 
+typealias FactorCalculator = ByteArrayOutputStream
+
 @Composable
 fun FactorCalculator(
     printFactorsOf: ByteArrayOutputStream.(Int) -> Unit,

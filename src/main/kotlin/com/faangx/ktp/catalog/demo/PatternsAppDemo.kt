@@ -82,7 +82,7 @@ fun ByteArrayOutputStream.pattern3(lines: Int) {
 
 fun ByteArrayOutputStream.pattern4(lines: Int) {
     for (lineNo in 1..lines) {
-        for (i in 1..lineNo) print(5 - lineNo + 1)
+        for (i in 1..lineNo) print(lines - lineNo + 1)
         println()
     }
 }

@@ -5,30 +5,36 @@ import com.faangx.ktp.basics.FactorCalculator
 import com.faangx.ktp.basics.FactorCalculatorV1
 import com.faangx.ktp.util.print
 
+fun FactorCalculator.printFactorsOf(num: Int) {
+    for (i in 1..num) {
+        if (num % i == 0) {
+            print("$i, ")
+        }
+    }
+}
+
+fun getFactorsOf(num: Int): List<Int> {
+    return buildList {
+        for (i in 1..num) {
+            if (num % i == 0) {
+                add(i)
+            }
+        }
+    }
+}
+
 @Composable
 fun FactorCalculatorDemo() {
-    val getFactorsOf = { x: Int ->
-        (1..x).filter { x % it == 0 }
-    }
-
     FactorCalculator(
-        printFactorsOf = { x ->
-            for (i in 1..x) {
-                if (x % i == 0) print("$i, ")
-            }
-        },
+        printFactorsOf = { printFactorsOf(it) },
         isPrime = { getFactorsOf(it).size == 2 }
     )
 }
 
 @Composable
 fun FactorCalculatorV1Demo() {
-    val getFactorsOf = { x: Int ->
-        (1..x).filter { x % it == 0 }
-    }
-
     FactorCalculatorV1(
-        getFactorsOf = getFactorsOf,
+        getFactorsOf = ::getFactorsOf,
         isPrime = { getFactorsOf(it).size == 2 }
     )
 }
