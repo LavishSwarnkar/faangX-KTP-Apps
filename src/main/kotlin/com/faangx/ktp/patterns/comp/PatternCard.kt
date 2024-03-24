@@ -13,13 +13,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 
 @Composable
 fun PatternCard(
-    patternNo: Int,
+    patternCode: String,
     patternSample: String,
     selected: Boolean,
     onClick: () -> Unit
@@ -40,7 +39,7 @@ fun PatternCard(
                 onClick = onClick
             )
 
-            Text("Pattern $patternNo")
+            Text(patternCode)
         }
 
         Text(

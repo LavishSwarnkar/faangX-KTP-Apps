@@ -1,13 +1,57 @@
 package com.faangx.ktp.patterns
 
 val patterns = """
-P1 :
+RAS :
 *
 **
 ***
 ****
 *****
 
+RBS :
+    *
+   **
+  ***
+ ****
+*****
+
+RCN1 :
+55555
+4444
+333
+22
+1
+
+RDN4 :
+54321
+ 5432
+  543
+   54
+    5
+
+PU1 :
+    *
+   ***
+  *****
+ *******
+*********
+
+PU2 :
+    *
+   *-*
+  *---*
+ *-----*
+*********
+
+PD3 :
+*-*-*-*-*
+ *-*-*-*
+  *-*-*
+   *-*
+    *
+""".trimIndent()
+
+val other = """
 P2 :
 1
 12
@@ -93,12 +137,14 @@ P13 :
 *****-----**-----*****
 """.trimIndent()
 
-fun getPatterns(): List<String> {
-    val lines = patterns.split("\n")
+fun getPatterns(): Map<String, String> {
+    val map =  patterns.split("\n")
         .filterIndexed { index, _ ->
-            index != 0 && (index + 1) % 7 != 0 && index % 7 != 0
+            (index + 1) % 7 != 0
         }
-        .chunked(5)
-        .map { it.joinToString("\n") }
-    return lines
+        .chunked(6)
+        .associate { list ->
+            list.first().replace(" :", "") to list.takeLast(5).joinToString("\n")
+        }
+    return map
 }

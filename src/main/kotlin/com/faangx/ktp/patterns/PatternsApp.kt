@@ -17,15 +17,17 @@ import androidx.compose.ui.unit.dp
 import com.faangx.ktp.patterns.comp.PatternCard
 import java.io.ByteArrayOutputStream
 
+typealias PatternsApp = ByteArrayOutputStream
+
 typealias PrintPatternFunctionality = (
-    patternNo: Int,
+    patternCode: String,
     lines: Int,
     customization: String,
     stream: ByteArrayOutputStream
 ) -> Unit
 
 typealias GetDefaultCustomization = (
-    patternNo: Int
+    patternCode: String
 ) -> String?
 
 @Composable
@@ -33,7 +35,7 @@ fun PatternsApp(
     printPattern: PrintPatternFunctionality,
     getDefaultCustomization: GetDefaultCustomization
 ) {
-    var selectedPattern by remember { mutableStateOf(0) }
+    var selectedPattern by remember { mutableStateOf("RAS") }
     var lines by remember { mutableStateOf("5") }
     var customization by remember { mutableStateOf("*") }
     var pattern by remember { mutableStateOf("") }
@@ -41,7 +43,7 @@ fun PatternsApp(
     fun updatePattern() {
         val stream = ByteArrayOutputStream()
         printPattern(
-            selectedPattern + 1,
+            selectedPattern,
             lines.toIntOrNull() ?: return,
             customization,
             stream
@@ -52,6 +54,8 @@ fun PatternsApp(
     LaunchedEffect(Unit) {
         updatePattern()
     }
+
+    val patterns = remember { getPatterns().entries.toList() }
 
     MaterialTheme {
         Column(
@@ -64,14 +68,17 @@ fun PatternsApp(
                 Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(12.dp)
             ) {
-                itemsIndexed(getPatterns()) { index, pattern ->
+                itemsIndexed(patterns) { index, (code, pattern) ->
                     PatternCard(
-                        patternNo = index + 1,
+                        patternCode = code,
                         patternSample = pattern,
-                        selected = selectedPattern == index,
+                        selected = selectedPattern == code,
                         onClick = {
-                            selectedPattern = index
-                            customization = getDefaultCustomization(index + 1) ?: ""
+                            selectedPattern = code
+                            val newCustomization = getDefaultCustomization(code) ?: ""
+                            if (customization.length != newCustomization.length) {
+                                customization = newCustomization
+                            }
                             updatePattern()
                         }
                     )

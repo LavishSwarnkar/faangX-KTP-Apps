@@ -9,37 +9,28 @@ import java.io.ByteArrayOutputStream
 @Composable
 fun PatternsAppDemo() {
     PatternsApp(
-        printPattern = { patternNo, lines, customization, stream ->
-            when (patternNo) {
-                1 -> stream.pattern1(
+        printPattern = { patternCode, lines, customization, stream ->
+            when (patternCode) {
+                "RAS" -> stream.patternRAS(
                     lines = lines,
                     char = customization.firstOrNull() ?: '*'
                 )
-                2 -> stream.pattern2(lines)
-                3 -> stream.pattern3(lines)
-                4 -> stream.pattern4(lines)
-                5 -> stream.pattern5(customization)
-                6 -> stream.pattern6(customization)
-                7 -> stream.pattern7(lines)
-                8 -> stream.pattern8(
+                "RBS" -> stream.patternRBS(
+                    lines = lines,
+                    char = customization.firstOrNull() ?: '*'
+                )
+                "RCN1" -> stream.patternRCN1(lines)
+                "RDN4" -> stream.patternRDN4(lines)
+                "PU1" -> stream.patternPU1(
                     lines = lines,
                     char = customization.getOrNull(0) ?: '*'
                 )
-                9 -> stream.pattern9(lines)
-                10 -> stream.pattern10(
+                "PU2" -> stream.patternPU2(
                     lines = lines,
                     char1 = customization.getOrNull(0) ?: '*',
                     char2 = customization.getOrNull(1) ?: '-'
                 )
-
-                11 -> stream.pattern11(
-                    lines = lines,
-                    char1 = customization.getOrNull(0) ?: '*',
-                    char2 = customization.getOrNull(1) ?: '-'
-                )
-
-                12 -> stream.pattern12(customization)
-                13 -> stream.pattern13(
+                "PD3" -> stream.patternPD3(
                     lines = lines,
                     char1 = customization.getOrNull(0) ?: '*',
                     char2 = customization.getOrNull(1) ?: '-'
@@ -48,20 +39,95 @@ fun PatternsAppDemo() {
         },
         getDefaultCustomization = { patternNo ->
             when (patternNo) {
-                1, 8 -> "*"
-                5, 6, 12 -> "APPLE"
-                10, 11, 13 -> "*-"
+                "RAS", "RBS", "PU1" -> "*"
+                "PU2", "PD3" -> "*-"
                 else -> null
             }
         }
     )
 }
 
-fun ByteArrayOutputStream.pattern1(lines: Int, char: Char) {
+fun PatternsApp.patternRAS(lines: Int, char: Char) {
     repeat(lines) {
         repeat(it + 1) {
             print(char)
         }
+        println()
+    }
+}
+
+fun PatternsApp.patternRBS(lines: Int, char: Char) {
+    repeat(lines) {
+        repeat(lines - 1 - it) { print(' ') }
+        repeat(it + 1) { print(char) }
+        println()
+    }
+}
+
+fun PatternsApp.patternRCN1(lines: Int) {
+    repeat(lines) { i ->
+        repeat(lines - i) { print(lines - i) }
+        println()
+    }
+}
+
+fun PatternsApp.patternRDN4(lines: Int) {
+    repeat(lines) { i ->
+        repeat(i) { print(' ') }
+        for (j in lines downTo i+1) { print(j) }
+        println()
+    }
+}
+
+fun PatternsApp.patternPU1(lines: Int, char: Char) {
+    repeat (lines) { i ->
+        repeat(lines - 1 - i) { print(" ") }
+        repeat(2 * i + 1) { print(char) }
+        println()
+    }
+}
+
+fun PatternsApp.patternPU2(
+    lines: Int,
+    char1: Char = '*',
+    char2: Char = '-'
+) {
+    repeat (lines) { i ->
+
+        // Space
+        repeat(lines - 1 - i) { print(" ") }
+
+        // *
+        repeat(
+            if (i == lines - 1) (2 * i + 1) else 1
+        ) { print(char1) }
+
+        // -
+        repeat(
+            if (i == 0 || i == lines - 1) 0 else (2 * i - 1)
+        ) { print(char2) }
+
+        // *
+        repeat(
+            if (i == 0 || i == lines - 1) 0 else 1
+        ) { print(char1) }
+
+        println()
+    }
+}
+
+fun PatternsApp.patternPD3(
+    lines: Int,
+    char1: Char = '*',
+    char2: Char = '-'
+) {
+    repeat(lines) { i ->
+        repeat(i) { print(' ') }
+
+        repeat(2 * (lines - i) - 1) { j ->
+            if (j % 2 == 0) print(char1) else print(char2)
+        }
+
         println()
     }
 }
@@ -109,14 +175,6 @@ fun ByteArrayOutputStream.pattern7(lines: Int) {
     }
 }
 
-fun ByteArrayOutputStream.pattern8(lines: Int, char: Char) {
-    for (i in 1..lines) {
-        repeat(lines - i) { print(" ") }
-        repeat(2 * i - 1) { print(char) }
-        println()
-    }
-}
-
 fun ByteArrayOutputStream.pattern9(lines: Int) {
     for (i in 1..lines) {
         repeat(lines - i) { print(" ") }
@@ -125,35 +183,6 @@ fun ByteArrayOutputStream.pattern9(lines: Int) {
                 (2 * i).toString(16).uppercase()
             )
         }
-        println()
-    }
-}
-
-fun ByteArrayOutputStream.pattern10(
-    lines: Int,
-    char1: Char = '*',
-    char2: Char = '-'
-) {
-    for (i in 1..lines) {
-
-        // Space
-        repeat(lines - i) { print(" ") }
-
-        // *
-        repeat(
-            if (i == lines) (2 * i - 1) else 1
-        ) { print(char1) }
-
-        // -
-        repeat(
-            if (i == lines) 0 else (2 * i - 3)
-        ) { print(char2) }
-
-        // -
-        repeat(
-            if (i == 1 || i == lines) 0 else 1
-        ) { print(char1) }
-
         println()
     }
 }
