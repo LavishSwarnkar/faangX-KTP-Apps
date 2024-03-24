@@ -10,7 +10,7 @@ publishing {
     publications {
         create<MavenPublication>("maven") {
             groupId = "com.faangx.ktp"
-            artifactId = "mini-apps"
+            artifactId = "faangX-KTP-Apps"
             version = "1.0"
 
             from(components["java"])
