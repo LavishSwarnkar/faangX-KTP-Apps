@@ -31,6 +31,17 @@ fun SquareOfNumMiniApp(
     )
 }
 
+fun SquareOfNumMiniAppV1(
+    getSquareOf: (Long) -> Long
+) {
+    MiniApp(
+        title = "Square Of a Number",
+        composable = {
+            SquareOfNumAppV1(getSquareOf)
+        }
+    )
+}
+
 @Composable
 fun SquareOfNumApp(
     getSquareOf: (Int) -> Int
