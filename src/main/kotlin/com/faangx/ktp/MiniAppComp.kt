@@ -13,9 +13,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
+import androidx.compose.ui.window.WindowPlacement
 import androidx.compose.ui.window.application
+import androidx.compose.ui.window.rememberWindowState
+import com.faangx.ktp.basics.TextMiniApp
 
 fun MiniApp(
     modifier: Modifier = Modifier.fillMaxSize(),
@@ -24,7 +28,12 @@ fun MiniApp(
 ) {
     application {
         Window(
-            onCloseRequest = ::exitApplication
+            onCloseRequest = ::exitApplication,
+            title = title,
+            state = rememberWindowState(
+                placement = WindowPlacement.Fullscreen,
+                size = DpSize(2000.dp, 2000.dp)
+            )
         ) {
 
             Column (
