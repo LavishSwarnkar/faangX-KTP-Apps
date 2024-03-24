@@ -8,6 +8,18 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.faangx.ktp.MiniApp
+
+fun TextMiniApp(
+    getText: () -> String
+) {
+    MiniApp(
+        title = "Text App",
+        composable = {
+            TextApp(getText)
+        }
+    )
+}
 
 @Composable
 fun TextApp(

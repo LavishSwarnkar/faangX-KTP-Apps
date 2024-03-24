@@ -13,7 +13,19 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import com.faangx.ktp.LIGHT_GREEN
+import com.faangx.ktp.MiniApp
 import com.faangx.ktp.SMILE_EMOJI
+
+fun MaxOfThreeNumsMiniApp(
+    maxOf: (Int, Int, Int) -> Int
+) {
+    MiniApp(
+        title = "Max of three Nums",
+        composable = {
+            MaxOfThreeNumsApp(maxOf)
+        }
+    )
+}
 
 @Composable
 fun MaxOfThreeNumsApp(

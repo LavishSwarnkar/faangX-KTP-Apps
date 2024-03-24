@@ -17,7 +17,19 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import com.faangx.ktp.LIGHT_GREEN
+import com.faangx.ktp.MiniApp
 import com.faangx.ktp.SMILE_EMOJI
+
+fun GradeCalculatorMiniApp(
+    getGrade: (Int, Int, Int, Int, Int) -> String
+) {
+    MiniApp(
+        title = "Grade Calculator",
+        composable = {
+            GradeCalculatorApp(getGrade)
+        }
+    )
+}
 
 @Composable
 fun GradeCalculatorApp(

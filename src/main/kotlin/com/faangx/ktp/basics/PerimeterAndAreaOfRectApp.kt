@@ -12,7 +12,22 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
+import com.faangx.ktp.MiniApp
 import com.faangx.ktp.SMILE_EMOJI
+
+fun PerimeterAndAreaOfRectMiniApp(
+    getPerimeterOfRectangle: (Int, Int) -> Int,
+    getAreaOfRectangle: (Int, Int) -> Int
+) {
+    MiniApp(
+        title = "Perimeter & Area of Rectangle",
+        composable = {
+            PerimeterAndAreaOfRectApp(
+                getPerimeterOfRectangle, getAreaOfRectangle
+            )
+        }
+    )
+}
 
 @Composable
 fun PerimeterAndAreaOfRectApp(

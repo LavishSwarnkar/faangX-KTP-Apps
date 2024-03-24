@@ -8,7 +8,25 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.faangx.ktp.MiniApp
 import com.faangx.ktp.SMILE_EMOJI
+
+fun SimpleInterestCalculatorMiniApp(
+    calculateInterest: (
+        principal: Int,
+        rate: Int,
+        time: Int
+    ) -> Int
+) {
+    MiniApp(
+        title = "Simple Interest Calculator",
+        composable = {
+            SimpleInterestCalculator(
+                calculateInterest
+            )
+        }
+    )
+}
 
 @Composable
 fun SimpleInterestCalculator(

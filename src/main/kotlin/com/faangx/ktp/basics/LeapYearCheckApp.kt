@@ -10,7 +10,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
+import com.faangx.ktp.MiniApp
 import com.faangx.ktp.SMILE_EMOJI
+
+fun LeapYearCheckerMiniApp(
+    isLeapYear: (Int) -> Boolean
+) {
+    MiniApp(
+        title = "Leap Year Checker",
+        composable = {
+            LeapYearChecker(isLeapYear)
+        }
+    )
+}
 
 @Composable
 fun LeapYearChecker(

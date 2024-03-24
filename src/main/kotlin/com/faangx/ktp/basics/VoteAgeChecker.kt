@@ -8,7 +8,19 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.faangx.ktp.MiniApp
 import com.faangx.ktp.SMILE_EMOJI
+
+fun VoteAgeCheckerMiniApp(
+    canVote: (Int) -> Boolean
+) {
+    MiniApp(
+        title = "Vote Age Checker",
+        composable = {
+            VoteAgeChecker(canVote)
+        }
+    )
+}
 
 @Composable
 fun VoteAgeChecker(

@@ -8,7 +8,19 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.faangx.ktp.MiniApp
 import com.faangx.ktp.SMILE_EMOJI
+
+fun OddEvenCheckerMiniApp(
+    checkEvenOdd: (Int) -> String
+) {
+    MiniApp(
+        title = "Odd Even Checker",
+        composable = {
+            OddEvenChecker(checkEvenOdd)
+        }
+    )
+}
 
 @Composable
 fun OddEvenChecker(

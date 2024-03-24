@@ -17,7 +17,19 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.faangx.ktp.MiniApp
 import com.faangx.ktp.SMILE_EMOJI
+
+fun SquareOfNumMiniApp(
+    getSquareOf: (Int) -> Int
+) {
+    MiniApp(
+        title = "Square Of a Number",
+        composable = {
+            SquareOfNumApp(getSquareOf)
+        }
+    )
+}
 
 @Composable
 fun SquareOfNumApp(
