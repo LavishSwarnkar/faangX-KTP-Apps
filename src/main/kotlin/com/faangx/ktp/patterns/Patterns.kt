@@ -1,28 +1,28 @@
 package com.faangx.ktp.patterns
 
 val patterns = """
-RAS :
+BL :
 *
 **
 ***
 ****
 *****
 
-RBS :
+BR :
     *
    **
   ***
  ****
 *****
 
-RCN1 :
+TLN :
 55555
 4444
 333
 22
 1
 
-RDN4 :
+TRSR :
 54321
  5432
   543

@@ -11,16 +11,16 @@ fun PatternsAppDemo() {
     PatternsApp(
         printPattern = { patternCode, lines, customization, stream ->
             when (patternCode) {
-                "RAS" -> stream.patternRAS(
+                "BL" -> stream.patternBL(
                     lines = lines,
                     char = customization.firstOrNull() ?: '*'
                 )
-                "RBS" -> stream.patternRBS(
+                "BR" -> stream.patternBR(
                     lines = lines,
                     char = customization.firstOrNull() ?: '*'
                 )
-                "RCN1" -> stream.patternRCN1(lines)
-                "RDN4" -> stream.patternRDN4(lines)
+                "TLN" -> stream.patternTLN(lines)
+                "TRNR" -> stream.patternTRNR(lines)
                 "PU1" -> stream.patternPU1(
                     lines = lines,
                     char = customization.getOrNull(0) ?: '*'
@@ -47,7 +47,7 @@ fun PatternsAppDemo() {
     )
 }
 
-fun PatternsApp.patternRAS(lines: Int, char: Char) {
+fun PatternsApp.patternBL(lines: Int, char: Char) {
     repeat(lines) {
         repeat(it + 1) {
             print(char)
@@ -56,7 +56,7 @@ fun PatternsApp.patternRAS(lines: Int, char: Char) {
     }
 }
 
-fun PatternsApp.patternRBS(lines: Int, char: Char) {
+fun PatternsApp.patternBR(lines: Int, char: Char) {
     repeat(lines) {
         repeat(lines - 1 - it) { print(' ') }
         repeat(it + 1) { print(char) }
@@ -64,14 +64,14 @@ fun PatternsApp.patternRBS(lines: Int, char: Char) {
     }
 }
 
-fun PatternsApp.patternRCN1(lines: Int) {
+fun PatternsApp.patternTLN(lines: Int) {
     repeat(lines) { i ->
         repeat(lines - i) { print(lines - i) }
         println()
     }
 }
 
-fun PatternsApp.patternRDN4(lines: Int) {
+fun PatternsApp.patternTRNR(lines: Int) {
     repeat(lines) { i ->
         repeat(i) { print(' ') }
         for (j in lines downTo i+1) { print(j) }
