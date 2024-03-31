@@ -11,6 +11,7 @@ import androidx.compose.ui.unit.dp
 import com.faangx.ktp.patterns.comp.PatternInputsRow
 import com.faangx.ktp.patterns.comp.PrintedPatternBox
 import com.faangx.ktp.patterns.getPatterns
+import com.faangx.ktp.util.captureStdOutput
 import java.io.ByteArrayOutputStream
 import java.io.PrintStream
 import java.nio.charset.StandardCharsets
@@ -81,20 +82,14 @@ fun PatternApp(
     var printedPattern by remember { mutableStateOf("") }
 
     LaunchedEffect(lines.value, customization.value) {
-        val stream = ByteArrayOutputStream()
-        val new = PrintStream(stream, true, StandardCharsets.UTF_8.name())
-        val prev = System.out
-
-        System.setOut(new)
-        printPattern(
-            lines.value.toIntOrNull() ?: return@LaunchedEffect,
-            customization.value.ifBlank {
-                pattern.defaultCustomization
-            } ?: ""
-        )
-        System.setOut(prev)
-
-        printedPattern = stream.toString()
+        printedPattern = captureStdOutput {
+            printPattern(
+                lines.value.toIntOrNull() ?: return@captureStdOutput,
+                customization.value.ifBlank {
+                    pattern.defaultCustomization
+                } ?: ""
+            )
+        }
     }
 
     Column(

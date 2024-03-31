@@ -13,6 +13,7 @@ import com.faangx.ktp.patterns.comp.PatternCard
 import com.faangx.ktp.patterns.comp.PatternInputsRow
 import com.faangx.ktp.patterns.comp.PrintedPatternBox
 import com.faangx.ktp.patterns.getPatterns
+import com.faangx.ktp.util.captureStdOutput
 import java.io.ByteArrayOutputStream
 import java.io.PrintStream
 import java.nio.charset.StandardCharsets
@@ -46,21 +47,15 @@ fun PatternsApp(
     var pattern by remember { mutableStateOf("") }
 
     LaunchedEffect(selectedPattern.value, lines.value, customization.value) {
-        val stream = ByteArrayOutputStream()
-        val new = PrintStream(stream, true, StandardCharsets.UTF_8.name())
-        val prev = System.out
-
-        System.setOut(new)
-        printPattern(
-           selectedPattern.value.code,
-            lines.value.toIntOrNull() ?: return@LaunchedEffect,
-            customization.value.ifBlank {
-                selectedPattern.value.defaultCustomization
-            } ?: ""
-        )
-        System.setOut(prev)
-
-        pattern = stream.toString()
+        pattern = captureStdOutput {
+            printPattern(
+                selectedPattern.value.code,
+                lines.value.toIntOrNull() ?: return@captureStdOutput,
+                customization.value.ifBlank {
+                    selectedPattern.value.defaultCustomization
+                } ?: ""
+            )
+        }
     }
 
     MaterialTheme {
