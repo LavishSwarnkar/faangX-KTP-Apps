@@ -10,8 +10,31 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.faangx.ktp.MiniApp
 import com.faangx.ktp.util.captureStdOutput
 import java.io.ByteArrayOutputStream
+
+fun MultiplicationTableMiniApp(
+    printTable: (Int) -> Unit
+) {
+    MiniApp(
+        title = "Multiplication Table",
+        composable = {
+            MultiplicationTableApp(printTable)
+        }
+    )
+}
+
+fun MultiplicationTableMiniAppV1(
+    printTable: (Int, Int, Int) -> Unit
+) {
+    MiniApp(
+        title = "Multiplication Table",
+        composable = {
+            MultiplicationTableAppV1(printTable)
+        }
+    )
+}
 
 @Composable
 fun MultiplicationTableApp(

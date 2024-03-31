@@ -21,10 +21,25 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.faangx.ktp.MiniApp
 import com.faangx.ktp.comp.HighlightedText
 import com.faangx.ktp.util.captureStdOutput
 import com.streamliners.compose.comp.select.LabelledCheckBox
 import java.io.ByteArrayOutputStream
+
+fun FactorCalculatorMiniApp(
+    printFactorsOf: (Int) -> Unit,
+    isPrime: (Int) -> Boolean
+) {
+    MiniApp(
+        title = "Factor Calculator",
+        composable = {
+            FactorCalculator(
+                printFactorsOf, isPrime
+            )
+        }
+    )
+}
 
 @Composable
 fun FactorCalculator(

@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
+import com.faangx.ktp.MiniApp
 import com.faangx.ktp.SMILE_EMOJI
 import com.faangx.ktp.basics.Operation.*
 import com.faangx.ktp.comp.HighlightedText
@@ -30,6 +31,21 @@ import com.streamliners.utils.safeLet
 
 enum class Operation {
     Permutations, Combinations
+}
+
+fun FactorialCalculatorMiniApp(
+    factorialOf: (Long) -> Long,
+    permutationsOf: (n: Long, r: Long) -> Long,
+    combinationsOf: (n: Long, r: Long) -> Long
+) {
+    MiniApp(
+        title = "Factorial Calculator",
+        composable = {
+            FactorialCalculatorApp(
+                factorialOf, permutationsOf, combinationsOf
+            )
+        }
+    )
 }
 
 @Composable
