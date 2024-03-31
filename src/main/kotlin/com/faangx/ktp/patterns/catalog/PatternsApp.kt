@@ -66,7 +66,8 @@ fun PatternsApp(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             LazyRow(
-                Modifier.fillMaxWidth(),
+                Modifier.wrapContentWidth()
+                    .align(Alignment.CenterHorizontally),
                 horizontalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 itemsIndexed(patterns) { index, pattern ->
