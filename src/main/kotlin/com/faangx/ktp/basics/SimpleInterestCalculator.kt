@@ -28,6 +28,23 @@ fun SimpleInterestCalculatorMiniApp(
     )
 }
 
+fun SimpleInterestCalculatorMiniAppV1(
+    calculateInterest: (
+        principal: Float,
+        rate: Float,
+        time: Float
+    ) -> Float
+) {
+    MiniApp(
+        title = "Simple Interest Calculator",
+        composable = {
+            SimpleInterestCalculatorV1(
+                calculateInterest
+            )
+        }
+    )
+}
+
 @Composable
 fun SimpleInterestCalculator(
     calculateInterest: (
