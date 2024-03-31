@@ -1,49 +1,49 @@
 package com.faangx.ktp.patterns
 
 val patterns = """
-BL :
+BL.LC.* :
 *
 **
 ***
 ****
 *****
 
-BR :
+BR.LC.* :
     *
    **
   ***
  ****
 *****
 
-TLN :
+TLN.L :
 55555
 4444
 333
 22
 1
 
-TRSR :
+TRSR.L :
 54321
  5432
   543
    54
     5
 
-PU1 :
+PU1.LC.* :
     *
    ***
   *****
  *******
 *********
 
-PU2 :
+PU2.L2C.*- :
     *
    *-*
   *---*
  *-----*
 *********
 
-PD3 :
+PD3.L2C.*- :
 *-*-*-*-*
  *-*-*-*
   *-*-*
@@ -137,14 +137,31 @@ P13 :
 *****-----**-----*****
 """.trimIndent()
 
-fun getPatterns(): Map<String, String> {
-    val map =  patterns.split("\n")
+
+
+fun getPatterns(): List<Pattern> {
+    val list =  patterns.split("\n")
         .filterIndexed { index, _ ->
             (index + 1) % 7 != 0
         }
         .chunked(6)
-        .associate { list ->
-            list.first().replace(" :", "") to list.takeLast(5).joinToString("\n")
+        .map { list ->
+            val meta = list.first().replace(" :", "")
+            val sample = list.takeLast(5).joinToString("\n")
+
+            val parts = meta.split(".")
+
+            val code = parts[0]
+            val typeAbbr = parts[1]
+            val defaultCustomization = parts.getOrNull(2)
+
+            Pattern(
+                code = code,
+                type = Pattern.Type.entries.find { it.abbr == typeAbbr }
+                    ?: error("Invalid pattern type : $typeAbbr"),
+                sample = sample,
+                defaultCustomization = defaultCustomization
+            )
         }
-    return map
+    return list
 }
