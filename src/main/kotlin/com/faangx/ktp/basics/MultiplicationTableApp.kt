@@ -10,13 +10,12 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.faangx.ktp.util.captureStdOutput
 import java.io.ByteArrayOutputStream
-
-typealias MultiplicationTableApp = ByteArrayOutputStream
 
 @Composable
 fun MultiplicationTableApp(
-    printTable: ByteArrayOutputStream.(Int) -> Unit
+    printTable: (Int) -> Unit
 ) {
     Content(
         printTable = { num, _, _ -> printTable(num) },
@@ -26,7 +25,7 @@ fun MultiplicationTableApp(
 
 @Composable
 fun MultiplicationTableAppV1(
-    printTable: ByteArrayOutputStream.(Int, Int, Int) -> Unit
+    printTable: (Int, Int, Int) -> Unit
 ) {
     Content(
         printTable = printTable,
@@ -36,7 +35,7 @@ fun MultiplicationTableAppV1(
 
 @Composable
 private fun Content(
-    printTable: ByteArrayOutputStream.(Int, Int, Int) -> Unit,
+    printTable: (Int, Int, Int) -> Unit,
     customizeEndPoints: Boolean
 ) {
     var num by remember { mutableStateOf("7") }
@@ -49,9 +48,9 @@ private fun Content(
         val endInt = end.toIntOrNull()
 
         if (numInt != null && startInt != null && endInt != null) {
-            val stream = ByteArrayOutputStream()
-            stream.printTable(numInt, startInt, endInt)
-            stream.toString().split("\n")
+            captureStdOutput {
+                printTable(numInt, startInt, endInt)
+            }.split("\n")
         } else {
             emptyList()
         }

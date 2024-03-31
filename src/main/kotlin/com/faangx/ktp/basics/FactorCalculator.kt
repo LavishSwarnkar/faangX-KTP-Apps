@@ -22,21 +22,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.faangx.ktp.comp.HighlightedText
+import com.faangx.ktp.util.captureStdOutput
 import com.streamliners.compose.comp.select.LabelledCheckBox
 import java.io.ByteArrayOutputStream
 
-typealias FactorCalculator = ByteArrayOutputStream
-
 @Composable
 fun FactorCalculator(
-    printFactorsOf: ByteArrayOutputStream.(Int) -> Unit,
+    printFactorsOf: (Int) -> Unit,
     isPrime: (Int) -> Boolean
 ) {
     FactorCalculatorV1(
         getFactorsOf = { num ->
-            val outputStream = ByteArrayOutputStream()
-            outputStream.printFactorsOf(num)
-            outputStream.toString()
+            captureStdOutput { printFactorsOf(num) }
                 .split(", ")
                 .dropLast(1)
                 .map { it.toInt() }
