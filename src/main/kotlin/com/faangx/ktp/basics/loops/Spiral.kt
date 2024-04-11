@@ -21,6 +21,7 @@ import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
 import com.faangx.ktp.basics.loops.CircleCenter.*
 import com.faangx.ktp.basics.loops.Direction.*
+import com.faangx.ktp.util.captureStdOutput
 import kotlinx.coroutines.delay
 import kotlin.math.roundToInt
 
@@ -64,21 +65,41 @@ class SpiralConfig(
     val showBoxes: Boolean = false
 )
 
-@Composable
-fun SpiralApp(
-    getNums: () -> List<Int>
+fun main() {
+    SpiralMiniApp {  }
+}
+
+fun SpiralMiniApp(
+    printFibonacciSeries: (Int) -> Unit
 ) {
-    Spiral(
-        SpiralConfig(
-            radii = getNums()
+    val series = captureStdOutput {
+        printFibonacciSeries(16)
+    }.split(", ").dropLast(1)
+        .map { it.toInt() }
+
+    application {
+        val state = rememberWindowState(
+            placement = WindowPlacement.Maximized
         )
-    )
+        Window(::exitApplication, state, title = "Golden Ratio Spiral") {
+
+            Spiral(
+                SpiralConfig(
+                    radii = series,
+                    centerOffset = Offset(-100f, -100f)
+                )
+            )
+        }
+    }
 }
 
 @Composable
 fun Spiral(
     config: SpiralConfig
 ) {
+    var draw by remember { mutableStateOf(false) }
+    LaunchedEffect(Unit) { delay(800); draw = true }
+
     val scale = config.boxSize
     var pointer = Offset(0f, 0f)
     var direction = Left
@@ -88,7 +109,7 @@ fun Spiral(
     var mainScale by remember { mutableStateOf(config.scale) }
 
     val animatedMainScale = if (config.scaleAnimation) {
-        LaunchedEffect(Unit) { delay(20000); mainScale = 0.25f }
+        LaunchedEffect(Unit) { delay(800); mainScale = 0.25f }
 
         animateFloatAsState(
             mainScale,
@@ -110,7 +131,7 @@ fun Spiral(
 
     val animatedRotation = if (config.rotateAnimation) {
         LaunchedEffect(Unit) {
-            delay(20000)
+            delay(800)
             while (true) {
                 delay(config.rotateAnimationDelay)
                 rotation += config.rotateAnimationDelta
@@ -120,58 +141,60 @@ fun Spiral(
         animateFloatAsState(rotation)
     } else null
 
-    Canvas(
-        modifier = Modifier.fillMaxSize()
-            .background(Color(0xff570bb7))
-            .scale(animatedMainScale?.value ?: mainScale)
-            .rotate(animatedRotation?.value ?: rotation)
-    ) {
-        inset(
-            left = size.width / 2f + config.centerOffset.x,
-            top = size.height / 2f + config.centerOffset.y,
-            right = 0f,
-            bottom = 0f
+    if (draw) {
+        Canvas(
+            modifier = Modifier.fillMaxSize()
+                .background(Color(0xff570bb7))
+                .scale(animatedMainScale?.value ?: mainScale)
+                .rotate(animatedRotation?.value ?: rotation)
         ) {
+            inset(
+                left = size.width / 2f + config.centerOffset.x,
+                top = size.height / 2f + config.centerOffset.y,
+                right = 0f,
+                bottom = 0f
+            ) {
 
-            config.radii.forEachIndexed { index, num ->
-                if (index != 0) {
-                    pointer = when (direction) {
-                        Left -> Offset(pointer.x - num, pointer.y)
-                        Down -> Offset(pointer.x, pointer.y + prevNum)
-                        Right -> Offset(pointer.x + prevNum, pointer.y - (num - prevNum))
-                        Up -> Offset(pointer.x - (num - prevNum), pointer.y - num)
+                config.radii.forEachIndexed { index, num ->
+                    if (index != 0) {
+                        pointer = when (direction) {
+                            Left -> Offset(pointer.x - num, pointer.y)
+                            Down -> Offset(pointer.x, pointer.y + prevNum)
+                            Right -> Offset(pointer.x + prevNum, pointer.y - (num - prevNum))
+                            Up -> Offset(pointer.x - (num - prevNum), pointer.y - num)
+                        }
+
+                        direction = direction.next()
+                        prevNum = num
                     }
 
-                    direction = direction.next()
-                    prevNum = num
-                }
+                    val size = Size(num * scale, num * scale)
 
-                val size = Size(num * scale, num * scale)
+                    if (config.showBoxes) {
+                        drawRect(
+                            color = Color.White,
+                            size = size,
+                            topLeft = pointer.scale(scale),
+                            style = Stroke(width = 1f)
+                        )
+                    }
 
-                if (config.showBoxes) {
-                    drawRect(
+                    drawArc(
                         color = Color.White,
-                        size = size,
-                        topLeft = pointer.scale(scale),
-                        style = Stroke(width = 1f)
+                        startAngle = angle,
+                        sweepAngle = -90f,
+                        useCenter = false,
+                        topLeft = arcOffsetForCircleCenter(
+                            Companion.forDirection(direction),
+                            pointer.scale(scale),
+                            num * scale
+                        ),
+                        size = Size(size.width * 2, size.height * 2),
+                        style = Stroke(8f)
                     )
+
+                    angle -= 90
                 }
-
-                drawArc(
-                    color = Color.White,
-                    startAngle = angle,
-                    sweepAngle = -90f,
-                    useCenter = false,
-                    topLeft = arcOffsetForCircleCenter(
-                        Companion.forDirection(direction),
-                        pointer.scale(scale),
-                        num * scale
-                    ),
-                    size = Size(size.width * 2, size.height * 2),
-                    style = Stroke(8f)
-                )
-
-                angle -= 90
             }
         }
     }
