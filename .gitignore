@@ -41,3 +41,4 @@ bin/
 ### Mac OS ###
 .DS_Store
 /src/main/kotlin/com/faangx/ktp/TestApp.kt
+/src/main/kotlin/com/faangx/ktp/demo/
