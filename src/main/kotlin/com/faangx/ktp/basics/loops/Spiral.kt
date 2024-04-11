@@ -65,10 +65,6 @@ class SpiralConfig(
     val showBoxes: Boolean = false
 )
 
-fun main() {
-    SpiralMiniApp {  }
-}
-
 fun SpiralMiniApp(
     printFibonacciSeries: (Int) -> Unit
 ) {
