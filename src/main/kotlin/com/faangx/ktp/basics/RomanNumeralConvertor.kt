@@ -9,20 +9,20 @@ import androidx.compose.ui.input.pointer.PointerEventType
 import androidx.compose.ui.input.pointer.onPointerEvent
 import androidx.compose.ui.unit.dp
 import com.faangx.ktp.MiniApp
-import com.faangx.ktp.basics.Type.*
+import com.faangx.ktp.basics.Conversion.*
 import com.faangx.ktp.comp.RadioButtonOptionalTextField
 
-private enum class Type { ToName, ToNum }
+private enum class Conversion { ToNumeral, ToNum }
 
-fun SpreadsheetColNameConvertorMiniApp(
-    getSpreadsheetColName: (Int) -> String,
-    getColNum: (String) -> Int
+fun RomanNumeralConvertorMiniApp(
+    getNumeral: (Int) -> String,
+    getNum: (String) -> Int
 ) {
     MiniApp(
-        title = "Spreadsheet Column Name Convertor",
+        title = "Roman Numeral Convertor",
         composable = {
-            SpreadsheetColNameConvertor(
-                getSpreadsheetColName, getColNum
+            RomanNumeralConvertor(
+                getNumeral, getNum
             )
         }
     )
@@ -30,11 +30,11 @@ fun SpreadsheetColNameConvertorMiniApp(
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun SpreadsheetColNameConvertor(
-    getSpreadsheetColName: (Int) -> String,
-    getColNum: (String) -> Int
+fun RomanNumeralConvertor(
+    getNumeral: (Int) -> String,
+    getNum: (String) -> Int
 ) {
-    var type by remember { mutableStateOf(ToName) }
+    var type by remember { mutableStateOf(ToNumeral) }
 
     val num = remember { mutableStateOf("") }
     val name = remember { mutableStateOf("") }
@@ -43,11 +43,11 @@ fun SpreadsheetColNameConvertor(
 
     LaunchedEffect(num.value, name.value) {
         when (type) {
-            ToName -> {
-                name.value = num.value.toIntOrNull()?.let(getSpreadsheetColName) ?: ""
+            ToNumeral -> {
+                name.value = num.value.toIntOrNull()?.let(getNumeral) ?: ""
             }
             ToNum -> {
-                num.value = name.value.ifBlank { null }?.let(getColNum)?.toString() ?: ""
+                num.value = name.value.ifBlank { null }?.let(getNum)?.toString() ?: ""
             }
         }
     }
@@ -65,9 +65,9 @@ fun SpreadsheetColNameConvertor(
         ) {
 
             RadioButtonOptionalTextField(
-                selected = type == ToName,
-                onClick = { type = ToName },
-                hint = "Column Number",
+                selected = type == ToNumeral,
+                onClick = { type = ToNumeral },
+                hint = "Number",
                 value = num.value,
                 onValueChange = { input ->
                     num.value = input.filter { it.isDigit() }
@@ -78,7 +78,7 @@ fun SpreadsheetColNameConvertor(
             RadioButtonOptionalTextField(
                 selected = type == ToNum,
                 onClick = { type = ToNum },
-                hint = "Column Name",
+                hint = "Roman Numeral",
                 value = name.value,
                 onValueChange = { input ->
                     name.value = input.filter { it.isLetter() }
