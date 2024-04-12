@@ -28,6 +28,29 @@ fun RadioButtonOptionalTextField(
     showRadioButtons: MutableState<Boolean>,
     singleLine: Boolean = true
 ) {
+    RadioButtonOptionalTextField(
+        modifier,
+        selected,
+        onClick,
+        hint,
+        value = input.value,
+        onValueChange = { input.value = it },
+        showRadioButtons,
+        singleLine
+    )
+}
+
+@Composable
+fun RadioButtonOptionalTextField(
+    modifier: Modifier = Modifier,
+    selected: Boolean,
+    onClick: () -> Unit,
+    hint: String,
+    value: String,
+    onValueChange: (String) -> Unit,
+    showRadioButtons: MutableState<Boolean>,
+    singleLine: Boolean = true
+) {
     Row (
         modifier.width(400.dp)
             .clip(RoundedCornerShape(8.dp))
@@ -44,8 +67,8 @@ fun RadioButtonOptionalTextField(
         OutlinedTextField(
             modifier = Modifier.padding(start = 8.dp).weight(1f),
             label = { Text(hint) },
-            value = input.value,
-            onValueChange = { input.value = it },
+            value = value,
+            onValueChange = onValueChange,
             enabled = selected,
             textStyle = MaterialTheme.typography.titleLarge,
             singleLine = singleLine,
