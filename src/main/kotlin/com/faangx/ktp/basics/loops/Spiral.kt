@@ -82,7 +82,12 @@ fun SpiralMiniApp(
             Spiral(
                 SpiralConfig(
                     radii = series,
-                    centerOffset = Offset(-100f, -100f)
+                    centerOffset = Offset(-25f, 0f),
+                    rotateAnimation = false,
+                    scaleAnimation = false,
+                    scale = 1f,
+                    showBoxes = true,
+                    boxSize = 25f
                 )
             )
         }
@@ -144,6 +149,8 @@ fun Spiral(
                 .scale(animatedMainScale?.value ?: mainScale)
                 .rotate(animatedRotation?.value ?: rotation)
         ) {
+            drawCircle(Color.Red, radius = 50f)
+
             inset(
                 left = size.width / 2f + config.centerOffset.x,
                 top = size.height / 2f + config.centerOffset.y,
@@ -174,6 +181,19 @@ fun Spiral(
                             style = Stroke(width = 1f)
                         )
                     }
+
+                    println("for $num :")
+                    println("pointer = $pointer")
+                    println("scaledPointer = ${pointer.scale(scale)}")
+                    println("topLeft = ${arcOffsetForCircleCenter(
+                        Companion.forDirection(direction),
+                        pointer.scale(scale),
+                        num * scale
+                    )}")
+                    println("size = ${num * scale}")
+                    println("direction = $direction")
+                    println("circleCenter = ${Companion.forDirection(direction)}")
+                    println("------------------------")
 
                     drawArc(
                         color = Color.White,
