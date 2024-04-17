@@ -66,7 +66,9 @@ class SpiralConfig(
 )
 
 fun SpiralMiniApp(
-    printFibonacciSeries: (Int) -> Unit
+    printFibonacciSeries: (Int) -> Unit,
+    animate: Boolean = true,
+    showBoxes: Boolean = false
 ) {
     val series = captureStdOutput {
         printFibonacciSeries(16)
@@ -80,15 +82,24 @@ fun SpiralMiniApp(
         Window(::exitApplication, state, title = "Golden Ratio Spiral") {
 
             Spiral(
-                SpiralConfig(
-                    radii = series,
-                    centerOffset = Offset(-25f, 0f),
-                    rotateAnimation = false,
-                    scaleAnimation = false,
-                    scale = 1f,
-                    showBoxes = true,
-                    boxSize = 25f
-                )
+                if (animate) {
+                    SpiralConfig(
+                        radii = series,
+                        centerOffset = Offset(-25f, 0f),
+                        boxSize = 25f,
+                        showBoxes = showBoxes
+                    )
+                } else {
+                    SpiralConfig(
+                        radii = series,
+                        centerOffset = Offset(-25f, 0f),
+                        rotateAnimation = false,
+                        scaleAnimation = false,
+                        scale = 1f,
+                        boxSize = 25f,
+                        showBoxes = showBoxes
+                    )
+                }
             )
         }
     }
@@ -103,9 +114,9 @@ fun Spiral(
 
     val scale = config.boxSize
     var pointer = Offset(0f, 0f)
-    var direction = Left
+    var direction = Down
     var prevNum = config.radii.first()
-    var angle = 0f
+    var angle = -90f
 
     var mainScale by remember { mutableStateOf(config.scale) }
 
@@ -149,7 +160,6 @@ fun Spiral(
                 .scale(animatedMainScale?.value ?: mainScale)
                 .rotate(animatedRotation?.value ?: rotation)
         ) {
-            drawCircle(Color.Red, radius = 50f)
 
             inset(
                 left = size.width / 2f + config.centerOffset.x,
@@ -181,19 +191,6 @@ fun Spiral(
                             style = Stroke(width = 1f)
                         )
                     }
-
-                    println("for $num :")
-                    println("pointer = $pointer")
-                    println("scaledPointer = ${pointer.scale(scale)}")
-                    println("topLeft = ${arcOffsetForCircleCenter(
-                        Companion.forDirection(direction),
-                        pointer.scale(scale),
-                        num * scale
-                    )}")
-                    println("size = ${num * scale}")
-                    println("direction = $direction")
-                    println("circleCenter = ${Companion.forDirection(direction)}")
-                    println("------------------------")
 
                     drawArc(
                         color = Color.White,
