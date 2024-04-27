@@ -13,28 +13,66 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.PointerEventType
 import androidx.compose.ui.input.pointer.onPointerEvent
 import androidx.compose.ui.unit.dp
+import com.faangx.ktp.MiniApp
 import com.faangx.ktp.comp.RadioButtonOptionalTextField
+import com.streamliners.compose.comp.select.LabelledCheckBox
 import kotlin.math.roundToInt
+
+fun CeaserCipherMiniApp(
+    encode: (String, delta: Int) -> String,
+    decode: (String, delta: Int) -> String
+) {
+    MiniApp(
+        title = "CeaserCipher App",
+        composable = {
+            CeaserCipher(
+                encode = { str, delta, _ ->
+                    encode(str, delta)
+                },
+                decode = { str, delta, _ ->
+                    decode(str, delta)
+                },
+                allowNegativeDelta = false
+            )
+        }
+    )
+}
+
+fun CeaserCipherMiniAppV1(
+    encode: (String, delta: Int, negative: Boolean) -> String,
+    decode: (String, delta: Int, negative: Boolean) -> String
+) {
+    MiniApp(
+        title = "CeaserCipher App",
+        composable = {
+            CeaserCipher(
+                encode, decode, true
+            )
+        }
+    )
+}
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun CeaserCipher(
-    encode: (String, delta: Int) -> String,
-    decode: (String, delta: Int) -> String
+    encode: (String, delta: Int, negative: Boolean) -> String,
+    decode: (String, delta: Int, negative: Boolean) -> String,
+    allowNegativeDelta: Boolean
 ) {
     var encoderMode by remember { mutableStateOf(true) }
 
     val decoded = remember { mutableStateOf("") }
     val encoded = remember { mutableStateOf("") }
     var delta by remember { mutableStateOf(1) }
+    val negative = remember { mutableStateOf(false) }
 
     val showRadioButtons = remember { mutableStateOf(false) }
 
-    LaunchedEffect(decoded.value, encoded.value, delta) {
+    LaunchedEffect(decoded.value, encoded.value, delta, negative.value) {
         if (encoderMode)
-            encoded.value = encode(decoded.value, delta)
+            encoded.value = encode(decoded.value, delta, negative.value)
         else
-            decoded.value = decode(encoded.value, delta)
+            decoded.value = decode(encoded.value, delta, negative.value)
     }
 
     Column(
@@ -65,10 +103,23 @@ fun CeaserCipher(
                     .padding(start = 56.dp)
                     .fillMaxWidth()
             ) {
-                Text(
-                    text = "Delta = $delta",
-                    style = MaterialTheme.typography.titleLarge
-                )
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = "Delta = ${if (negative.value) '-' else ' '}$delta",
+                        style = MaterialTheme.typography.titleLarge
+                    )
+
+                    if (allowNegativeDelta) {
+                        LabelledCheckBox(
+                            modifier = Modifier.padding(start = 16.dp),
+                            label = "Negative",
+                            state = negative
+                        )
+                    }
+                }
 
                 Row(
                     modifier = Modifier.fillMaxWidth(),

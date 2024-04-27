@@ -9,9 +9,24 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.faangx.ktp.MiniApp
 import com.faangx.ktp.SMILE_EMOJI
 import com.faangx.ktp.comp.HighlightedText
 import com.streamliners.compose.comp.select.LabelledCheckBox
+
+fun LcmHcfCalculatorMiniApp(
+    getLCM: (Int, Int) -> Int,
+    getHCF: (Int, Int) -> Int
+) {
+    MiniApp(
+        title = "LCM HCF Calculator",
+        composable = {
+            LcmHcfCalculator(
+                getLCM, getHCF
+            )
+        }
+    )
+}
 
 @Composable
 fun LcmHcfCalculator(
