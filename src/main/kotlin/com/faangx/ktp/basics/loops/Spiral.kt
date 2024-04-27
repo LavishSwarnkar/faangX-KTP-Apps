@@ -71,7 +71,7 @@ fun SpiralMiniApp(
     showBoxes: Boolean = false
 ) {
     val series = captureStdOutput {
-        printFibonacciSeries(16)
+        printFibonacciSeries(250)
     }.split(", ").dropLast(1)
         .map { it.toInt() }
 
