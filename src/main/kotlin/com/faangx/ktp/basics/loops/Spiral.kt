@@ -73,7 +73,7 @@ fun SpiralMiniApp(
     val series = captureStdOutput {
         printFibonacciSeries(250)
     }.split(", ").dropLast(1)
-        .map { it.toInt() }
+        .map { it.toLong().toInt() }
 
     application {
         val state = rememberWindowState(
