@@ -14,12 +14,23 @@ import com.faangx.ktp.basics.Layout
 import com.faangx.ktp.basics.RadioGroup
 import com.faangx.ktp.basics.intList.model.IntListOp
 
-class ReplaceOp(
-    val replace: (MutableList<Int>, Int, Int) -> Unit,
-    val replaceAll: (MutableList<Int>, Int, Int) -> Unit
-): IntListOp {
-    override val label: String = "Replace Element"
-    override val Composable: @Composable (MutableList<Int>) -> Unit = { Comp(it) }
+sealed interface ReplaceOp: IntListOp {
+
+    class InPlace(
+        val replace: (MutableList<Int>, Int, Int) -> Unit,
+        val replaceAll: (MutableList<Int>, Int, Int) -> Unit
+    ): ReplaceOp {
+        override val label: String = "Replace Element (In Place)"
+        override val Composable: @Composable (MutableList<Int>) -> Unit = { Comp(it) }
+    }
+
+    class NewList(
+        val replace: (List<Int>, Int, Int) -> List<Int>,
+        val replaceAll: (List<Int>, Int, Int) -> List<Int>
+    ): ReplaceOp {
+        override val label: String = "Replace Element (New List)"
+        override val Composable: @Composable (MutableList<Int>) -> Unit = { Comp(it) }
+    }
 }
 
 @Composable
@@ -71,10 +82,24 @@ fun ReplaceOp.Comp(list: MutableList<Int>) {
                     val elementInt = element.toIntOrNull() ?: return@Button
                     val replacementInt = replacement.toIntOrNull() ?: return@Button
 
-                    if (all) {
-                        replaceAll(list, elementInt, replacementInt)
-                    } else {
-                        replace(list, elementInt, replacementInt)
+                    when (this@Comp) {
+                        is ReplaceOp.InPlace -> {
+                            if (all) {
+                                replaceAll(list, elementInt, replacementInt)
+                            } else {
+                                replace(list, elementInt, replacementInt)
+                            }
+                        }
+                        is ReplaceOp.NewList -> {
+                            val newList = if (all) {
+                                replaceAll(list, elementInt, replacementInt)
+                            } else {
+                                replace(list, elementInt, replacementInt)
+                            }
+
+                            list.clear()
+                            list.addAll(newList)
+                        }
                     }
                 }
             ) {
