@@ -15,12 +15,22 @@ import com.faangx.ktp.basics.Layout
 import com.faangx.ktp.basics.RadioGroup
 import com.faangx.ktp.basics.intList.model.IntListOp
 
-class RemoveOp(
-    val removeAt: (MutableList<Int>, Int) -> Unit,
-    val remove: (MutableList<Int>, Int, Boolean) -> Unit,
-): IntListOp {
-    override val label: String = "Remove Element"
-    override val Composable: @Composable (MutableList<Int>) -> Unit = { Comp(it) }
+sealed interface RemoveOp: IntListOp {
+    class InPlace(
+        val removeAt: (MutableList<Int>, Int) -> Unit,
+        val remove: (MutableList<Int>, Int, Boolean) -> Unit,
+    ): RemoveOp {
+        override val label: String = "Remove Element (In Place)"
+        override val Composable: @Composable (MutableList<Int>) -> Unit = { Comp(it) }
+    }
+
+    class NewList(
+        val removeAt: (List<Int>, Int) -> List<Int>,
+        val remove: (List<Int>, Int, Boolean) -> List<Int>,
+    ): RemoveOp {
+        override val label: String = "Remove Element (New List)"
+        override val Composable: @Composable (MutableList<Int>) -> Unit = { Comp(it) }
+    }
 }
 
 @Composable
@@ -72,10 +82,24 @@ fun RemoveOp.Comp(list: MutableList<Int>) {
                 onClick = {
                     val whatInt = what.toIntOrNull() ?: return@Button
 
-                    if (byElement) {
-                        remove(list, whatInt, all)
-                    } else {
-                        removeAt(list, whatInt)
+                    when (this@Comp) {
+                        is RemoveOp.InPlace -> {
+                            if (byElement) {
+                                remove(list, whatInt, all)
+                            } else {
+                                removeAt(list, whatInt)
+                            }
+                        }
+                        is RemoveOp.NewList -> {
+                            val newList = if (byElement) {
+                                remove(list, whatInt, all)
+                            } else {
+                                removeAt(list, whatInt)
+                            }
+
+                            list.clear()
+                            list.addAll(newList)
+                        }
                     }
                 }
             ) {
