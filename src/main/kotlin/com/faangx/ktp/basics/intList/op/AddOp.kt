@@ -16,12 +16,12 @@ import com.faangx.ktp.basics.RadioGroup
 import com.faangx.ktp.basics.intList.model.IntListOp
 import com.faangx.ktp.basics.intList.op.AddType.*
 
-sealed interface AddOp {
+sealed interface AddOp: IntListOp {
     class InPlace(
         val addAt: (MutableList<Int>, Int, Int) -> Unit,
         val addAtStart: (MutableList<Int>, Int) -> Unit,
         val addAtEnd: (MutableList<Int>, Int) -> Unit
-    ): IntListOp, AddOp {
+    ): AddOp {
         override val label: String = "Add Element (In Place)"
         override val Composable: @Composable (MutableList<Int>) -> Unit = { Comp(it) }
     }
@@ -30,7 +30,7 @@ sealed interface AddOp {
         val addAt: (List<Int>, Int, Int) -> List<Int>,
         val addAtStart: (List<Int>, Int) -> List<Int>,
         val addAtEnd: (List<Int>, Int) -> List<Int>
-    ): IntListOp, AddOp {
+    ): AddOp {
         override val label: String = "Add Element (New List)"
         override val Composable: @Composable (MutableList<Int>) -> Unit = { Comp(it) }
     }
