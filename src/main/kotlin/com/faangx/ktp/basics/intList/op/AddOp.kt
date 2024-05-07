@@ -16,13 +16,24 @@ import com.faangx.ktp.basics.RadioGroup
 import com.faangx.ktp.basics.intList.model.IntListOp
 import com.faangx.ktp.basics.intList.op.AddType.*
 
-class AddOp(
-    val addAt: (MutableList<Int>, Int, Int) -> Unit,
-    val addAtStart: (MutableList<Int>, Int) -> Unit,
-    val addAtEnd: (MutableList<Int>, Int) -> Unit
-): IntListOp {
-    override val label: String = "Add Element"
-    override val Composable: @Composable (MutableList<Int>) -> Unit = { Comp(it) }
+sealed interface AddOp {
+    class InPlace(
+        val addAt: (MutableList<Int>, Int, Int) -> Unit,
+        val addAtStart: (MutableList<Int>, Int) -> Unit,
+        val addAtEnd: (MutableList<Int>, Int) -> Unit
+    ): IntListOp, AddOp {
+        override val label: String = "Add Element (In Place)"
+        override val Composable: @Composable (MutableList<Int>) -> Unit = { Comp(it) }
+    }
+
+    class NewList(
+        val addAt: (List<Int>, Int, Int) -> List<Int>,
+        val addAtStart: (List<Int>, Int) -> List<Int>,
+        val addAtEnd: (List<Int>, Int) -> List<Int>
+    ): IntListOp, AddOp {
+        override val label: String = "Add Element (New List)"
+        override val Composable: @Composable (MutableList<Int>) -> Unit = { Comp(it) }
+    }
 }
 
 enum class AddType(val label: String) {
@@ -84,12 +95,28 @@ fun AddOp.Comp(list: MutableList<Int>) {
                 onClick = {
                     val valueInt = value.toIntOrNull() ?: return@Button
 
-                    when (type) {
-                        Start -> addAtStart(list, valueInt)
-                        End -> addAtEnd(list, valueInt)
-                        Custom -> {
-                            val indexInt = index.toIntOrNull() ?: return@Button
-                            addAt(list, indexInt, valueInt)
+                    when (this@Comp) {
+                        is AddOp.InPlace -> {
+                            when (type) {
+                                Start -> addAtStart(list, valueInt)
+                                End -> addAtEnd(list, valueInt)
+                                Custom -> {
+                                    val indexInt = index.toIntOrNull() ?: return@Button
+                                    addAt(list, indexInt, valueInt)
+                                }
+                            }
+                        }
+                        is AddOp.NewList -> {
+                            val newList = when (type) {
+                                Start -> addAtStart(list, valueInt)
+                                End -> addAtEnd(list, valueInt)
+                                Custom -> {
+                                    val indexInt = index.toIntOrNull() ?: return@Button
+                                    addAt(list, indexInt, valueInt)
+                                }
+                            }
+                            list.clear()
+                            list.addAll(newList)
                         }
                     }
                 }
