@@ -60,7 +60,7 @@ fun IntListOperations(
             when (variant) {
                 is IntListOpsVariant.All -> {
 
-                    val selection: MutableState<IntListOp?> = remember { mutableStateOf(variant.ops[9]) }
+                    val selection: MutableState<IntListOp?> = remember { mutableStateOf(variant.ops[3]) }
                     val labelState = remember {
                         mutableStateOf(
                             TextInputState("Operation")
