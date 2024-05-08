@@ -49,6 +49,22 @@ PD3.L2C.*- :
   *-*-*
    *-*
     *
+
+P1.L2C.*+ :
++  *  +
+ + * +
+  +*+
+*******
+  +*+
+ + * +
++  *  +
+
+P2.L2C.*- :
+*-----**********-----*
+**-----********-----**
+***-----******-----***
+****-----****-----****
+*****-----**-----*****
 """.trimIndent()
 
 val other = """
@@ -140,14 +156,11 @@ P13 :
 
 
 fun getPatterns(): List<Pattern> {
-    val list =  patterns.split("\n")
-        .filterIndexed { index, _ ->
-            (index + 1) % 7 != 0
-        }
-        .chunked(6)
+    val list =  patterns.split("\n\n")
+        .map { it.split("\n") }
         .map { list ->
             val meta = list.first().replace(" :", "")
-            val sample = list.takeLast(5).joinToString("\n")
+            val sample = list.drop(1).joinToString("\n")
 
             val parts = meta.split(".")
 

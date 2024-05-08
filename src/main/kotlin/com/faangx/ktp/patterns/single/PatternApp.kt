@@ -77,7 +77,7 @@ fun PatternApp(
         getPatterns().find { it.code == patternCode } ?: error("Invalid patternCode: $patternCode")
     }
 
-    val lines = remember { mutableStateOf("5") }
+    val lines = remember { mutableStateOf("${pattern.sample.split("\n").size}") }
     val customization = remember { mutableStateOf(pattern.defaultCustomization ?: "") }
     var printedPattern by remember { mutableStateOf("") }
 
