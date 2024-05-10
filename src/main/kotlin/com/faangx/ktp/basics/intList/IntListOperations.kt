@@ -1,12 +1,16 @@
 package com.faangx.ktp.basics.intList
 
+import androidx.compose.animation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.pointer.PointerEventType
+import androidx.compose.ui.input.pointer.onPointerEvent
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.faangx.ktp.basics.intList.model.IntListOp
@@ -14,7 +18,16 @@ import com.faangx.ktp.basics.intList.model.IntListOpsVariant
 import com.streamliners.compose.comp.spinner.OutlinedSpinner
 import com.streamliners.compose.comp.spinner.state.SpinnerState
 import com.streamliners.compose.comp.textInput.state.TextInputState
+import java.util.*
 
+private fun randomList(size: Int): List<Int> {
+    return buildList {
+        val random = Random()
+        repeat(size) { add(random.nextInt(100) + 1) }
+    }
+}
+
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun IntListOperations(
     variant: IntListOpsVariant
@@ -44,18 +57,45 @@ fun IntListOperations(
             verticalArrangement = Arrangement.spacedBy(24.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            var showGenerateButton by remember { mutableStateOf(false) }
 
-            OutlinedTextField(
-                modifier = Modifier.width(500.dp),
-                label = { Text("Numbers") },
-                value = nums.value,
-                onValueChange = { input ->
-                    nums.value = input.filter { it.isDigit() || it in listOf(',', '-') }
-                },
-                textStyle = MaterialTheme.typography.titleLarge.copy(
-                    textAlign = TextAlign.Center
+
+            Row {
+                OutlinedTextField(
+                    modifier = Modifier.width(500.dp)
+                        .onPointerEvent(PointerEventType.Enter) { showGenerateButton = true }
+                        .onPointerEvent(PointerEventType.Exit) { showGenerateButton = false },
+                    label = { Text("Numbers") },
+                    value = nums.value,
+                    onValueChange = { input ->
+                        nums.value = input.filter { it.isDigit() || it in listOf(',', '-') }
+                    },
+                    textStyle = MaterialTheme.typography.titleLarge.copy(
+                        textAlign = TextAlign.Center
+                    ),
+                    trailingIcon = {
+                        AnimatedVisibility(
+                            modifier = Modifier.padding(end = 12.dp),
+                            visible = showGenerateButton,
+                            enter = fadeIn() + expandHorizontally(
+                                expandFrom = Alignment.Start
+                            ),
+                            exit = fadeOut() + shrinkHorizontally(
+                                shrinkTowards = Alignment.Start
+                            )
+                        ) {
+                            FilledIconButton(
+                                modifier = Modifier.align(Alignment.CenterVertically),
+                                onClick = {
+                                    nums.value = randomList(10).joinToString(",")
+                                }
+                            ) {
+                                Icon(Icons.Default.Refresh, "Generate")
+                            }
+                        }
+                    }
                 )
-            )
+            }
 
             when (variant) {
                 is IntListOpsVariant.All -> {
