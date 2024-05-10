@@ -15,6 +15,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.faangx.ktp.basics.intList.model.IntListOp
 import com.faangx.ktp.basics.intList.model.IntListOpsVariant
+import com.faangx.ktp.basics.intList.op.BinarySearchOp
 import com.streamliners.compose.comp.spinner.OutlinedSpinner
 import com.streamliners.compose.comp.spinner.state.SpinnerState
 import com.streamliners.compose.comp.textInput.state.TextInputState
@@ -27,6 +28,26 @@ private fun randomList(size: Int): List<Int> {
     }
 }
 
+private fun sort(list: MutableList<Int>) {
+    for (i in list.lastIndex downTo 1) {
+
+        // Flag to track whether at least 1 swap is performed
+        var swapped = false
+
+        for (j in 0..<i) {
+            if (list[j] > list[j+1]) {
+                list[j] = list[j+1].also {
+                    list[j+1] = list[j]
+                }
+                swapped = true
+            }
+        }
+
+        // If no swap performed, then list is sorted
+        if (!swapped) break
+    }
+}
+
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun IntListOperations(
@@ -34,6 +55,8 @@ fun IntListOperations(
 ) {
     val nums = remember { mutableStateOf("") }
     val list = remember { mutableStateListOf<Int>() }
+
+    var randomListSortIsRequired by remember { mutableStateOf(false) }
 
     LaunchedEffect(nums.value) {
         list.clear()
@@ -87,7 +110,12 @@ fun IntListOperations(
                             FilledIconButton(
                                 modifier = Modifier.align(Alignment.CenterVertically),
                                 onClick = {
-                                    nums.value = randomList(10).joinToString(",")
+                                    nums.value = randomList(10)
+                                        .toMutableList()
+                                        .apply {
+                                            if (randomListSortIsRequired) sort(this)
+                                        }
+                                        .joinToString(",")
                                 }
                             ) {
                                 Icon(Icons.Default.Refresh, "Generate")
@@ -100,11 +128,15 @@ fun IntListOperations(
             when (variant) {
                 is IntListOpsVariant.All -> {
 
-                    val selection: MutableState<IntListOp?> = remember { mutableStateOf(variant.ops[11]) }
+                    val selection: MutableState<IntListOp?> = remember { mutableStateOf(variant.ops[9]) }
                     val labelState = remember {
                         mutableStateOf(
                             TextInputState("Operation")
                         )
+                    }
+
+                    LaunchedEffect(selection.value) {
+                        randomListSortIsRequired = selection.value is BinarySearchOp
                     }
 
                     OutlinedSpinner(
@@ -121,6 +153,10 @@ fun IntListOperations(
                 }
 
                 is IntListOpsVariant.Single -> {
+                    LaunchedEffect(variant) {
+                        randomListSortIsRequired = variant.op is BinarySearchOp
+                    }
+
                     Text(variant.op.label)
 
                     variant.op.Composable(list)
