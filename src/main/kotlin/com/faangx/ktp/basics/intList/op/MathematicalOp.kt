@@ -12,49 +12,48 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.unit.dp
 import com.faangx.ktp.basics.intList.model.IntListOp
 import com.faangx.ktp.comp.HighlightedText
+import com.streamliners.utils.safeLet
 
 class MathematicalOp(
-    val findMin: (List<Int>) -> Int,
-    val findMax: (List<Int>) -> Int,
-    val calculateSum: (List<Int>) -> Int,
-    val calculateMean: (List<Int>) -> Float
+    val findMin: (List<Int>) -> Int?,
+    val findMax: (List<Int>) -> Int?,
+    val calculateSum: (List<Int>) -> Int?,
+    val calculateMean: (List<Int>) -> Float?
 ) : IntListOp {
     override val label: String = "Mathematical"
     override val Composable: @Composable (List<Int>) -> Unit = { Comp(it) }
 }
 
 data class IntListMathOpsResult(
-    val min: Int,
-    val max: Int,
-    val sum: Int,
-    val mean: Float
+    val min: Int? = null,
+    val max: Int? = null,
+    val sum: Int? = null,
+    val mean: Float? = null
 )
 
 @Composable
 fun MathematicalOp.Comp(list: List<Int>) {
-    val result = remember { mutableStateOf<IntListMathOpsResult?>(null) }
+    val result = remember { mutableStateOf(IntListMathOpsResult()) }
 
     LaunchedEffect(list) {
-        result.value = if (list.isEmpty()) {
-            null
-        } else {
-            IntListMathOpsResult(
-                min = findMin(list),
-                max = findMax(list),
-                sum = calculateSum(list),
-                mean = calculateMean(list)
-            )
-        }
+        result.value = IntListMathOpsResult(
+            min = findMin(list),
+            max = findMax(list),
+            sum = calculateSum(list),
+            mean = calculateMean(list)
+        )
     }
 
-    result.value?.let { (min, max, sum, mean) ->
-        Row(
-            horizontalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            IntListOpsResultElement("Min", min.toString())
-            IntListOpsResultElement("Max", max.toString())
-            IntListOpsResultElement("Sum", sum.toString())
-            IntListOpsResultElement("Mean", "%.2f".format(mean))
+    result.value.run {
+        safeLet(min, max, sum, mean) { min, max, sum, mean ->
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                IntListOpsResultElement("Min", min.toString())
+                IntListOpsResultElement("Max", max.toString())
+                IntListOpsResultElement("Sum", sum.toString())
+                IntListOpsResultElement("Mean", "%.2f".format(mean))
+            }
         }
     }
 }

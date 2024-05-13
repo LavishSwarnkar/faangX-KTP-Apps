@@ -31,7 +31,7 @@ fun ElementAccessOp.Comp(list: List<Int>) {
         val indexInt = index.toIntOrNull()
         result = if (indexInt != null) {
             val element = elementAt(list, indexInt)
-            "is $element"
+            if (element == null) "doesn't exist" else "is $element"
         } else {
             SMILE_EMOJI
         }
