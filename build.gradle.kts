@@ -41,8 +41,8 @@ dependencies {
     // With compose.desktop.common you will also lose @Preview functionality
     implementation(compose.desktop.currentOs)
     implementation("org.jetbrains.compose.material3:material3-desktop:1.6.0")
-    implementation("com.github.The-Streamliners.DroidLibs:compose:1.2.4")
-    implementation("com.github.The-Streamliners.DroidLibs:utils:1.2.4")
+    implementation("com.github.The-Streamliners.DroidLibs:compose:1.2.14")
+    implementation("com.github.The-Streamliners.DroidLibs:utils:1.2.14")
     testImplementation("org.jetbrains.kotlin:kotlin-test")
     testImplementation("org.junit.jupiter:junit-jupiter-params:5.6.3")
 }
