@@ -35,10 +35,17 @@ fun PatternApp(
     patternCode: String,
     printPattern: (lines: Int, char: Char) -> Unit
 ) {
+    val pattern = remember {
+        getPatterns().find { it.code == patternCode } ?: error("Invalid patternCode: $patternCode")
+    }
+
     PatternApp(
         patternCode
     ) { lines: Int, customization: String ->
-        printPattern(lines, customization.first())
+        printPattern(
+            lines,
+            customization.firstOrNull() ?: pattern.defaultCustomization!!.first()
+        )
     }
 }
 
@@ -48,10 +55,18 @@ fun PatternApp(
     patternCode: String,
     printPattern: (lines: Int, char1: Char, char2: Char) -> Unit
 ) {
+    val pattern = remember {
+        getPatterns().find { it.code == patternCode } ?: error("Invalid patternCode: $patternCode")
+    }
+
     PatternApp(
         patternCode
     ) { lines: Int, customization: String ->
-        printPattern(lines, customization.first(), customization[1])
+        printPattern(
+            lines,
+            customization.firstOrNull() ?: pattern.defaultCustomization!!.first(),
+            customization.getOrNull(1) ?: pattern.defaultCustomization!![1]
+        )
     }
 }
 
