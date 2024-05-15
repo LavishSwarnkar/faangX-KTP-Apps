@@ -19,6 +19,7 @@ import androidx.compose.ui.window.application
 import com.faangx.ktp.LIGHT_GREEN
 import com.faangx.ktp.MiniApp
 import com.faangx.ktp.SMILE_EMOJI
+import com.faangx.ktp.comp.DynamicRowColumn
 
 fun GradeCalculatorMiniApp(
     getGrade: (Int, Int, Int, Int, Int) -> String
@@ -67,18 +68,47 @@ fun GradeCalculatorApp(
             style = MaterialTheme.typography.h5
         )
 
-        Row (
+        DynamicRowColumn(
+            Modifier.fillMaxWidth()
+                .padding(16.dp),
+            horizontalArrangement = Arrangement.spacedBy(12.dp, Alignment.CenterHorizontally),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(12.dp)
+            verticalArrangement = Arrangement.spacedBy(12.dp, Alignment.CenterVertically),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            listOf(marks1, marks2, marks3, marks4, marks5).forEach { state ->
-                OutlinedTextField(
-                    modifier = Modifier.width(80.dp),
-                    value = state.value,
-                    textStyle = MaterialTheme.typography.h5,
-                    onValueChange = { if (it.length <=3) state.value = it }
-                )
+
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                listOf(marks1, marks2).forEach { state ->
+                    OutlinedTextField(
+                        modifier = Modifier.width(80.dp),
+                        value = state.value,
+                        textStyle = MaterialTheme.typography.h5,
+                        onValueChange = { if (it.length <=3) state.value = it }
+                    )
+                }
             }
+
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                listOf(marks3, marks4).forEach { state ->
+                    OutlinedTextField(
+                        modifier = Modifier.width(80.dp),
+                        value = state.value,
+                        textStyle = MaterialTheme.typography.h5,
+                        onValueChange = { if (it.length <=3) state.value = it }
+                    )
+                }
+            }
+
+            OutlinedTextField(
+                modifier = Modifier.width(80.dp),
+                value = marks5.value,
+                textStyle = MaterialTheme.typography.h5,
+                onValueChange = { if (it.length <=3) marks5.value = it }
+            )
         }
 
         Text(
