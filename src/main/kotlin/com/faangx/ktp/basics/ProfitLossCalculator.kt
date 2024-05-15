@@ -18,10 +18,7 @@ import androidx.compose.ui.input.pointer.onPointerEvent
 import androidx.compose.ui.unit.dp
 import com.faangx.ktp.MiniApp
 import com.faangx.ktp.basics.Quantity.*
-import com.faangx.ktp.basics.ScreenSize.Large
-import com.faangx.ktp.basics.ScreenSize.Small
-import com.faangx.ktp.comp.DynamicRowColumn
-import com.faangx.ktp.comp.centerAlign
+import com.faangx.ktp.comp.*
 import kotlin.math.abs
 
 private enum class Quantity { CP, PL, AbsPL, SP }
@@ -52,30 +49,6 @@ fun ProfitLossCalculatorMiniApp(
     )
 }
 
-enum class ScreenSize { Small, Large }
-
-@Composable
-fun rememberScreenSize(): State<ScreenSize> {
-    val screenSize = remember { mutableStateOf(Small) }
-
-    BoxWithConstraints(modifier = Modifier.fillMaxWidth()) {
-        val currentMaxWidth = maxWidth
-        LaunchedEffect(currentMaxWidth) {
-            screenSize.value = if (currentMaxWidth > 600.dp) {
-                ScreenSize.Large
-            } else {
-                Small
-            }
-        }
-    }
-
-    return screenSize
-}
-
-fun State<ScreenSize>.iz(size: ScreenSize): Boolean {
-    return value == size
-}
-
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun ProfitLossCalculator(
@@ -103,7 +76,7 @@ fun ProfitLossCalculator(
 
     val screenSize = rememberScreenSize()
 
-    val showCheckBoxes = remember { mutableStateOf(screenSize.iz(Small)) }
+    val showCheckBoxes = remember { mutableStateOf(screenSize.iz(ScreenSize.Small)) }
 
     LaunchedEffect(cp.value, sp.value, pl.value, absPL.value, pORl.value) {
         when (knownQuantities.toSet()) {
@@ -179,7 +152,7 @@ fun ProfitLossCalculator(
     ) {
         DynamicRowColumn(
             Modifier.run {
-                 if (screenSize.iz(Large)) {
+                 if (screenSize.iz(ScreenSize.Large)) {
                      showCheckBoxes.value = false
                      onPointerEvent(PointerEventType.Enter) { showCheckBoxes.value = true }
                          .onPointerEvent(PointerEventType.Exit) { showCheckBoxes.value = false }
