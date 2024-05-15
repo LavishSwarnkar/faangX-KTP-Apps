@@ -1,47 +1,27 @@
 package com.faangx.ktp.basics
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.expandVertically
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Checkbox
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.input.pointer.PointerEventType
 import androidx.compose.ui.input.pointer.onPointerEvent
-import androidx.compose.ui.input.pointer.pointerMoveFilter
 import androidx.compose.ui.unit.dp
 import com.faangx.ktp.MiniApp
-import com.faangx.ktp.basics.Quantity.AbsPL
-import com.faangx.ktp.basics.Quantity.CP
-import com.faangx.ktp.basics.Quantity.PL
-import com.faangx.ktp.basics.Quantity.SP
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import com.faangx.ktp.basics.Quantity.*
+import com.faangx.ktp.basics.ScreenSize.Large
+import com.faangx.ktp.basics.ScreenSize.Small
+import com.faangx.ktp.comp.DynamicRowColumn
+import com.faangx.ktp.comp.centerAlign
 import kotlin.math.abs
 
 private enum class Quantity { CP, PL, AbsPL, SP }
@@ -72,6 +52,30 @@ fun ProfitLossCalculatorMiniApp(
     )
 }
 
+enum class ScreenSize { Small, Large }
+
+@Composable
+fun rememberScreenSize(): State<ScreenSize> {
+    val screenSize = remember { mutableStateOf(Small) }
+
+    BoxWithConstraints(modifier = Modifier.fillMaxWidth()) {
+        val currentMaxWidth = maxWidth
+        LaunchedEffect(currentMaxWidth) {
+            screenSize.value = if (currentMaxWidth > 600.dp) {
+                ScreenSize.Large
+            } else {
+                Small
+            }
+        }
+    }
+
+    return screenSize
+}
+
+fun State<ScreenSize>.iz(size: ScreenSize): Boolean {
+    return value == size
+}
+
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun ProfitLossCalculator(
@@ -97,7 +101,9 @@ fun ProfitLossCalculator(
     val sp = remember { mutableStateOf("") }
     val pORl = remember { mutableStateOf<PorL?>(null) }
 
-    val showCheckBoxes = remember { mutableStateOf(false) }
+    val screenSize = rememberScreenSize()
+
+    val showCheckBoxes = remember { mutableStateOf(screenSize.iz(Small)) }
 
     LaunchedEffect(cp.value, sp.value, pl.value, absPL.value, pORl.value) {
         when (knownQuantities.toSet()) {
@@ -171,12 +177,20 @@ fun ProfitLossCalculator(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Row(
-            modifier = Modifier
-                .onPointerEvent(PointerEventType.Enter) { showCheckBoxes.value = true }
-                .onPointerEvent(PointerEventType.Exit) { showCheckBoxes.value = false },
-            horizontalArrangement = Arrangement.spacedBy(12.dp),
-            verticalAlignment = Alignment.Bottom
+        DynamicRowColumn(
+            Modifier.run {
+                 if (screenSize.iz(Large)) {
+                     showCheckBoxes.value = false
+                     onPointerEvent(PointerEventType.Enter) { showCheckBoxes.value = true }
+                         .onPointerEvent(PointerEventType.Exit) { showCheckBoxes.value = false }
+                 } else {
+                     showCheckBoxes.value = true
+                     this
+                 }
+            },
+            horizontalArrangement = Arrangement.spacedBy(12.dp, Alignment.CenterHorizontally),
+            verticalArrangement = Arrangement.spacedBy(12.dp, Alignment.CenterVertically),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
             OptionalTextField(
@@ -188,29 +202,45 @@ fun ProfitLossCalculator(
             )
 
             Text(
-                modifier = Modifier.padding(bottom = 24.dp),
+                modifier = Modifier.padding(bottom = 24.dp)
+                    .centerAlign(this),
                 text = "+",
                 style = MaterialTheme.typography.headlineMedium
             )
 
-            OptionalTextField(
-                isChecked = knownQuantities.contains(PL),
-                onCheckChanged = { onQuantityCheckChanged(PL, it) },
-                hint = pORl.value?.name?.let { "$it %" } ?: "P/L %",
-                input = pl,
-                showCheckBoxes = showCheckBoxes
-            )
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Row {
+                    OptionalTextField(
+                        isChecked = knownQuantities.contains(PL),
+                        onCheckChanged = { onQuantityCheckChanged(PL, it) },
+                        hint = pORl.value?.name?.let { "$it %" } ?: "P/L %",
+                        input = pl,
+                        showCheckBoxes = showCheckBoxes
+                    )
 
-            OptionalTextField(
-                isChecked = knownQuantities.contains(AbsPL),
-                onCheckChanged = { onQuantityCheckChanged(AbsPL, it) },
-                hint = pORl.value?.name ?: "P/L",
-                input = absPL,
-                showCheckBoxes = showCheckBoxes
-            )
+                    OptionalTextField(
+                        isChecked = knownQuantities.contains(AbsPL),
+                        onCheckChanged = { onQuantityCheckChanged(AbsPL, it) },
+                        hint = pORl.value?.name ?: "P/L",
+                        input = absPL,
+                        showCheckBoxes = showCheckBoxes
+                    )
+                }
+
+                RadioGroup(
+                    state = pORl,
+                    options = PorL.entries.toList(),
+                    labelExtractor = { it.name },
+                    layout = Layout.Row,
+                    enabled = knownQuantities.containsAnyOf(PL, AbsPL)
+                )
+            }
 
             Text(
-                modifier = Modifier.padding(bottom = 24.dp),
+                modifier = Modifier.padding(bottom = 24.dp)
+                    .centerAlign(this),
                 text = "=",
                 style = MaterialTheme.typography.headlineMedium
             )
@@ -223,14 +253,6 @@ fun ProfitLossCalculator(
                 showCheckBoxes = showCheckBoxes
             )
         }
-
-        RadioGroup(
-            state = pORl,
-            options = PorL.entries.toList(),
-            labelExtractor = { it.name },
-            layout = Layout.Row,
-            enabled = knownQuantities.containsAnyOf(PL, AbsPL)
-        )
     }
 }
 
