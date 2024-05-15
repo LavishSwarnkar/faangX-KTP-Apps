@@ -1,14 +1,12 @@
 package com.faangx.ktp.basics
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.Text
-import androidx.compose.material.TextFieldDefaults
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
@@ -27,6 +25,7 @@ fun MaxOfTwoNumsMiniApp(
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MaxOfTwoNumsApp(
     maxOf: (Int, Int) -> Int
@@ -48,7 +47,7 @@ fun MaxOfTwoNumsApp(
     ) {
         Text(
             text = "Maximum among",
-            style = MaterialTheme.typography.h5
+            style = MaterialTheme.typography.titleLarge
         )
 
         Row (
@@ -57,26 +56,30 @@ fun MaxOfTwoNumsApp(
             OutlinedTextField(
                 modifier = Modifier.width(110.dp),
                 value = num1,
-                textStyle = MaterialTheme.typography.h5,
+                textStyle = MaterialTheme.typography.titleLarge.copy(textAlign = TextAlign.Center),
                 onValueChange = { if (it.length <= 5) num1 = it },
-                colors = TextFieldDefaults.outlinedTextFieldColors(
-                    backgroundColor = if (num1 == max.value.toString())
-                        LIGHT_GREEN else Color.Transparent
+                colors = TextFieldDefaults.colors(
+                    focusedContainerColor = if (num1 == max.value.toString())
+                        LIGHT_GREEN else Color.Transparent,
+                    unfocusedContainerColor = if (num1 == max.value.toString())
+                        LIGHT_GREEN else Color.Transparent,
                 )
             )
 
             Text(
                 text = "  &  ",
-                style = MaterialTheme.typography.h6
+                style = MaterialTheme.typography.titleLarge
             )
 
             OutlinedTextField(
                 modifier = Modifier.width(110.dp),
                 value = num2,
-                textStyle = MaterialTheme.typography.h5,
+                textStyle = MaterialTheme.typography.titleLarge.copy(textAlign = TextAlign.Center),
                 onValueChange = { if (it.length <= 5) num2 = it },
-                colors = TextFieldDefaults.outlinedTextFieldColors(
-                    backgroundColor = if (num2 == max.value.toString())
+                colors = TextFieldDefaults.colors(
+                    focusedContainerColor = if (num2 == max.value.toString())
+                        LIGHT_GREEN else Color.Transparent,
+                    unfocusedContainerColor = if (num2 == max.value.toString())
                         LIGHT_GREEN else Color.Transparent
                 )
             )
@@ -88,12 +91,12 @@ fun MaxOfTwoNumsApp(
 
             Text(
                 text = "is ",
-                style = MaterialTheme.typography.h5
+                style = MaterialTheme.typography.titleLarge
             )
 
             Text(
                 text = max.value?.toString() ?: SMILE_EMOJI,
-                style = MaterialTheme.typography.h4
+                style = MaterialTheme.typography.titleLarge
             )
         }
 
