@@ -1,19 +1,17 @@
 package com.faangx.ktp.basics
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.Text
-import androidx.compose.material.TextField
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Window
-import androidx.compose.ui.window.application
 import com.faangx.ktp.MiniApp
 import com.faangx.ktp.SMILE_EMOJI
+import com.faangx.ktp.comp.DynamicRowColumn
 
 fun PerimeterAndAreaOfRectMiniApp(
     getPerimeterOfRectangle: (Int, Int) -> Int,
@@ -53,73 +51,76 @@ fun PerimeterAndAreaOfRectApp(
         Modifier.fillMaxSize()
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterVertically)
+        verticalArrangement = Arrangement.spacedBy(4.dp, Alignment.CenterVertically)
     ) {
         Text(
             text = "Rectangle with",
-            style = MaterialTheme.typography.h5
+            style = MaterialTheme.typography.titleLarge
         )
 
-        Row (
-            verticalAlignment = Alignment.CenterVertically
+        DynamicRowColumn(
+            Modifier.fillMaxWidth()
+                .padding(16.dp),
+            horizontalArrangement = Arrangement.spacedBy(12.dp, Alignment.CenterHorizontally),
+            verticalAlignment = Alignment.CenterVertically,
+            verticalArrangement = Arrangement.spacedBy(12.dp, Alignment.CenterVertically),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(12.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "length = ",
+                    style = MaterialTheme.typography.titleLarge
+                )
+
+                OutlinedTextField(
+                    modifier = Modifier.width(100.dp),
+                    value = length,
+                    label = { Text("units") },
+                    textStyle = MaterialTheme.typography.titleLarge.copy(textAlign = TextAlign.Center),
+                    onValueChange = { if (it.length <= 4) length = it }
+                )
+            }
+
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(12.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "breadth = ",
+                    style = MaterialTheme.typography.titleLarge
+                )
+
+                OutlinedTextField(
+                    modifier = Modifier.width(100.dp),
+                    value = breadth,
+                    label = { Text("units") },
+                    textStyle = MaterialTheme.typography.titleLarge.copy(textAlign = TextAlign.Center),
+                    onValueChange = { if (it.length <= 4) breadth = it }
+                )
+            }
+        }
+
+        DynamicRowColumn(
+            Modifier.fillMaxWidth()
+                .padding(16.dp),
+            horizontalArrangement = Arrangement.spacedBy(12.dp, Alignment.CenterHorizontally),
+            verticalAlignment = Alignment.CenterVertically,
+            verticalArrangement = Arrangement.spacedBy(12.dp, Alignment.CenterVertically),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = "length = ",
-                style = MaterialTheme.typography.h5,
+                text = "has Perimeter = ${perimeter.value} units &",
+                style = MaterialTheme.typography.titleLarge,
                 textAlign = TextAlign.Center
             )
 
-            OutlinedTextField(
-                modifier = Modifier.width(100.dp),
-                value = length,
-                textStyle = MaterialTheme.typography.h5,
-                onValueChange = { if (it.length <= 4) length = it }
-            )
-
             Text(
-                text = " units & breadth = ",
-                style = MaterialTheme.typography.h5
-            )
-
-            OutlinedTextField(
-                modifier = Modifier.width(100.dp),
-                value = breadth,
-                textStyle = MaterialTheme.typography.h5,
-                onValueChange = { if (it.length <= 4) breadth = it }
-            )
-
-            Text(
-                text = " units",
-                style = MaterialTheme.typography.h5
-            )
-        }
-
-        Row (
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(
-                text = "has Perimeter = ",
-                style = MaterialTheme.typography.h5
-            )
-
-            Text(
-                text = perimeter.value.toString(),
-                style = MaterialTheme.typography.h4
-            )
-
-            Text(
-                text = " units & area = ",
-                style = MaterialTheme.typography.h5
-            )
-
-            Text(
-                text = area.value.toString(),
-                style = MaterialTheme.typography.h4
-            )
-
-            Text(
-                text = " sq. units",
-                style = MaterialTheme.typography.h5
+                text = "Area = ${area.value} sq. units",
+                style = MaterialTheme.typography.titleLarge,
+                textAlign = TextAlign.Center
             )
         }
     }
