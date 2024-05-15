@@ -1,15 +1,17 @@
 package com.faangx.ktp.basics
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.Text
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.faangx.ktp.MiniApp
 import com.faangx.ktp.SMILE_EMOJI
+import com.faangx.ktp.comp.DynamicRowColumn
+import com.faangx.ktp.comp.HighlightedText
 
 fun VoteAgeCheckerMiniApp(
     canVote: (Int) -> Boolean
@@ -33,32 +35,30 @@ fun VoteAgeChecker(
         if (eligible) "CAN Vote" else "CAN'T Vote"
     }
 
-    Row (
+    DynamicRowColumn(
         Modifier.fillMaxSize()
             .padding(16.dp),
-        horizontalArrangement = Arrangement.Center,
-        verticalAlignment = Alignment.CenterVertically
+        horizontalArrangement = Arrangement.spacedBy(12.dp, Alignment.CenterHorizontally),
+        verticalAlignment = Alignment.CenterVertically,
+        verticalArrangement = Arrangement.spacedBy(12.dp, Alignment.CenterVertically),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "Person with age  ",
-            style = MaterialTheme.typography.h5
+            text = "Person with age",
+            style = MaterialTheme.typography.titleLarge
         )
 
         OutlinedTextField(
             modifier = Modifier.width(120.dp),
+            label = { Text("years") },
             value = num,
             onValueChange = { if (it.length <= 5) num = it },
-            textStyle = MaterialTheme.typography.h5
+            textStyle = MaterialTheme.typography.titleLarge
         )
 
-        Text(
-            text = "  years",
-            style = MaterialTheme.typography.h5
-        )
-
-        Text(
+        HighlightedText(
             text = " ${result.value} ",
-            style = MaterialTheme.typography.h4
+            style = MaterialTheme.typography.titleLarge
         )
     }
 }
