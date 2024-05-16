@@ -53,7 +53,12 @@ class FunctionalityProcessor(
             fileName = interfaceName
         )
         file.bufferedWriter().use { writer ->
-            fileSpec.writeTo(writer)
+            val content = captureGeneratedCode { stringBuilder ->
+                fileSpec.writeTo(stringBuilder)
+            }
+            writer.write(
+                content.replace("public ", "")
+            )
         }
     }
 
@@ -243,7 +248,12 @@ class FunctionalityProcessor(
     private fun generateStringRepresentation(name: String, code: String): FunSpec {
         return FunSpec.builder("${name}_AsString")
             .returns(String::class)
-            .addStatement("return %P", removeImportStatements(code).trimIndent())
+            .addStatement(
+                "return %P",
+                removeImportStatements(code).trimIndent()
+                    .replace(",\n    ", ", ")
+                    .replace(",\n  ", ", ")
+            )
             .build()
     }
 
