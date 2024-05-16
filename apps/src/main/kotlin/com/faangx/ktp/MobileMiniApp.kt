@@ -10,5 +10,5 @@ class MobileMiniApp<T>(
     val functionalityFuns: String,
     val functionalityImplClassName: String,
     val packageName: String,
-    private val composable: @Composable (T) -> Unit
+    val composable: @Composable (T) -> Unit
 )
