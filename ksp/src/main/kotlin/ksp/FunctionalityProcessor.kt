@@ -160,7 +160,7 @@ class FunctionalityProcessor(
         }
 
         val typeSpec = implClassBuilder.build()
-        fileSpecBuilder.addType(typeSpec)
+//        fileSpecBuilder.addType(typeSpec)
 
         return captureGeneratedCode { stringBuilder ->
             FileSpec.builder("", "")
