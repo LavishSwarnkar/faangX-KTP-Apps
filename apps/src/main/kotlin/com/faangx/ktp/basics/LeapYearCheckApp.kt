@@ -17,17 +17,6 @@ import com.faangx.ktp.comp.DynamicRowColumn
 import com.faangx.ktp.comp.HighlightedText
 import ksp.MiniApp
 
-fun LeapYearCheckerMiniApp(
-    isLeapYear: (Int) -> Boolean
-) {
-    MiniApp(
-        title = "Leap Year Checker",
-        composable = {
-            LeapYearChecker(isLeapYear)
-        }
-    )
-}
-
 @MiniApp("Leap Year Checker", "age")
 @Composable
 fun LeapYearChecker(

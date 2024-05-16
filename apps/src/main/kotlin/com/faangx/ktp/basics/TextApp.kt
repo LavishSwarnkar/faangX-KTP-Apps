@@ -11,17 +11,6 @@ import androidx.compose.ui.Modifier
 import com.faangx.ktp.MiniApp
 import ksp.MiniApp
 
-fun TextMiniApp(
-    getText: () -> String
-) {
-    MiniApp(
-        title = "Text App",
-        composable = {
-            TextApp(getText)
-        }
-    )
-}
-
 @MiniApp("Text App")
 @Composable
 fun TextApp(

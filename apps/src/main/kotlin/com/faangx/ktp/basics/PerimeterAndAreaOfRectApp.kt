@@ -14,20 +14,6 @@ import com.faangx.ktp.SMILE_EMOJI
 import com.faangx.ktp.comp.DynamicRowColumn
 import ksp.MiniApp
 
-fun PerimeterAndAreaOfRectMiniApp(
-    getPerimeterOfRectangle: (Int, Int) -> Int,
-    getAreaOfRectangle: (Int, Int) -> Int
-) {
-    MiniApp(
-        title = "Perimeter & Area of Rectangle",
-        composable = {
-            PerimeterAndAreaOfRectApp(
-                getPerimeterOfRectangle, getAreaOfRectangle
-            )
-        }
-    )
-}
-
 @MiniApp(
     "Perimeter & Area of Rectangle",
     "l, b; l, b"

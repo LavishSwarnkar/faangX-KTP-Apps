@@ -20,17 +20,6 @@ import com.faangx.ktp.comp.iz
 import com.faangx.ktp.comp.rememberScreenSize
 import ksp.MiniApp
 
-fun MaxOfThreeNumsMiniApp(
-    maxOf: (Int, Int, Int) -> Int
-) {
-    MiniApp(
-        title = "Max of three Nums",
-        composable = {
-            MaxOfThreeNumsApp(maxOf)
-        }
-    )
-}
-
 @MiniApp("Max of three Nums", "x, y, z")
 @Composable
 fun MaxOfThreeNumsApp(

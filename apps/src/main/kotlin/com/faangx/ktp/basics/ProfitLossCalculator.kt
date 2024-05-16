@@ -25,31 +25,6 @@ import kotlin.math.abs
 private enum class Quantity { CP, PL, AbsPL, SP }
 private enum class PorL { Profit, Loss }
 
-fun ProfitLossCalculatorMiniApp(
-    getSp1: (cp: Int, pl: Int) -> Int,
-    getSp2: (cp: Int, absPL: Int) -> Int,
-
-    getCp1: (sp: Int, pl: Int) -> Int,
-    getCp2: (sp: Int, absPL: Int) -> Int,
-
-    getPl1: (cp: Int, sp: Int) -> Int,
-    getPl2: (cp: Int, absPL: Int) -> Int,
-    getPl3: (sp: Int, absPL: Int) -> Int,
-
-    getAbsPL1: (cp: Int, sp: Int) -> Int,
-    getAbsPL2: (cp: Int, pl: Int) -> Int,
-    getAbsPL3: (sp: Int, pl: Int) -> Int,
-) {
-    MiniApp(
-        title = "Profit & Loss Calculator",
-        composable = {
-            ProfitLossCalculator(
-                getSp1, getSp2, getCp1, getCp2, getPl1, getPl2, getPl3, getAbsPL1, getAbsPL2, getAbsPL3
-            )
-        }
-    )
-}
-
 @MiniApp(
     "Profit & Loss Calculator",
     "cp, pl; cp, absPL; sp, pl; sp, absPL; cp, sp; cp, absPL; sp, absPL; cp, sp; cp, pl; sp, pl"

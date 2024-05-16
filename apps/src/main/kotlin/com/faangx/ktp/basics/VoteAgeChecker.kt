@@ -14,17 +14,6 @@ import com.faangx.ktp.comp.DynamicRowColumn
 import com.faangx.ktp.comp.HighlightedText
 import ksp.MiniApp
 
-fun VoteAgeCheckerMiniApp(
-    canVote: (Int) -> Boolean
-) {
-    MiniApp(
-        title = "Vote Age Checker",
-        composable = {
-            VoteAgeChecker(canVote)
-        }
-    )
-}
-
 @MiniApp(
     "Vote Age Checker", "age"
 )

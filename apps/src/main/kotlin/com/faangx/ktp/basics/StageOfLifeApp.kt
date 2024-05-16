@@ -14,17 +14,6 @@ import com.faangx.ktp.comp.DynamicRowColumn
 import com.faangx.ktp.comp.HighlightedText
 import ksp.MiniApp
 
-fun StageOfLifeMiniApp(
-    stageOfLife: (Int) -> String
-) {
-    MiniApp(
-        title = "Stage of Life",
-        composable = {
-            StageOfLifeApp(stageOfLife)
-        }
-    )
-}
-
 @MiniApp("Stage of Life", "age")
 @Composable
 fun StageOfLifeApp(

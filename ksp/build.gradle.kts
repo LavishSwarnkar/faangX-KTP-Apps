@@ -26,8 +26,9 @@ repositories {
 dependencies {
     implementation("com.google.devtools.ksp:symbol-processing-api:1.9.20-1.0.14")
 
-    implementation("com.squareup:kotlinpoet:1.9.0")
-    implementation("com.squareup:kotlinpoet-metadata:1.9.0")
+    implementation("com.squareup:kotlinpoet:1.12.0")
+    implementation("com.squareup:kotlinpoet-metadata:1.12.0")
+    implementation("com.squareup:kotlinpoet-ksp:1.12.0")
 
     implementation("com.facebook:ktfmt:0.49")
 

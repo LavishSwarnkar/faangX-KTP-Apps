@@ -3,6 +3,7 @@ import com.google.devtools.ksp.symbol.*
 import com.google.devtools.ksp.validate
 import com.squareup.kotlinpoet.*
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
+import com.squareup.kotlinpoet.ksp.toTypeName
 import ksp.KtFmtFormatter
 import ksp.MiniApp
 
@@ -120,7 +121,7 @@ class FunctionalityProcessor(
                 .addStatement("TODO()")
                 .build()
 
-            fileSpecBuilder.addFunction(funSpec)
+//            fileSpecBuilder.addFunction(funSpec)
             topLevelFunctionsCode.append(
                 captureGeneratedCode { stringBuilder ->
                     FileSpec.builder("", "")
@@ -194,13 +195,20 @@ class FunctionalityProcessor(
         // Generate parameter list with correct types
         val parameters = function.parameters.map { param ->
             val paramName = param.name?.asString() ?: ""
-            val paramType = param.type.resolve().arguments[0].type?.resolve()?.declaration?.simpleName?.asString() ?: "Any"
-            ParameterSpec.builder(paramName, LambdaTypeName.get(returnType = ClassName("", "Unit"), parameters = *arrayOf(ClassName("", paramType)))).build()
+            val paramType = param.type.resolve()
+            val paramTypeName = if (paramType.declaration.qualifiedName?.asString() == "kotlin.Function0") {
+                LambdaTypeName.get(
+                    returnType = paramType.arguments[0].type?.resolve()?.toTypeName() ?: UNIT
+                )
+            } else {
+                paramType.toTypeName()
+            }
+            ParameterSpec.builder(paramName, paramTypeName).build()
         }
 
         // Generate parameter names for lambda invocation
         val lambdaParameters = function.parameters.joinToString(", ") { parameter ->
-            "::${parameter.name?.asString()}"
+            "${parameter.name?.asString()}"
         }
 
         val funSpec = FunSpec.builder(miniAppFunctionName)
