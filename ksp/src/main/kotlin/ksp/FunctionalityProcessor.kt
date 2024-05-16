@@ -2,6 +2,7 @@ import com.google.devtools.ksp.processing.*
 import com.google.devtools.ksp.symbol.*
 import com.google.devtools.ksp.validate
 import com.squareup.kotlinpoet.*
+import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import ksp.MiniApp
 
 class FunctionalityProcessor(
@@ -38,6 +39,7 @@ class FunctionalityProcessor(
         val implClassCode = generateImplClass(function, packageName, interfaceName, implClassName, fileSpecBuilder)
         generateComposableFunction(function, interfaceName, fileSpecBuilder)
         generateMiniAppComposableFunction(function, nameArg, fileSpecBuilder)
+        generateMobileMiniAppFunction(function, nameArg, fileSpecBuilder)
 
         fileSpecBuilder.addFunction(generateStringRepresentation("${interfaceName}_Interface", interfaceCode))
         fileSpecBuilder.addFunction(generateStringRepresentation("${interfaceName}_Impl", implClassCode))
@@ -136,14 +138,13 @@ class FunctionalityProcessor(
 
     private fun generateComposableFunction(function: KSFunctionDeclaration, interfaceName: String, fileSpecBuilder: FileSpec.Builder) {
         val functionName = function.simpleName.asString()
-        val composableFunctionName = functionName.replaceFirstChar { it.lowercaseChar() }
 
         val parameters = function.parameters.joinToString(", ") { parameter ->
             val paramName = parameter.name?.asString() ?: return@joinToString ""
             "$paramName = functionality::${paramName}1"
         }
 
-        val funSpec = FunSpec.builder(composableFunctionName)
+        val funSpec = FunSpec.builder(functionName)
             .addAnnotation(ClassName("androidx.compose.runtime", "Composable"))
             .addParameter("functionality", ClassName("", interfaceName))
             .addStatement("$functionName($parameters)")
@@ -179,6 +180,34 @@ class FunctionalityProcessor(
                 }
             )
             """.trimIndent(), name
+            )
+            .build()
+
+        fileSpecBuilder.addFunction(funSpec)
+        fileSpecBuilder.addImport("com.faangx.ktp", "MiniApp")
+    }
+
+    private fun generateMobileMiniAppFunction(function: KSFunctionDeclaration, name: String, fileSpecBuilder: FileSpec.Builder) {
+        val functionName = function.simpleName.asString()
+        val miniAppFunctionName = functionName.replaceFirstChar { it.lowercaseChar() }
+        val interfaceName = "${functionName}Functionality"
+        val packageName = function.packageName.asString()
+
+        val funSpec = FunSpec.builder(miniAppFunctionName + "_MobileMiniApp")
+            .returns(ClassName("com.faangx.ktp", "MobileMiniApp").parameterizedBy(ClassName(packageName, interfaceName)))
+            .addStatement(
+                """
+            return MobileMiniApp(
+                label = %S,
+                functionalityClass = %L::class.java,
+                functionalityInterface = ${interfaceName}_Interface_AsString(),
+                functionalityImpl = ${interfaceName}_Impl_AsString(),
+                functionalityFuns = ${interfaceName}_Funs_AsString(),
+                functionalityImplClassName = %S,
+                packageName = %S,
+                composable = { $functionName(it) }
+            )
+            """.trimIndent(), name, interfaceName, "${interfaceName}Impl", packageName
             )
             .build()
 
