@@ -50,7 +50,10 @@ fun ProfitLossCalculatorMiniApp(
     )
 }
 
-@MiniApp("Profit & Loss Calculator")
+@MiniApp(
+    "Profit & Loss Calculator",
+    "cp, pl; cp, absPL; sp, pl; sp, absPL; cp, sp; cp, absPL; sp, absPL; cp, sp; cp, pl; sp, pl"
+)
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun ProfitLossCalculator(

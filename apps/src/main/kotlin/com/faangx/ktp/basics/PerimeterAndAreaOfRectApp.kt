@@ -28,7 +28,10 @@ fun PerimeterAndAreaOfRectMiniApp(
     )
 }
 
-@MiniApp("Perimeter & Area of Rectangle")
+@MiniApp(
+    "Perimeter & Area of Rectangle",
+    "l, b; l, b"
+)
 @Composable
 fun PerimeterAndAreaOfRectApp(
     getPerimeterOfRectangle: (Int, Int) -> Int,

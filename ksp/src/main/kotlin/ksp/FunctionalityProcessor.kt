@@ -26,6 +26,7 @@ class FunctionalityProcessor(
     private fun processFunction(function: KSFunctionDeclaration) {
         val miniAppAnnotation = function.annotations.find { it.shortName.asString() == "MiniApp" }
         val nameArg = miniAppAnnotation?.arguments?.find { it.name?.asString() == "name" }?.value as? String ?: ""
+        val paramNamesArg = miniAppAnnotation?.arguments?.find { it.name?.asString() == "paramNames" }?.value as? String ?: ""
 
         val packageName = function.packageName.asString()
         val functionName = function.simpleName.asString()
@@ -34,9 +35,9 @@ class FunctionalityProcessor(
 
         val fileSpecBuilder = FileSpec.builder(packageName, interfaceName)
 
-        val interfaceCode = generateInterface(function, interfaceName, fileSpecBuilder)
-        val topLevelFunctionsCode = generateTopLevelFunctions(function, fileSpecBuilder)
-        val implClassCode = generateImplClass(function, packageName, interfaceName, implClassName, fileSpecBuilder)
+        val interfaceCode = generateInterface(function, interfaceName, paramNamesArg, fileSpecBuilder)
+        val topLevelFunctionsCode = generateTopLevelFunctions(function, paramNamesArg, fileSpecBuilder)
+        val implClassCode = generateImplClass(function, interfaceName, implClassName, paramNamesArg, fileSpecBuilder)
         generateComposableFunction(function, interfaceName, fileSpecBuilder)
         generateMiniAppComposableFunction(function, nameArg, fileSpecBuilder)
         generateMobileMiniAppFunction(function, nameArg, fileSpecBuilder)
@@ -56,16 +57,25 @@ class FunctionalityProcessor(
         }
     }
 
-    private fun generateInterface(function: KSFunctionDeclaration, interfaceName: String, fileSpecBuilder: FileSpec.Builder): String {
+    private fun generateInterface(function: KSFunctionDeclaration, interfaceName: String, paramNames: String, fileSpecBuilder: FileSpec.Builder): String {
         val interfaceBuilder = TypeSpec.interfaceBuilder(interfaceName)
 
-        function.parameters.forEach { parameter ->
-            val paramName = parameter.name?.asString() ?: return@forEach
+        // Split paramNames into individual parameter lists for each function
+        val paramNamesList = paramNames.split(";").map { it.trim() }
+
+        function.parameters.forEachIndexed { index, parameter ->
+            val paramName = parameter.name?.asString() ?: return@forEachIndexed
             val functionSignature = getFunctionSignature(parameter, suffix = "1")
+            val paramInputNames = paramNamesList.getOrNull(index)?.split(",")?.map { it.trim() } ?: listOf("param")
+
+            val parameters = functionSignature.first.mapIndexed { idx, paramSpec ->
+                paramSpec.toBuilder(paramInputNames[idx], paramSpec.type).build()
+            }
+
             interfaceBuilder.addFunction(
                 FunSpec.builder(paramName + "1")
                     .addModifiers(KModifier.ABSTRACT)
-                    .addParameters(functionSignature.first)
+                    .addParameters(parameters)
                     .returns(functionSignature.second)
                     .build()
             )
@@ -82,14 +92,21 @@ class FunctionalityProcessor(
         }
     }
 
-    private fun generateTopLevelFunctions(function: KSFunctionDeclaration, fileSpecBuilder: FileSpec.Builder): String {
+    private fun generateTopLevelFunctions(function: KSFunctionDeclaration, paramNames: String, fileSpecBuilder: FileSpec.Builder): String {
         val topLevelFunctionsCode = StringBuilder()
+        val paramNamesList = paramNames.split(";").map { it.trim() }
 
-        function.parameters.forEach { parameter ->
-            val paramName = parameter.name?.asString() ?: return@forEach
+        function.parameters.forEachIndexed { index, parameter ->
+            val paramName = parameter.name?.asString() ?: return@forEachIndexed
             val functionSignature = getFunctionSignature(parameter)
+            val paramInputNames = paramNamesList.getOrNull(index)?.split(",")?.map { it.trim() } ?: listOf("param")
+
+            val parameters = functionSignature.first.mapIndexed { idx, paramSpec ->
+                paramSpec.toBuilder(paramInputNames[idx], paramSpec.type).build()
+            }
+
             val funSpec = FunSpec.builder(paramName)
-                .addParameters(functionSignature.first)
+                .addParameters(parameters)
                 .returns(functionSignature.second)
                 .addStatement("TODO()")
                 .build()
@@ -105,22 +122,30 @@ class FunctionalityProcessor(
             )
         }
 
-        return topLevelFunctionsCode.toString()
+        return topLevelFunctionsCode.toString().trim()
     }
 
-    private fun generateImplClass(function: KSFunctionDeclaration, packageName: String, interfaceName: String, implClassName: String, fileSpecBuilder: FileSpec.Builder): String {
+    private fun generateImplClass(function: KSFunctionDeclaration, interfaceName: String, implClassName: String, paramNames: String, fileSpecBuilder: FileSpec.Builder): String {
+        val packageName = function.packageName.asString()
         val implClassBuilder = TypeSpec.classBuilder(implClassName)
             .addSuperinterface(ClassName(packageName, interfaceName))
+        val paramNamesList = paramNames.split(";").map { it.trim() }
 
-        function.parameters.forEach { parameter ->
-            val paramName = parameter.name?.asString() ?: return@forEach
+        function.parameters.forEachIndexed { index, parameter ->
+            val paramName = parameter.name?.asString() ?: return@forEachIndexed
             val functionSignature = getFunctionSignature(parameter, suffix = "1")
+            val paramInputNames = paramNamesList.getOrNull(index)?.split(",")?.map { it.trim() } ?: listOf("param")
+
+            val parameters = functionSignature.first.mapIndexed { idx, paramSpec ->
+                paramSpec.toBuilder(paramInputNames[idx], paramSpec.type).build()
+            }
+
             implClassBuilder.addFunction(
                 FunSpec.builder(paramName + "1")
                     .addModifiers(KModifier.OVERRIDE)
-                    .addParameters(functionSignature.first)
+                    .addParameters(parameters)
                     .returns(functionSignature.second)
-                    .addStatement("return $paramName(${functionSignature.first.joinToString(", ") { it.name }})")
+                    .addStatement("return $paramName(${paramInputNames.joinToString(", ")})")
                     .build()
             )
         }

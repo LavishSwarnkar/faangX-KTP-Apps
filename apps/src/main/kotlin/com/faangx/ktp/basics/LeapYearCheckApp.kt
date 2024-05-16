@@ -28,7 +28,7 @@ fun LeapYearCheckerMiniApp(
     )
 }
 
-@MiniApp("Leap Year Checker")
+@MiniApp("Leap Year Checker", "age")
 @Composable
 fun LeapYearChecker(
     isLeapYear: (Int) -> Boolean

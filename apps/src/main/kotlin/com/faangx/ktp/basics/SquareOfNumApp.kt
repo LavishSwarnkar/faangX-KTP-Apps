@@ -36,7 +36,9 @@ fun SquareOfNumMiniAppV1(
     )
 }
 
-@MiniApp("Square Of a Number")
+@MiniApp(
+    "Square Of a Number", "num"
+)
 @Composable
 fun SquareOfNumApp(
     getSquareOf: (Int) -> Int
@@ -46,7 +48,9 @@ fun SquareOfNumApp(
     }
 }
 
-@MiniApp("Square Of a Number")
+@MiniApp(
+    "Square Of a Number", "num"
+)
 @Composable
 fun SquareOfNumAppV1(
     getSquareOf: (Long) -> Long

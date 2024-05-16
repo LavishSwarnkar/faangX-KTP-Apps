@@ -24,7 +24,7 @@ fun MaxOfTwoNumsMiniApp(
     )
 }
 
-@MiniApp("Max of two Nums")
+@MiniApp("Max of two Nums", "x, y")
 @Composable
 fun MaxOfTwoNumsApp(
     maxOf: (Int, Int) -> Int

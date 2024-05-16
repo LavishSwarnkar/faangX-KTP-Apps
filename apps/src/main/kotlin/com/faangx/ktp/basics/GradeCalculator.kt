@@ -28,7 +28,7 @@ fun GradeCalculatorMiniApp(
     )
 }
 
-@MiniApp("Grade Calculator")
+@MiniApp("Grade Calculator", "m1, m2, m3, m4, m5")
 @Composable
 fun GradeCalculatorApp(
     getGrade: (Int, Int, Int, Int, Int) -> String

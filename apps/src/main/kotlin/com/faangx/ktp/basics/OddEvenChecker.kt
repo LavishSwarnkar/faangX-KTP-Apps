@@ -26,7 +26,7 @@ fun OddEvenCheckerMiniApp(
     )
 }
 
-@MiniApp("Odd Even Checker")
+@MiniApp("Odd Even Checker", "num")
 @Composable
 fun OddEvenChecker(
     checkEvenOdd: (Int) -> String

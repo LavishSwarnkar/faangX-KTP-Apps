@@ -31,7 +31,7 @@ fun MaxOfThreeNumsMiniApp(
     )
 }
 
-@MiniApp("Max of three Nums")
+@MiniApp("Max of three Nums", "x, y, z")
 @Composable
 fun MaxOfThreeNumsApp(
     maxOf: (Int, Int, Int) -> Int

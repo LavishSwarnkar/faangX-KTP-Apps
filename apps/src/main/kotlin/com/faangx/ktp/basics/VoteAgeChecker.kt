@@ -25,7 +25,9 @@ fun VoteAgeCheckerMiniApp(
     )
 }
 
-@MiniApp("Vote Age Checker")
+@MiniApp(
+    "Vote Age Checker", "age"
+)
 @Composable
 fun VoteAgeChecker(
     canVote: (Int) -> Boolean

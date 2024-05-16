@@ -25,7 +25,7 @@ fun StageOfLifeMiniApp(
     )
 }
 
-@MiniApp("Stage of Life")
+@MiniApp("Stage of Life", "age")
 @Composable
 fun StageOfLifeApp(
     stageOfLife: (Int) -> String

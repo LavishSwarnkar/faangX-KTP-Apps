@@ -46,7 +46,10 @@ fun SimpleInterestCalculatorMiniAppV1(
     )
 }
 
-@MiniApp("Simple Interest Calculator")
+@MiniApp(
+    "Simple Interest Calculator",
+    "principal, rate, time"
+)
 @Composable
 fun SimpleInterestCalculator(
     calculateInterest: (
