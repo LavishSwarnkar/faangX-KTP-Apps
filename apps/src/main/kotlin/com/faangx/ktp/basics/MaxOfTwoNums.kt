@@ -8,12 +8,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Window
-import androidx.compose.ui.window.application
 import com.faangx.ktp.LIGHT_GREEN
 import com.faangx.ktp.MiniApp
 import com.faangx.ktp.SMILE_EMOJI
-import ksp.GenerateFunctionality
+import ksp.MiniApp
 
 fun MaxOfTwoNumsMiniApp(
     maxOf: (Int, Int) -> Int
@@ -26,7 +24,7 @@ fun MaxOfTwoNumsMiniApp(
     )
 }
 
-@GenerateFunctionality
+@MiniApp("Max of two Nums")
 @Composable
 fun MaxOfTwoNumsApp(
     maxOf: (Int, Int) -> Int

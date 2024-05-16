@@ -13,7 +13,7 @@ import com.faangx.ktp.MiniApp
 import com.faangx.ktp.SMILE_EMOJI
 import com.faangx.ktp.comp.DynamicRowColumn
 import com.faangx.ktp.comp.HighlightedText
-import ksp.GenerateFunctionality
+import ksp.MiniApp
 
 fun OddEvenCheckerMiniApp(
     checkEvenOdd: (Int) -> String
@@ -26,7 +26,7 @@ fun OddEvenCheckerMiniApp(
     )
 }
 
-@GenerateFunctionality
+@MiniApp("Odd Even Checker")
 @Composable
 fun OddEvenChecker(
     checkEvenOdd: (Int) -> String

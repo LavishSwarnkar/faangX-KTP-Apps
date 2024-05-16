@@ -12,7 +12,7 @@ import com.faangx.ktp.MiniApp
 import com.faangx.ktp.SMILE_EMOJI
 import com.faangx.ktp.comp.DynamicRowColumn
 import com.faangx.ktp.comp.HighlightedText
-import ksp.GenerateFunctionality
+import ksp.MiniApp
 
 fun VoteAgeCheckerMiniApp(
     canVote: (Int) -> Boolean
@@ -25,7 +25,7 @@ fun VoteAgeCheckerMiniApp(
     )
 }
 
-@GenerateFunctionality
+@MiniApp("Vote Age Checker")
 @Composable
 fun VoteAgeChecker(
     canVote: (Int) -> Boolean

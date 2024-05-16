@@ -9,7 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.faangx.ktp.MiniApp
-import ksp.GenerateFunctionality
+import ksp.MiniApp
 
 fun TextMiniApp(
     getText: () -> String
@@ -22,7 +22,7 @@ fun TextMiniApp(
     )
 }
 
-@GenerateFunctionality
+@MiniApp("Text App")
 @Composable
 fun TextApp(
     getText: () -> String

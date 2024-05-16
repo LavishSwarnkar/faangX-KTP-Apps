@@ -2,7 +2,7 @@ import com.google.devtools.ksp.processing.*
 import com.google.devtools.ksp.symbol.*
 import com.google.devtools.ksp.validate
 import com.squareup.kotlinpoet.*
-import ksp.GenerateFunctionality
+import ksp.MiniApp
 
 class FunctionalityProcessor(
     private val codeGenerator: CodeGenerator,
@@ -10,7 +10,7 @@ class FunctionalityProcessor(
 ) : SymbolProcessor {
 
     override fun process(resolver: Resolver): List<KSAnnotated> {
-        val symbols = resolver.getSymbolsWithAnnotation(GenerateFunctionality::class.qualifiedName!!)
+        val symbols = resolver.getSymbolsWithAnnotation(MiniApp::class.qualifiedName!!)
             .filterIsInstance<KSFunctionDeclaration>()
 
         symbols.forEach { symbol ->
@@ -23,6 +23,9 @@ class FunctionalityProcessor(
     }
 
     private fun processFunction(function: KSFunctionDeclaration) {
+        val miniAppAnnotation = function.annotations.find { it.shortName.asString() == "MiniApp" }
+        val nameArg = miniAppAnnotation?.arguments?.find { it.name?.asString() == "name" }?.value as? String ?: ""
+
         val packageName = function.packageName.asString()
         val functionName = function.simpleName.asString()
         val interfaceName = "${functionName}Functionality"
@@ -34,6 +37,7 @@ class FunctionalityProcessor(
         val topLevelFunctionsCode = generateTopLevelFunctions(function, fileSpecBuilder)
         val implClassCode = generateImplClass(function, packageName, interfaceName, implClassName, fileSpecBuilder)
         generateComposableFunction(function, interfaceName, fileSpecBuilder)
+        generateMiniAppComposableFunction(function, nameArg, fileSpecBuilder)
 
         fileSpecBuilder.addFunction(generateStringRepresentation("${interfaceName}_Interface", interfaceCode))
         fileSpecBuilder.addFunction(generateStringRepresentation("${interfaceName}_Impl", implClassCode))
@@ -146,6 +150,40 @@ class FunctionalityProcessor(
             .build()
 
         fileSpecBuilder.addFunction(funSpec)
+    }
+
+    private fun generateMiniAppComposableFunction(function: KSFunctionDeclaration, name: String, fileSpecBuilder: FileSpec.Builder) {
+        val functionName = function.simpleName.asString()
+        val miniAppFunctionName = functionName + "MiniApp"
+
+        // Generate parameter list with correct types
+        val parameters = function.parameters.map { param ->
+            val paramName = param.name?.asString() ?: ""
+            val paramType = param.type.resolve().arguments[0].type?.resolve()?.declaration?.simpleName?.asString() ?: "Any"
+            ParameterSpec.builder(paramName, LambdaTypeName.get(returnType = ClassName("", "Unit"), parameters = *arrayOf(ClassName("", paramType)))).build()
+        }
+
+        // Generate parameter names for lambda invocation
+        val lambdaParameters = function.parameters.joinToString(", ") { parameter ->
+            "::${parameter.name?.asString()}"
+        }
+
+        val funSpec = FunSpec.builder(miniAppFunctionName)
+            .addParameters(parameters)
+            .addStatement(
+                """
+            MiniApp(
+                title = %S,
+                composable = {
+                    $functionName($lambdaParameters)
+                }
+            )
+            """.trimIndent(), name
+            )
+            .build()
+
+        fileSpecBuilder.addFunction(funSpec)
+        fileSpecBuilder.addImport("com.faangx.ktp", "MiniApp")
     }
 
     private fun generateStringRepresentation(name: String, code: String): FunSpec {

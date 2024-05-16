@@ -12,7 +12,7 @@ import androidx.compose.ui.unit.dp
 import com.faangx.ktp.MiniApp
 import com.faangx.ktp.SMILE_EMOJI
 import com.faangx.ktp.comp.DynamicRowColumn
-import ksp.GenerateFunctionality
+import ksp.MiniApp
 
 fun PerimeterAndAreaOfRectMiniApp(
     getPerimeterOfRectangle: (Int, Int) -> Int,
@@ -28,7 +28,7 @@ fun PerimeterAndAreaOfRectMiniApp(
     )
 }
 
-@GenerateFunctionality
+@MiniApp("Perimeter & Area of Rectangle")
 @Composable
 fun PerimeterAndAreaOfRectApp(
     getPerimeterOfRectangle: (Int, Int) -> Int,

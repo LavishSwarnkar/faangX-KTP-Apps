@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.faangx.ktp.MiniApp
 import com.faangx.ktp.SMILE_EMOJI
-import ksp.GenerateFunctionality
+import ksp.MiniApp
 
 fun SimpleInterestCalculatorMiniApp(
     calculateInterest: (
@@ -46,7 +46,7 @@ fun SimpleInterestCalculatorMiniAppV1(
     )
 }
 
-@GenerateFunctionality
+@MiniApp("Simple Interest Calculator")
 @Composable
 fun SimpleInterestCalculator(
     calculateInterest: (
