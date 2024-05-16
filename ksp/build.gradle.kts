@@ -16,6 +16,8 @@ dependencies {
     implementation("com.squareup:kotlinpoet:1.9.0")
     implementation("com.squareup:kotlinpoet-metadata:1.9.0")
 
+    implementation("com.facebook:ktfmt:0.49")
+
     testImplementation("org.jetbrains.kotlin:kotlin-test")
 }
 

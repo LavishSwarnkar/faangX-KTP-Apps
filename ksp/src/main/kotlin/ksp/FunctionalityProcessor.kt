@@ -3,6 +3,7 @@ import com.google.devtools.ksp.symbol.*
 import com.google.devtools.ksp.validate
 import com.squareup.kotlinpoet.*
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
+import ksp.KtFmtFormatter
 import ksp.MiniApp
 
 class FunctionalityProcessor(
@@ -53,9 +54,10 @@ class FunctionalityProcessor(
             fileName = interfaceName
         )
         file.bufferedWriter().use { writer ->
-            val content = captureGeneratedCode { stringBuilder ->
+            var content = captureGeneratedCode { stringBuilder ->
                 fileSpec.writeTo(stringBuilder)
             }
+            content = KtFmtFormatter.formatCode(content)
             writer.write(
                 content.replace("public ", "")
             )
