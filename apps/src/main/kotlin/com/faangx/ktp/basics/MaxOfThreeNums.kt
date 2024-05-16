@@ -18,6 +18,7 @@ import com.faangx.ktp.comp.DynamicRowColumn
 import com.faangx.ktp.comp.ScreenSize
 import com.faangx.ktp.comp.iz
 import com.faangx.ktp.comp.rememberScreenSize
+import ksp.GenerateFunctionality
 
 fun MaxOfThreeNumsMiniApp(
     maxOf: (Int, Int, Int) -> Int
@@ -30,6 +31,7 @@ fun MaxOfThreeNumsMiniApp(
     )
 }
 
+@GenerateFunctionality
 @Composable
 fun MaxOfThreeNumsApp(
     maxOf: (Int, Int, Int) -> Int

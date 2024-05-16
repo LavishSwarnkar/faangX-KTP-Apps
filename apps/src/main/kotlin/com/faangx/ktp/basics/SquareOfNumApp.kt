@@ -12,6 +12,7 @@ import androidx.compose.ui.unit.dp
 import com.faangx.ktp.MiniApp
 import com.faangx.ktp.SMILE_EMOJI
 import com.faangx.ktp.comp.DynamicRowColumn
+import ksp.GenerateFunctionality
 
 fun SquareOfNumMiniApp(
     getSquareOf: (Int) -> Int
@@ -35,6 +36,7 @@ fun SquareOfNumMiniAppV1(
     )
 }
 
+@GenerateFunctionality
 @Composable
 fun SquareOfNumApp(
     getSquareOf: (Int) -> Int
@@ -44,6 +46,7 @@ fun SquareOfNumApp(
     }
 }
 
+@GenerateFunctionality
 @Composable
 fun SquareOfNumAppV1(
     getSquareOf: (Long) -> Long

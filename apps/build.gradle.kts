@@ -3,6 +3,7 @@ import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 plugins {
     kotlin("jvm")
     id("org.jetbrains.compose")
+    id("com.google.devtools.ksp") version "1.9.20-1.0.14"
     `maven-publish`
 }
 
@@ -43,6 +44,10 @@ dependencies {
     implementation("org.jetbrains.compose.material3:material3-desktop:1.6.0")
     implementation("com.github.The-Streamliners.DroidLibs:compose:1.2.14")
     implementation("com.github.The-Streamliners.DroidLibs:utils:1.2.14")
+
+    implementation(project(":ksp"))
+    ksp(project(":ksp"))
+
     testImplementation("org.jetbrains.kotlin:kotlin-test")
     testImplementation("org.junit.jupiter:junit-jupiter-params:5.6.3")
 }

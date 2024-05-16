@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import com.faangx.ktp.MiniApp
 import com.faangx.ktp.basics.Quantity.*
 import com.faangx.ktp.comp.*
+import ksp.GenerateFunctionality
 import kotlin.math.abs
 
 private enum class Quantity { CP, PL, AbsPL, SP }
@@ -49,6 +50,7 @@ fun ProfitLossCalculatorMiniApp(
     )
 }
 
+@GenerateFunctionality
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun ProfitLossCalculator(

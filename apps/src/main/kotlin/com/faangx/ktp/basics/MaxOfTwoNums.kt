@@ -13,6 +13,7 @@ import androidx.compose.ui.window.application
 import com.faangx.ktp.LIGHT_GREEN
 import com.faangx.ktp.MiniApp
 import com.faangx.ktp.SMILE_EMOJI
+import ksp.GenerateFunctionality
 
 fun MaxOfTwoNumsMiniApp(
     maxOf: (Int, Int) -> Int
@@ -25,7 +26,7 @@ fun MaxOfTwoNumsMiniApp(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@GenerateFunctionality
 @Composable
 fun MaxOfTwoNumsApp(
     maxOf: (Int, Int) -> Int

@@ -12,6 +12,7 @@ import com.faangx.ktp.MiniApp
 import com.faangx.ktp.SMILE_EMOJI
 import com.faangx.ktp.comp.DynamicRowColumn
 import com.faangx.ktp.comp.HighlightedText
+import ksp.GenerateFunctionality
 
 fun StageOfLifeMiniApp(
     stageOfLife: (Int) -> String
@@ -24,6 +25,7 @@ fun StageOfLifeMiniApp(
     )
 }
 
+@GenerateFunctionality
 @Composable
 fun StageOfLifeApp(
     stageOfLife: (Int) -> String

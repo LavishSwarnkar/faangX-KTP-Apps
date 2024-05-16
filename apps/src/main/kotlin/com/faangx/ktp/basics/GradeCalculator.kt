@@ -20,6 +20,7 @@ import com.faangx.ktp.LIGHT_GREEN
 import com.faangx.ktp.MiniApp
 import com.faangx.ktp.SMILE_EMOJI
 import com.faangx.ktp.comp.DynamicRowColumn
+import ksp.GenerateFunctionality
 
 fun GradeCalculatorMiniApp(
     getGrade: (Int, Int, Int, Int, Int) -> String
@@ -32,6 +33,7 @@ fun GradeCalculatorMiniApp(
     )
 }
 
+@GenerateFunctionality
 @Composable
 fun GradeCalculatorApp(
     getGrade: (Int, Int, Int, Int, Int) -> String

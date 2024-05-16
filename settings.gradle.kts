@@ -11,5 +11,5 @@ pluginManagement {
 }
 
 rootProject.name = "faangX-KTP-Apps"
-//include("ksp")
+include("ksp")
 include("apps")
