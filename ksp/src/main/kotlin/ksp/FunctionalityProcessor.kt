@@ -32,6 +32,7 @@ class FunctionalityProcessor(
         val packageName = function.packageName.asString()
         val functionName = function.simpleName.asString()
         val interfaceName = "${functionName}Functionality"
+        val strFunsName = "${functionName.replaceFirstChar { it.lowercaseChar() }}Functionality"
         val implClassName = "${functionName}FunctionalityImpl"
 
         val fileSpecBuilder = FileSpec.builder(packageName, interfaceName)
@@ -43,9 +44,9 @@ class FunctionalityProcessor(
         generateMiniAppComposableFunction(function, nameArg, fileSpecBuilder)
         generateMobileMiniAppFunction(function, nameArg, fileSpecBuilder)
 
-        fileSpecBuilder.addFunction(generateStringRepresentation("${interfaceName}_Interface", interfaceCode))
-        fileSpecBuilder.addFunction(generateStringRepresentation("${interfaceName}_Impl", implClassCode))
-        fileSpecBuilder.addFunction(generateStringRepresentation("${interfaceName}_Funs", topLevelFunctionsCode))
+        fileSpecBuilder.addFunction(generateStringRepresentation("${strFunsName}_Interface", interfaceCode))
+        fileSpecBuilder.addFunction(generateStringRepresentation("${strFunsName}_Impl", implClassCode))
+        fileSpecBuilder.addFunction(generateStringRepresentation("${strFunsName}_Funs", topLevelFunctionsCode))
 
         val fileSpec = fileSpecBuilder.build()
         val file = codeGenerator.createNewFile(
@@ -60,6 +61,7 @@ class FunctionalityProcessor(
             content = KtFmtFormatter.formatCode(content)
             writer.write(
                 content.replace("public ", "")
+                    .replace(": Unit", "")
             )
         }
     }
@@ -221,20 +223,20 @@ class FunctionalityProcessor(
 
     private fun generateMobileMiniAppFunction(function: KSFunctionDeclaration, name: String, fileSpecBuilder: FileSpec.Builder) {
         val functionName = function.simpleName.asString()
-        val miniAppFunctionName = functionName.replaceFirstChar { it.lowercaseChar() }
         val interfaceName = "${functionName}Functionality"
+        val strFunsName = "${functionName.replaceFirstChar { it.lowercaseChar() }}Functionality"
         val packageName = function.packageName.asString()
 
-        val funSpec = FunSpec.builder(miniAppFunctionName + "_MobileMiniApp")
+        val funSpec = FunSpec.builder(functionName + "_MobileMiniApp")
             .returns(ClassName("com.faangx.ktp", "MobileMiniApp").parameterizedBy(ClassName(packageName, interfaceName)))
             .addStatement(
                 """
             return MobileMiniApp(
                 label = %S,
                 functionalityClass = %L::class.java,
-                functionalityInterface = ${interfaceName}_Interface_AsString(),
-                functionalityImpl = ${interfaceName}_Impl_AsString(),
-                functionalityFuns = ${interfaceName}_Funs_AsString(),
+                functionalityInterface = ${strFunsName}_Interface_AsString(),
+                functionalityImpl = ${strFunsName}_Impl_AsString(),
+                functionalityFuns = ${strFunsName}_Funs_AsString(),
                 functionalityImplClassName = %S,
                 packageName = %S,
                 composable = { $functionName(it) }
