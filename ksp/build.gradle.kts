@@ -1,6 +1,19 @@
 plugins {
     kotlin("jvm")
     id("com.google.devtools.ksp") version "1.9.20-1.0.14"
+    `maven-publish`
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("maven") {
+            groupId = "com.faangx.ktp"
+            artifactId = "ksp"
+            version = "1.0"
+
+            from(components["java"])
+        }
+    }
 }
 
 group = "ksp"
