@@ -6,6 +6,9 @@ import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.ksp.toTypeName
 import ksp.KtFmtFormatter
 import ksp.MiniApp
+import ksp.MiniAppTest
+import java.io.OutputStream
+import java.util.*
 
 class FunctionalityProcessor(
     private val codeGenerator: CodeGenerator,
@@ -22,7 +25,41 @@ class FunctionalityProcessor(
             }
         }
 
-        return emptyList()
+        val miniAppTestSymbols = resolver.getSymbolsWithAnnotation(MiniAppTest::class.qualifiedName!!)
+            .filterIsInstance<KSClassDeclaration>()
+
+        logger.warn("found ${miniAppTestSymbols.toList().size}")
+
+        // Defer MiniAppTest symbols processing until the next round
+        deferredSymbols.addAll(miniAppTestSymbols)
+
+        return deferredSymbols
+    }
+
+    private val deferredSymbols = mutableListOf<KSClassDeclaration>()
+    private val completedSymbols = mutableListOf<KSClassDeclaration>()
+
+    override fun finish() {
+        deferredSymbols.forEach { symbol ->
+            if (symbol.validate() && !completedSymbols.contains(symbol)) {
+                val packageName = symbol.packageName.asString()
+                val fileSpecBuilder = FileSpec.builder(packageName, symbol.simpleName.asString())
+                generateTestExtensionFunction(symbol, fileSpecBuilder)
+                val fileSpec = fileSpecBuilder.build()
+                try {
+                    val file = codeGenerator.createNewFile(
+                        dependencies = Dependencies(false, symbol.containingFile!!),
+                        packageName = packageName,
+                        fileName = symbol.simpleName.asString() + "Ext"
+                    )
+                    file.writeAll(fileSpec)
+                } catch (e: FileAlreadyExistsException) {
+
+                }
+
+                completedSymbols.add(symbol)
+            }
+        }
     }
 
     private fun processFunction(function: KSFunctionDeclaration) {
@@ -55,7 +92,11 @@ class FunctionalityProcessor(
             packageName = packageName,
             fileName = interfaceName
         )
-        file.bufferedWriter().use { writer ->
+        file.writeAll(fileSpec)
+    }
+
+    private fun OutputStream.writeAll(fileSpec: FileSpec) {
+        bufferedWriter().use { writer ->
             var content = captureGeneratedCode { stringBuilder ->
                 fileSpec.writeTo(stringBuilder)
             }
@@ -190,7 +231,7 @@ class FunctionalityProcessor(
 
     private fun generateMiniAppComposableFunction(function: KSFunctionDeclaration, name: String, fileSpecBuilder: FileSpec.Builder) {
         val functionName = function.simpleName.asString()
-        val miniAppFunctionName = functionName + "MiniApp"
+        val miniAppFunctionName = functionName.replace("App", "") + "MiniApp"
 
         // Generate parameter list with correct types
         val parameters = function.parameters.map { param ->
@@ -235,7 +276,7 @@ class FunctionalityProcessor(
         val strFunsName = "${functionName.replaceFirstChar { it.lowercaseChar() }}Functionality"
         val packageName = function.packageName.asString()
 
-        val funSpec = FunSpec.builder(functionName + "_MobileMiniApp")
+        val funSpec = FunSpec.builder(functionName.replace("App", "") + "_MobileMiniApp")
             .returns(ClassName("com.faangx.ktp", "MobileMiniApp").parameterizedBy(ClassName(packageName, interfaceName)))
             .addStatement(
                 """
@@ -271,6 +312,61 @@ class FunctionalityProcessor(
 
     private fun removeImportStatements(code: String): String {
         return code.lines().filterNot { it.trim().startsWith("import") }.joinToString("\n")
+    }
+
+    private fun generateTestExtensionFunction(objectDeclaration: KSClassDeclaration, fileSpecBuilder: FileSpec.Builder) {
+        val objectName = objectDeclaration.simpleName.asString()
+        val testFunction = objectDeclaration.getAllFunctions().find { it.simpleName.asString() == "test" }
+        val functionalityParam = testFunction?.parameters?.find { it.type.resolve().declaration is KSClassDeclaration }
+        val functionalityInterface = functionalityParam?.type?.resolve()?.declaration as? KSClassDeclaration
+        val functionalityName = functionalityInterface?.simpleName?.asString() ?: return
+
+        fileSpecBuilder.addImport("com.faangx.ktp.basics", functionalityName)
+
+        val funBuilder = FunSpec.builder("test")
+            .receiver(ClassName("com.faangx.ktp.test", objectName))
+
+        val testcaseParam = testFunction.parameters.find { it.name?.asString() == "testcase" }
+        if (testcaseParam != null) {
+            funBuilder.addParameter("testcase", ClassName("", testcaseParam.type.toTypeName().toString()))
+        }
+
+        val parametersCode = functionalityInterface.getAllFunctions()
+            .filter { it.simpleName.asString() !in listOf("equals", "hashCode", "toString") }
+            .joinToString("\n") { func ->
+            val funcName = func.simpleName.asString()
+            val params = func.parameters.joinToString(", ") { param ->
+                val paramName = param.name?.asString() ?: ""
+                val paramType = param.type.resolve().declaration.simpleName.asString()
+                "$paramName: $paramType"
+            }
+            funBuilder.addParameter(
+                funcName.replaceFirstChar { it.lowercase(Locale.getDefault()) }
+                    .trimEnd('1'),
+                LambdaTypeName.get(
+                    returnType = func.returnType!!.resolve().toTypeName(),
+                    parameters = func.parameters.map { it.type.resolve().toTypeName() }.toTypedArray()
+                )
+            )
+            """
+        override fun $funcName(${params}): ${func.returnType!!.resolve().toTypeName()} {
+            return ${funcName.trimEnd('1')}(${func.parameters.joinToString(", ") { it.name!!.asString() }})
+        }
+        """.trimIndent()
+        }
+
+        funBuilder.addStatement(
+            """
+        test(
+            object : $functionalityName {
+                $parametersCode
+            }
+            ${if (testcaseParam != null) ",\ntestcase" else ""}
+        )
+        """.trimIndent()
+        )
+
+        fileSpecBuilder.addFunction(funBuilder.build())
     }
 
     private fun captureGeneratedCode(block: (StringBuilder) -> Unit): String {

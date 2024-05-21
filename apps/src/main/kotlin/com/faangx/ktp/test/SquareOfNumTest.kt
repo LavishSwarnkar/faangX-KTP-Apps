@@ -1,15 +1,17 @@
 package com.faangx.ktp.test
 
 import com.faangx.ktp.basics.SquareOfNumAppV1Functionality
+import ksp.MiniAppTest
 import java.util.*
 
 typealias SquareOfNumTestcase = Pair<Long, Long>
 
+@MiniAppTest
 object SquareOfNumTest {
 
     fun test(
-        testcase: SquareOfNumTestcase,
-        functionality: SquareOfNumAppV1Functionality
+        functionality: SquareOfNumAppV1Functionality,
+        testcase: SquareOfNumTestcase
     ) {
         val input = testcase.first
         val expected = testcase.second

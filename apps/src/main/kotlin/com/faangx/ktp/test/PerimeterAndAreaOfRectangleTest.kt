@@ -1,6 +1,7 @@
 package com.faangx.ktp.test
 
 import com.faangx.ktp.basics.PerimeterAndAreaOfRectAppFunctionality
+import ksp.MiniAppTest
 import java.util.*
 
 class PerimeterAndAreaOfRectangleTestCase(
@@ -10,6 +11,7 @@ class PerimeterAndAreaOfRectangleTestCase(
     val area: Int
 )
 
+@MiniAppTest
 object PerimeterAndAreaOfRectangleTest {
 
     fun test(
