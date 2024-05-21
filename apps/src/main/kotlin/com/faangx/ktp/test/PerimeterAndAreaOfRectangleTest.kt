@@ -2,7 +2,7 @@ package com.faangx.ktp.test
 
 import com.faangx.ktp.basics.PerimeterAndAreaOfRectAppFunctionality
 import ksp.MiniAppTest
-import java.util.*
+import kotlin.random.Random
 
 class PerimeterAndAreaOfRectangleTestCase(
     val l: Int,
@@ -33,8 +33,8 @@ object PerimeterAndAreaOfRectAppTest {
     fun testcases(): List<PerimeterAndAreaOfRectangleTestCase> {
         return buildList {
             repeat(15) {
-                val l = Random().nextInt(1000)
-                val b = Random().nextInt(1000)
+                val l = Random.nextInt(1000)
+                val b = Random.nextInt(1000)
                 add(
                     PerimeterAndAreaOfRectangleTestCase(
                         l, b, 2 * (l + b), l * b

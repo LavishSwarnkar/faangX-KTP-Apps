@@ -2,7 +2,7 @@ package com.faangx.ktp.test
 
 import com.faangx.ktp.basics.SquareOfNumAppV1Functionality
 import ksp.MiniAppTest
-import java.util.*
+import kotlin.random.Random
 
 typealias SquareOfNumTestcase = Pair<Long, Long>
 
@@ -24,7 +24,7 @@ object SquareOfNumAppV1Test {
     fun testcases(): List<SquareOfNumTestcase> {
         return buildList {
             repeat(15) {
-                val x = Random().nextLong(9999L)
+                val x = Random.nextLong(9999L)
                 add(x to x * x)
             }
         }
