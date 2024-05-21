@@ -281,10 +281,11 @@ class FunctionalityProcessor(
         val strFunsName = "${functionName.replaceFirstChar { it.lowercaseChar() }}Functionality"
         val packageName = function.packageName.asString()
 
-        val testClassExists = classExists(resolver, "com.faangx.ktp.test","${functionName}Test" )
+        val testClassName = "${functionName.replace("App", "")}MobileMiniAppTest"
+        val testClassExists = classExists(resolver, "com.faangx.ktp.test.mobile",testClassName)
 
         if (testClassExists) {
-            fileSpecBuilder.addImport("com.faangx.ktp.test", "${functionName}Test")
+            fileSpecBuilder.addImport("com.faangx.ktp.test.mobile", testClassName)
         }
 
         val funSpec = FunSpec.builder(functionName.replace("App", "") + "_MobileMiniApp")
@@ -298,7 +299,7 @@ class FunctionalityProcessor(
                 functionalityImpl = ${strFunsName}_Impl_AsString(),
                 functionalityFuns = ${strFunsName}_Funs_AsString(),
                 functionalityImplClassName = %S,
-                testClass = ${if (testClassExists) "${functionName}Test::class.java" else "null"},
+                testClass = ${if (testClassExists) "$testClassName::class.java" else "null"},
                 packageName = %S,
                 composable = { $functionName(it) }
             )

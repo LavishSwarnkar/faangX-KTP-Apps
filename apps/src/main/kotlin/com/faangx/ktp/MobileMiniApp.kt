@@ -13,3 +13,8 @@ class MobileMiniApp<T>(
     val packageName: String,
     val composable: @Composable (T) -> Unit
 )
+
+fun <T> MobileMiniApp<T>.simpleName(): String {
+    return label.replace(" ", "")
+        .replace("&", "n")
+}

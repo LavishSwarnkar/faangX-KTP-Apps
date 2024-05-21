@@ -49,6 +49,7 @@ dependencies {
     ksp(project(":ksp"))
 
     implementation("org.junit.jupiter:junit-jupiter-api:5.9.0")
+    implementation("org.junit.jupiter:junit-jupiter-params:5.9.0")
 
     testImplementation("org.jetbrains.kotlin:kotlin-test")
     testImplementation("org.junit.jupiter:junit-jupiter-params:5.6.3")

@@ -19,13 +19,13 @@ object PerimeterAndAreaOfRectAppTest {
         testcase: PerimeterAndAreaOfRectangleTestCase
     ) {
         testcase.run {
-            val correctPerimeter = functionality.getPerimeterOfRectangle1(l, b)
-            assert(perimeter == correctPerimeter) {
-                "Wrong perimeter ($perimeter) returned for (l = $l, b = $b), expected $correctPerimeter"
+            val actualPerimeter = functionality.getPerimeterOfRectangle1(l, b)
+            assert(perimeter == actualPerimeter) {
+                "Wrong perimeter ($actualPerimeter) returned for (l = $l, b = $b), expected $perimeter"
             }
-            val correctArea = functionality.getAreaOfRectangle1(l, b)
-            assert(area == correctArea) {
-                "Wrong area ($area) returned for (l = $l, b = $b), expected $correctArea"
+            val actualArea = functionality.getAreaOfRectangle1(l, b)
+            assert(area == actualArea) {
+                "Wrong area ($actualArea) returned for (l = $l, b = $b), expected $area"
             }
         }
     }
