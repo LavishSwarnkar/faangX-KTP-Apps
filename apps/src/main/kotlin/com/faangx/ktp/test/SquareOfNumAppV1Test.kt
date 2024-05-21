@@ -7,7 +7,7 @@ import java.util.*
 typealias SquareOfNumTestcase = Pair<Long, Long>
 
 @MiniAppTest
-object SquareOfNumTest {
+object SquareOfNumAppV1Test {
 
     fun test(
         functionality: SquareOfNumAppV1Functionality,

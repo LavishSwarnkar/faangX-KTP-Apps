@@ -21,7 +21,7 @@ class FunctionalityProcessor(
 
         symbols.forEach { symbol ->
             if (symbol.validate()) {
-                processFunction(symbol)
+                processFunction(symbol, resolver)
             }
         }
 
@@ -62,7 +62,7 @@ class FunctionalityProcessor(
         }
     }
 
-    private fun processFunction(function: KSFunctionDeclaration) {
+    private fun processFunction(function: KSFunctionDeclaration, resolver: Resolver) {
         val miniAppAnnotation = function.annotations.find { it.shortName.asString() == "MiniApp" }
         val nameArg = miniAppAnnotation?.arguments?.find { it.name?.asString() == "name" }?.value as? String ?: ""
         val paramNamesArg = miniAppAnnotation?.arguments?.find { it.name?.asString() == "paramNames" }?.value as? String ?: ""
@@ -80,7 +80,7 @@ class FunctionalityProcessor(
         val implClassCode = generateImplClass(function, interfaceName, implClassName, paramNamesArg, fileSpecBuilder)
         generateComposableFunction(function, interfaceName, fileSpecBuilder)
         generateMiniAppComposableFunction(function, nameArg, fileSpecBuilder)
-        generateMobileMiniAppFunction(function, nameArg, fileSpecBuilder)
+        generateMobileMiniAppFunction(resolver, function, nameArg, fileSpecBuilder)
 
         fileSpecBuilder.addFunction(generateStringRepresentation("${strFunsName}_Interface", interfaceCode))
         fileSpecBuilder.addFunction(generateStringRepresentation("${strFunsName}_Impl", implClassCode))
@@ -270,11 +270,22 @@ class FunctionalityProcessor(
         fileSpecBuilder.addImport("com.faangx.ktp", "MiniApp")
     }
 
-    private fun generateMobileMiniAppFunction(function: KSFunctionDeclaration, name: String, fileSpecBuilder: FileSpec.Builder) {
+    private fun generateMobileMiniAppFunction(
+        resolver: Resolver,
+        function: KSFunctionDeclaration,
+        name: String,
+        fileSpecBuilder: FileSpec.Builder
+    ) {
         val functionName = function.simpleName.asString()
         val interfaceName = "${functionName}Functionality"
         val strFunsName = "${functionName.replaceFirstChar { it.lowercaseChar() }}Functionality"
         val packageName = function.packageName.asString()
+
+        val testClassExists = classExists(resolver, "com.faangx.ktp.test","${functionName}Test" )
+
+        if (testClassExists) {
+            fileSpecBuilder.addImport("com.faangx.ktp.test", "${functionName}Test")
+        }
 
         val funSpec = FunSpec.builder(functionName.replace("App", "") + "_MobileMiniApp")
             .returns(ClassName("com.faangx.ktp", "MobileMiniApp").parameterizedBy(ClassName(packageName, interfaceName)))
@@ -287,6 +298,7 @@ class FunctionalityProcessor(
                 functionalityImpl = ${strFunsName}_Impl_AsString(),
                 functionalityFuns = ${strFunsName}_Funs_AsString(),
                 functionalityImplClassName = %S,
+                testClass = ${if (testClassExists) "${functionName}Test::class.java" else "null"},
                 packageName = %S,
                 composable = { $functionName(it) }
             )
@@ -296,6 +308,12 @@ class FunctionalityProcessor(
 
         fileSpecBuilder.addFunction(funSpec)
         fileSpecBuilder.addImport("com.faangx.ktp", "MiniApp")
+    }
+
+    private fun classExists(resolver: Resolver, packageName: String, className: String): Boolean {
+        val ksName = resolver.getKSNameFromString("$packageName.$className")
+        val classDeclaration = resolver.getClassDeclarationByName(ksName)
+        return classDeclaration != null
     }
 
     private fun generateStringRepresentation(name: String, code: String): FunSpec {

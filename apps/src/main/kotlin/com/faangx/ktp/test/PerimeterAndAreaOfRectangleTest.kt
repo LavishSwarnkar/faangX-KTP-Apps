@@ -12,7 +12,7 @@ class PerimeterAndAreaOfRectangleTestCase(
 )
 
 @MiniAppTest
-object PerimeterAndAreaOfRectangleTest {
+object PerimeterAndAreaOfRectAppTest {
 
     fun test(
         functionality: PerimeterAndAreaOfRectAppFunctionality,
