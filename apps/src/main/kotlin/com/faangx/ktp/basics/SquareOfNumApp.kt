@@ -14,9 +14,6 @@ import com.faangx.ktp.SMILE_EMOJI
 import com.faangx.ktp.comp.DynamicRowColumn
 import ksp.MiniApp
 
-@MiniApp(
-    "Square Of a Number", "num"
-)
 @Composable
 fun SquareOfNumApp(
     getSquareOf: (Int) -> Int

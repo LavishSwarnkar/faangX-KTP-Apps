@@ -12,27 +12,6 @@ import com.faangx.ktp.MiniApp
 import com.faangx.ktp.SMILE_EMOJI
 import ksp.MiniApp
 
-fun SimpleInterestCalculatorMiniAppV1(
-    calculateInterest: (
-        principal: Float,
-        rate: Float,
-        time: Float
-    ) -> Float
-) {
-    MiniApp(
-        title = "Simple Interest Calculator",
-        composable = {
-            SimpleInterestCalculatorV1(
-                calculateInterest
-            )
-        }
-    )
-}
-
-@MiniApp(
-    "Simple Interest Calculator",
-    "principal, rate, time"
-)
 @Composable
 fun SimpleInterestCalculator(
     calculateInterest: (
@@ -62,6 +41,10 @@ fun SimpleInterestCalculator(
     Content(principal, rate, time, interest, totalAmount)
 }
 
+@MiniApp(
+    "Simple Interest Calculator",
+    "principal, rate, time"
+)
 @Composable
 fun SimpleInterestCalculatorV1(
     calculateInterest: (

@@ -314,7 +314,11 @@ class FunctionalityProcessor(
     private fun classExists(resolver: Resolver, packageName: String, className: String): Boolean {
         val ksName = resolver.getKSNameFromString("$packageName.$className")
         val classDeclaration = resolver.getClassDeclarationByName(ksName)
-        return classDeclaration != null
+        val exists = classDeclaration != null
+        if (!exists) {
+            logger.warn("$packageName.$className not found!")
+        }
+        return exists
     }
 
     private fun generateStringRepresentation(name: String, code: String): FunSpec {

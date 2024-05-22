@@ -13,12 +13,12 @@ class PerimeterAndAreaOfRectMobileMiniAppTest {
 
     @ParameterizedTest
     @MethodSource("TestCases")
-    fun Test(testCase: PerimeterAndAreaOfRectangleTestCase) {
+    fun Test(testcase: PerimeterAndAreaOfRectangleTestCase) {
         PerimeterAndAreaOfRectAppTest.test(
             functionality = MiniAppFunctionalityHelper.getFunctionality(
                 PerimeterAndAreaOfRect_MobileMiniApp().simpleName()
             ) as PerimeterAndAreaOfRectAppFunctionality,
-            testcase = testCase
+            testcase = testcase
         )
     }
 

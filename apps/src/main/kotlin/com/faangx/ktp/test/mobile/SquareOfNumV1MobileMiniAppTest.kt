@@ -14,12 +14,12 @@ class SquareOfNumV1MobileMiniAppTest {
 
     @ParameterizedTest
     @MethodSource("TestCases")
-    fun Test(testCase: SquareOfNumTestcase) {
+    fun Test(testcase: SquareOfNumTestcase) {
         SquareOfNumAppV1Test.test(
             functionality = MiniAppFunctionalityHelper.getFunctionality(
                 SquareOfNumV1_MobileMiniApp().simpleName()
             ) as SquareOfNumAppV1Functionality,
-            testcase = testCase
+            testcase = testcase
         )
     }
 
