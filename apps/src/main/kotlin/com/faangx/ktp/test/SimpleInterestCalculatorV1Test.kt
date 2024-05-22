@@ -2,7 +2,7 @@ package com.faangx.ktp.test
 
 import com.faangx.ktp.basics.SimpleInterestCalculatorV1Functionality
 import ksp.MiniAppTest
-import java.util.*
+import kotlin.random.Random
 
 class SimpleInterestCalculatorTestcase(
     val p: Float,
@@ -29,9 +29,9 @@ object SimpleInterestCalculatorV1Test {
     fun testcases(): List<SimpleInterestCalculatorTestcase> {
         return buildList {
             repeat(15) {
-                val p = Random().nextFloat(100f)
-                val r = Random().nextFloat(20f)
-                val t = Random().nextFloat(10f)
+                val p = Random.nextInt(100).toFloat()
+                val r = Random.nextInt(20).toFloat()
+                val t = Random.nextInt(10).toFloat()
                 add(
                     SimpleInterestCalculatorTestcase(
                         p = p,
