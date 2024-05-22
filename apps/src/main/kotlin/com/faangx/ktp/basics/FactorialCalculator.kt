@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -25,6 +26,7 @@ import androidx.compose.ui.window.application
 import com.faangx.ktp.MiniApp
 import com.faangx.ktp.SMILE_EMOJI
 import com.faangx.ktp.basics.Operation.*
+import com.faangx.ktp.comp.DynamicRowColumn
 import com.faangx.ktp.comp.HighlightedText
 import com.streamliners.compose.comp.select.RadioGroup
 import com.streamliners.utils.safeLet
@@ -77,42 +79,54 @@ fun FactorialCalculatorApp(
         verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterVertically)
     ) {
 
-        Row(
-            verticalAlignment = Alignment.CenterVertically
+        DynamicRowColumn(
+            horizontalArrangement = Arrangement.spacedBy(12.dp, Alignment.CenterHorizontally),
+            verticalAlignment = Alignment.CenterVertically,
+            verticalArrangement = Arrangement.spacedBy(12.dp, Alignment.CenterVertically),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            OutlinedTextField(
-                modifier = Modifier.width(80.dp),
-                value = x.value,
-                textStyle = MaterialTheme.typography.headlineMedium,
-                onValueChange = { if (it.length <= 2) x.value = it }
-            )
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                OutlinedTextField(
+                    modifier = Modifier.width(80.dp),
+                    value = x.value,
+                    textStyle = MaterialTheme.typography.titleLarge,
+                    onValueChange = { if (it.length <= 2) x.value = it }
+                )
 
-            Text(
-                modifier = Modifier.padding(start = 8.dp, end = 16.dp),
-                text = "!   =",
-                style = MaterialTheme.typography.headlineLarge
-            )
+                Text(
+                    modifier = Modifier.padding(start = 8.dp, end = 16.dp),
+                    text = "!   =",
+                    style = MaterialTheme.typography.titleLarge
+                )
+            }
 
             HighlightedText(
                 text = factorial.value,
-                style = MaterialTheme.typography.headlineMedium
+                style = MaterialTheme.typography.titleLarge
             )
         }
 
-        Spacer(Modifier.size(50.dp))
+        HorizontalDivider(
+            modifier = Modifier.padding(vertical = 12.dp)
+        )
 
         Column(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
-            Row(
-                verticalAlignment = Alignment.CenterVertically
+            DynamicRowColumn(
+                horizontalArrangement = Arrangement.spacedBy(12.dp, Alignment.CenterHorizontally),
+                verticalAlignment = Alignment.CenterVertically,
+                verticalArrangement = Arrangement.spacedBy(12.dp, Alignment.CenterVertically),
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Row {
                     OutlinedTextField(
                         modifier = Modifier.width(80.dp),
                         value = n.value,
-                        textStyle = MaterialTheme.typography.titleLarge,
+                        textStyle = MaterialTheme.typography.titleLarge.copy(textAlign = TextAlign.End),
                         onValueChange = { if (it.length <= 2) n.value = it }
                     )
 
@@ -134,12 +148,12 @@ fun FactorialCalculatorApp(
                 Text(
                     modifier = Modifier.padding(horizontal = 16.dp),
                     text = "=",
-                    style = MaterialTheme.typography.headlineLarge
+                    style = MaterialTheme.typography.titleLarge
                 )
 
                 HighlightedText(
                     text = operationResult.value,
-                    style = MaterialTheme.typography.headlineMedium
+                    style = MaterialTheme.typography.titleLarge
                 )
             }
 
