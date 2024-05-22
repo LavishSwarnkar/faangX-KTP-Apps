@@ -3,14 +3,14 @@ package com.faangx.ktp.basics
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.Text
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.faangx.ktp.MiniApp
 import com.faangx.ktp.SMILE_EMOJI
 import ksp.MiniApp
 
@@ -36,12 +36,13 @@ fun GreetingApp(
             label = { Text("Name") },
             value = name,
             onValueChange = { name = it },
-            textStyle = MaterialTheme.typography.h6
+            textStyle = MaterialTheme.typography.titleLarge.copy(textAlign = TextAlign.Center)
         )
 
         Text(
             text = greeting.value,
-            style = MaterialTheme.typography.h3
+            style = MaterialTheme.typography.titleLarge,
+            textAlign = TextAlign.Center
         )
     }
 }
