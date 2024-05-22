@@ -25,22 +25,10 @@ import com.faangx.ktp.MiniApp
 import com.faangx.ktp.comp.HighlightedText
 import com.faangx.ktp.util.captureStdOutput
 import com.streamliners.compose.comp.select.LabelledCheckBox
+import ksp.MiniApp
 import java.io.ByteArrayOutputStream
 
-fun FactorCalculatorMiniApp(
-    printFactorsOf: (Int) -> Unit,
-    isPrime: (Int) -> Boolean
-) {
-    MiniApp(
-        title = "Factor Calculator",
-        composable = {
-            FactorCalculator(
-                printFactorsOf, isPrime
-            )
-        }
-    )
-}
-
+@MiniApp("Factor Calculator", "num; num")
 @Composable
 fun FactorCalculator(
     printFactorsOf: (Int) -> Unit,

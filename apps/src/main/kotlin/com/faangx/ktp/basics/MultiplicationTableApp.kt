@@ -12,30 +12,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.faangx.ktp.MiniApp
 import com.faangx.ktp.util.captureStdOutput
+import ksp.MiniApp
 import java.io.ByteArrayOutputStream
 
-fun MultiplicationTableMiniApp(
-    printTable: (Int) -> Unit
-) {
-    MiniApp(
-        title = "Multiplication Table",
-        composable = {
-            MultiplicationTableApp(printTable)
-        }
-    )
-}
-
-fun MultiplicationTableMiniAppV1(
-    printTable: (Int, Int, Int) -> Unit
-) {
-    MiniApp(
-        title = "Multiplication Table",
-        composable = {
-            MultiplicationTableAppV1(printTable)
-        }
-    )
-}
-
+@MiniApp("Multiplication Table", "num")
 @Composable
 fun MultiplicationTableApp(
     printTable: (Int) -> Unit
@@ -46,6 +26,7 @@ fun MultiplicationTableApp(
     )
 }
 
+@MiniApp("Multiplication Table v1", "num, start, end")
 @Composable
 fun MultiplicationTableAppV1(
     printTable: (Int, Int, Int) -> Unit

@@ -12,18 +12,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.faangx.ktp.MiniApp
 import com.faangx.ktp.SMILE_EMOJI
+import ksp.MiniApp
 
-fun GreetingMiniApp(
-    greet: (String) -> String
-) {
-    MiniApp(
-        title = "Greeting App",
-        composable = {
-            GreetingApp(greet)
-        }
-    )
-}
-
+@MiniApp("Greeting App", "text")
 @Composable
 fun GreetingApp(
     greet: (String) -> String

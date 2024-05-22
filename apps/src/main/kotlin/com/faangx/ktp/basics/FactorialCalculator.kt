@@ -28,26 +28,13 @@ import com.faangx.ktp.basics.Operation.*
 import com.faangx.ktp.comp.HighlightedText
 import com.streamliners.compose.comp.select.RadioGroup
 import com.streamliners.utils.safeLet
+import ksp.MiniApp
 
 enum class Operation {
     Permutations, Combinations
 }
 
-fun FactorialCalculatorMiniApp(
-    factorialOf: (Long) -> Long,
-    permutationsOf: (n: Long, r: Long) -> Long,
-    combinationsOf: (n: Long, r: Long) -> Long
-) {
-    MiniApp(
-        title = "Factorial Calculator",
-        composable = {
-            FactorialCalculatorApp(
-                factorialOf, permutationsOf, combinationsOf
-            )
-        }
-    )
-}
-
+@MiniApp("Factorial Calculator", "num; n, r; n, r")
 @Composable
 fun FactorialCalculatorApp(
     factorialOf: (Long) -> Long,
