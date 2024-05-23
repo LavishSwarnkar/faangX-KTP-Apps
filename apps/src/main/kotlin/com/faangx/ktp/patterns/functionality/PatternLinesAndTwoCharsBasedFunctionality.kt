@@ -11,14 +11,6 @@ interface PatternLinesAndTwoCharsBasedFunctionality {
 	fun printPattern1(lines: Int, char1: Char, char2: Char)
 }
 
-fun printPattern(lines: Int, char1: Char, char2: Char) {
-	TODO()
-}
-
-class PatternLinesAndTwoCharsBasedFunctionalityImpl : PatternLinesAndTwoCharsBasedFunctionality {
-	override fun printPattern1(lines: Int, char1: Char, char2: Char) = printPattern(lines, char1, char2)
-}
-
 @Composable
 fun PatternLinesAndTwoCharsBasedApp(
 	patternCode: String,
