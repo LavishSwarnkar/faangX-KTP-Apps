@@ -23,7 +23,8 @@ fun PatternLinesBasedApp(
 }
 
 fun PatternLinesBased_MobileMiniApp(
-	patternCode: String
+	patternCode: String,
+	testClass: Class<*>
 ): MobileMiniApp<PatternLinesBasedFunctionality> =
 	MobileMiniApp(
 		label = "Pattern - $patternCode",
@@ -32,7 +33,7 @@ fun PatternLinesBased_MobileMiniApp(
 		functionalityImpl = patternLinesBasedFunctionality_Impl_AsString(),
 		functionalityFuns = patternLinesBasedFunctionality_Funs_AsString(),
 		functionalityImplClassName = "PatternLinesBasedFunctionalityImpl",
-		testClass = null,
+		testClass = testClass,
 		packageName = "com.faangx.ktp.basics",
 		composable = { PatternLinesBasedApp(patternCode, it::printPattern1) }
 	)

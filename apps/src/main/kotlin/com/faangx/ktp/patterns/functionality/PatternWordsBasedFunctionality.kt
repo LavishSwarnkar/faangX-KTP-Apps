@@ -21,7 +21,8 @@ fun PatternWordBasedApp(
 }
 
 fun PatternWordBased_MobileMiniApp(
-	patternCode: String
+	patternCode: String,
+	testClass: Class<*>
 ): MobileMiniApp<PatternWordBasedFunctionality> =
 	MobileMiniApp(
 		label = "Pattern - $patternCode",
@@ -30,7 +31,7 @@ fun PatternWordBased_MobileMiniApp(
 		functionalityImpl = patternWordBasedFunctionality_Impl_AsString(),
 		functionalityFuns = patternWordBasedFunctionality_Funs_AsString(),
 		functionalityImplClassName = "PatternWordBasedFunctionalityImpl",
-		testClass = null,
+		testClass = testClass,
 		packageName = "com.faangx.ktp.basics",
 		composable = { PatternWordBasedApp(patternCode, it::printPattern1) }
 	)
