@@ -12,13 +12,9 @@ import com.faangx.ktp.patterns.comp.PatternInputsRow
 import com.faangx.ktp.patterns.comp.PrintedPatternBox
 import com.faangx.ktp.patterns.getPatterns
 import com.faangx.ktp.util.captureStdOutput
-import java.io.ByteArrayOutputStream
-import java.io.PrintStream
-import java.nio.charset.StandardCharsets
 
 @Composable
-@JvmName("PatternApp1")
-fun PatternApp(
+fun PatternLinesBasedApp(
     patternCode: String,
     printPattern: (lines: Int) -> Unit
 ) {
@@ -30,8 +26,7 @@ fun PatternApp(
 }
 
 @Composable
-@JvmName("PatternApp2")
-fun PatternApp(
+fun PatternLinesAndCharBasedApp(
     patternCode: String,
     printPattern: (lines: Int, char: Char) -> Unit
 ) {
@@ -50,8 +45,7 @@ fun PatternApp(
 }
 
 @Composable
-@JvmName("PatternApp3")
-fun PatternApp(
+fun PatternLinesAndTwoCharsBasedApp(
     patternCode: String,
     printPattern: (lines: Int, char1: Char, char2: Char) -> Unit
 ) {
@@ -71,8 +65,7 @@ fun PatternApp(
 }
 
 @Composable
-@JvmName("PatternApp4")
-fun PatternApp(
+fun PatternWordBasedApp(
     patternCode: String,
     printPattern: (word: String) -> Unit
 ) {
