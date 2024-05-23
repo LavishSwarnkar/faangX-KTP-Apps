@@ -19,21 +19,23 @@ open class PatternLinesAndCharBasedTest {
         )
     }
 
-    fun test(
-        patternCode: String,
-        lines: Int,
-        printPattern: (lines: Int, char: Char) -> Unit
-    ) {
-        val actual = captureStdOutput {
-            printPattern(lines, '*')
-        }
+    companion object {
+        fun test(
+            patternCode: String,
+            lines: Int,
+            printPattern: (lines: Int, char: Char) -> Unit
+        ) {
+            val actual = captureStdOutput {
+                printPattern(lines, '*')
+            }
 
-        val expected = captureStdOutput {
-            PatternCorrectImplHelper.getForLinesAndCharBased(patternCode)(lines, '*')
-        }
+            val expected = captureStdOutput {
+                PatternCorrectImplHelper.getForLinesAndCharBased(patternCode)(lines, '*')
+            }
 
-        assert(actual == expected) {
-            "Wrong pattern $actual for lines=$lines, expected $expected"
+            assert(actual == expected) {
+                "Wrong pattern $actual for lines=$lines, expected $expected"
+            }
         }
     }
 
