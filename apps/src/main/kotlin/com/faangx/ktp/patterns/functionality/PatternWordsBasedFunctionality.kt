@@ -47,7 +47,7 @@ fun patternWordBasedFunctionality_Interface_AsString(): String =
 fun patternWordBasedFunctionality_Impl_AsString(): String =
 	"""
 |class PatternWordBasedFunctionalityImpl : PatternWordBasedFunctionality {
-|	override fun printPattern1(word: String) = printPattern(lines)
+|	override fun printPattern1(word: String) = printPattern(word)
 |}
 """
 		.trimMargin()

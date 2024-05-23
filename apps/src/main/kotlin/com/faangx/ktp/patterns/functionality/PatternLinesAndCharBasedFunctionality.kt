@@ -49,7 +49,7 @@ fun patternLinesAndCharBasedFunctionality_Interface_AsString(): String =
 fun patternLinesAndCharBasedFunctionality_Impl_AsString(): String =
 	"""
 |class PatternLinesAndCharBasedFunctionalityImpl : PatternLinesAndCharBasedFunctionality {
-|	override fun printPattern1(lines: Int, char: Char) = printPattern(lines)
+|	override fun printPattern1(lines: Int, char: Char) = printPattern(lines, char)
 |}
 """
 		.trimMargin()

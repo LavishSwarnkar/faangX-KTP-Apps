@@ -57,7 +57,7 @@ fun patternLinesAndTwoCharsBasedFunctionality_Interface_AsString(): String =
 fun patternLinesAndTwoCharsBasedFunctionality_Impl_AsString(): String =
 	"""
 |class PatternLinesAndTwoCharsBasedBasedFunctionalityImpl : PatternLinesAndTwoCharsBasedBasedFunctionality {
-|	override fun printPattern1(lines: Int, char1: Char, char2: Char) = printPattern(lines)
+|	override fun printPattern1(lines: Int, char1: Char, char2: Char) = printPattern(lines, char1, char2)
 |}
 """
 		.trimMargin()
