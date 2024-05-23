@@ -9,6 +9,10 @@ fun Pattern_BL_MobileMiniApp() = PatternLinesAndCharBased_MobileMiniApp(
     patternCode = "BL", testClass = Pattern_BL_Test::class.java
 )
 
+fun Pattern_BR_MobileMiniApp() = PatternLinesAndCharBased_MobileMiniApp(
+    patternCode = "BR", testClass = Pattern_BR_Test::class.java
+)
+
 fun Pattern_TLN_MobileMiniApp() = PatternLinesBased_MobileMiniApp(
     patternCode = "TLN", testClass = Pattern_TLN_Test::class.java
 )
