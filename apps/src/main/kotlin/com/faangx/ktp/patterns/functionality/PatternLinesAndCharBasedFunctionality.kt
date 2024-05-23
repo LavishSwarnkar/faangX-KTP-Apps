@@ -34,7 +34,7 @@ fun PatternLinesAndCharBased_MobileMiniApp(
 		functionalityFuns = patternLinesAndCharBasedFunctionality_Funs_AsString(),
 		functionalityImplClassName = "PatternLinesAndCharBasedFunctionalityImpl",
 		testClass = testClass,
-		packageName = "com.faangx.ktp.basics",
+		packageName = "com.faangx.ktp.patterns.functionality",
 		composable = { PatternLinesAndCharBasedApp(patternCode, it::printPattern1) }
 	)
 
