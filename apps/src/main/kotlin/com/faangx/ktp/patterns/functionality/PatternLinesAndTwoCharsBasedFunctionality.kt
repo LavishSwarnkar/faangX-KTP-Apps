@@ -40,7 +40,7 @@ fun PatternLinesAndTwoCharsBased_MobileMiniApp(
 
 fun patternLinesAndTwoCharsBasedFunctionality_Interface_AsString(): String =
 	"""
-|interface PatternLinesAndTwoCharsBasedBasedFunctionality {
+|interface PatternLinesAndTwoCharsBasedFunctionality {
 |	fun printPattern1(lines: Int, char1: Char, char2: Char)
 |}
 """
@@ -48,7 +48,7 @@ fun patternLinesAndTwoCharsBasedFunctionality_Interface_AsString(): String =
 
 fun patternLinesAndTwoCharsBasedFunctionality_Impl_AsString(): String =
 	"""
-|class PatternLinesAndTwoCharsBasedBasedFunctionalityImpl : PatternLinesAndTwoCharsBasedBasedFunctionality {
+|class PatternLinesAndTwoCharsBasedFunctionalityImpl : PatternLinesAndTwoCharsBasedBasedFunctionality {
 |	override fun printPattern1(lines: Int, char1: Char, char2: Char) = printPattern(lines, char1, char2)
 |}
 """
