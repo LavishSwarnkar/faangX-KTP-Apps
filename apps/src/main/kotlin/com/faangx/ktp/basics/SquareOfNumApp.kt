@@ -24,7 +24,9 @@ fun SquareOfNumApp(
 }
 
 @MiniApp(
-    "Square Of a Number", "num"
+    name = "Square Of a Number",
+    repoPath = "ProgrammingFundamentals/Ep2/SquareOfNum",
+    paramNames = "num"
 )
 @Composable
 fun SquareOfNumAppV1(

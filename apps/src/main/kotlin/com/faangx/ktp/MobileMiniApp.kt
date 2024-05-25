@@ -11,6 +11,7 @@ class MobileMiniApp<T>(
     val functionalityImplClassName: String,
     val testClass: Class<*>?,
     val packageName: String,
+    val repoPath: String,
     val composable: @Composable (T) -> Unit
 )
 

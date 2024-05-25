@@ -15,7 +15,11 @@ import com.faangx.ktp.comp.DynamicRowColumn
 import com.faangx.ktp.comp.HighlightedText
 import ksp.MiniApp
 
-@MiniApp("Odd Even Checker", "num")
+@MiniApp(
+    name = "Odd Even Checker",
+    repoPath = "ProgrammingFundamentals/Ep2/OddEvenChecker",
+    paramNames = "num"
+)
 @Composable
 fun OddEvenChecker(
     checkEvenOdd: (Int) -> String

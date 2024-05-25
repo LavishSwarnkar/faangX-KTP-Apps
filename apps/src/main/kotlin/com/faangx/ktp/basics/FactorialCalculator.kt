@@ -36,7 +36,11 @@ enum class Operation {
     Permutations, Combinations
 }
 
-@MiniApp("Factorial Calculator", "num; n, r; n, r")
+@MiniApp(
+    name = "Factorial Calculator",
+    repoPath = "ProgrammingFundamentals/Ep3/FactorialCalculator",
+    paramNames = "num; n, r; n, r"
+)
 @Composable
 fun FactorialCalculatorApp(
     factorialOf: (Long) -> Long,

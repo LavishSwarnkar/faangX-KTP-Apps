@@ -13,7 +13,11 @@ import com.faangx.ktp.MiniApp
 import com.faangx.ktp.SMILE_EMOJI
 import ksp.MiniApp
 
-@MiniApp("Max of two Nums", "x, y")
+@MiniApp(
+    name = "Max of two Nums",
+    repoPath = "ProgrammingFundamentals/Ep2/MaxOfTwoNums",
+    paramNames = "x, y"
+)
 @Composable
 fun MaxOfTwoNumsApp(
     maxOf: (Int, Int) -> Int

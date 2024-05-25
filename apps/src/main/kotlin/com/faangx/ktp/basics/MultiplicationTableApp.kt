@@ -17,7 +17,11 @@ import com.faangx.ktp.util.captureStdOutput
 import ksp.MiniApp
 import java.io.ByteArrayOutputStream
 
-@MiniApp("Multiplication Table", "num")
+@MiniApp(
+    name = "Multiplication Table",
+    repoPath = "ProgrammingFundamentals/Ep3/MultiplicationTable",
+    paramNames = "num"
+)
 @Composable
 fun MultiplicationTableApp(
     printTable: (Int) -> Unit
@@ -28,7 +32,11 @@ fun MultiplicationTableApp(
     )
 }
 
-@MiniApp("Multiplication Table v1", "num, start, end")
+@MiniApp(
+    name = "Multiplication Table V1",
+    repoPath = "ProgrammingFundamentals/Ep3/MultiplicationTableV1",
+    paramNames = "num, start, end"
+)
 @Composable
 fun MultiplicationTableAppV1(
     printTable: (Int, Int, Int) -> Unit

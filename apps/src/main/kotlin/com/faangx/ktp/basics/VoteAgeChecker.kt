@@ -15,7 +15,9 @@ import com.faangx.ktp.comp.HighlightedText
 import ksp.MiniApp
 
 @MiniApp(
-    "Vote Age Checker", "age"
+    name = "Vote Age Checker",
+    repoPath = "ProgrammingFundamentals/Ep2/VoteAgeChecker",
+    paramNames = "age"
 )
 @Composable
 fun VoteAgeChecker(

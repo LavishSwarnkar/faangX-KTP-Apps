@@ -11,7 +11,10 @@ import androidx.compose.ui.Modifier
 import com.faangx.ktp.MiniApp
 import ksp.MiniApp
 
-@MiniApp("Text App")
+@MiniApp(
+    name = "Text App",
+    repoPath = "ProgrammingFundamentals/Ep2/TextApp"
+)
 @Composable
 fun TextApp(
     getText: () -> String

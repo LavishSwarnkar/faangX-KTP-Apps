@@ -66,6 +66,7 @@ class FunctionalityProcessor(
         val miniAppAnnotation = function.annotations.find { it.shortName.asString() == "MiniApp" }
         val nameArg = miniAppAnnotation?.arguments?.find { it.name?.asString() == "name" }?.value as? String ?: ""
         val paramNamesArg = miniAppAnnotation?.arguments?.find { it.name?.asString() == "paramNames" }?.value as? String ?: ""
+        val repoPathArg = miniAppAnnotation?.arguments?.find { it.name?.asString() == "repoPath" }?.value as? String ?: ""
 
         val packageName = function.packageName.asString()
         val functionName = function.simpleName.asString()
@@ -80,7 +81,7 @@ class FunctionalityProcessor(
         val implClassCode = generateImplClass(function, interfaceName, implClassName, paramNamesArg, fileSpecBuilder)
         generateComposableFunction(function, interfaceName, fileSpecBuilder)
         generateMiniAppComposableFunction(function, nameArg, fileSpecBuilder)
-        generateMobileMiniAppFunction(resolver, function, nameArg, fileSpecBuilder)
+        generateMobileMiniAppFunction(resolver, function, nameArg, repoPathArg, fileSpecBuilder)
 
         fileSpecBuilder.addFunction(generateStringRepresentation("${strFunsName}_Interface", interfaceCode))
         fileSpecBuilder.addFunction(generateStringRepresentation("${strFunsName}_Impl", implClassCode))
@@ -274,6 +275,7 @@ class FunctionalityProcessor(
         resolver: Resolver,
         function: KSFunctionDeclaration,
         name: String,
+        repoPath: String,
         fileSpecBuilder: FileSpec.Builder
     ) {
         val functionName = function.simpleName.asString()
@@ -301,9 +303,10 @@ class FunctionalityProcessor(
                 functionalityImplClassName = %S,
                 testClass = ${if (testClassExists) "$testClassName::class.java" else "null"},
                 packageName = %S,
+                repoPath = %S,
                 composable = { $functionName(it) }
             )
-            """.trimIndent(), name, interfaceName, "${interfaceName}Impl", packageName
+            """.trimIndent(), name, interfaceName, "${interfaceName}Impl", packageName, repoPath
             )
             .build()
 

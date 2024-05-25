@@ -42,8 +42,9 @@ fun SimpleInterestCalculator(
 }
 
 @MiniApp(
-    "Simple Interest Calculator",
-    "principal, rate, time"
+    name = "Simple Interest Calculator",
+    repoPath = "ProgrammingFundamentals/Ep2/SimpleInterestCalculator",
+    paramNames = "principal, rate, time"
 )
 @Composable
 fun SimpleInterestCalculatorV1(

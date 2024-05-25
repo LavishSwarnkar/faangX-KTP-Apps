@@ -17,7 +17,11 @@ import com.faangx.ktp.SMILE_EMOJI
 import com.faangx.ktp.comp.DynamicRowColumn
 import ksp.MiniApp
 
-@MiniApp("Grade Calculator", "m1, m2, m3, m4, m5")
+@MiniApp(
+    name = "Grade Calculator",
+    repoPath = "ProgrammingFundamentals/Ep2/GradeCalculator",
+    paramNames = "m1, m2, m3, m4, m5"
+)
 @Composable
 fun GradeCalculatorApp(
     getGrade: (Int, Int, Int, Int, Int) -> String

@@ -4,5 +4,6 @@ package ksp
 @Retention(AnnotationRetention.SOURCE)
 annotation class MiniApp(
     val name: String,
+    val repoPath: String,
     val paramNames: String = ""
 )

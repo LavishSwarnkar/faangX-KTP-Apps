@@ -15,8 +15,9 @@ import com.faangx.ktp.comp.DynamicRowColumn
 import ksp.MiniApp
 
 @MiniApp(
-    "Perimeter & Area of Rectangle",
-    "l, b; l, b"
+    name = "Perimeter & Area of Rectangle",
+    repoPath = "ProgrammingFundamentals/Ep2/PerimeterAndAreaOfRect",
+    paramNames = "l, b; l, b"
 )
 @Composable
 fun PerimeterAndAreaOfRectApp(

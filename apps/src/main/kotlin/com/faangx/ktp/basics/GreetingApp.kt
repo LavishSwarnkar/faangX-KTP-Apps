@@ -14,7 +14,11 @@ import androidx.compose.ui.unit.dp
 import com.faangx.ktp.SMILE_EMOJI
 import ksp.MiniApp
 
-@MiniApp("Greeting App", "text")
+@MiniApp(
+    name = "Greeting App",
+    repoPath = "ProgrammingFundamentals/Ep3/GreetingApp",
+    paramNames = "text"
+)
 @Composable
 fun GreetingApp(
     greet: (String) -> String

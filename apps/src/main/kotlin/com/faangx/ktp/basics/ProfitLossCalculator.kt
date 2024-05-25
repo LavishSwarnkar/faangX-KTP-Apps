@@ -26,8 +26,9 @@ private enum class Quantity { CP, PL, AbsPL, SP }
 private enum class PorL { Profit, Loss }
 
 @MiniApp(
-    "Profit & Loss Calculator",
-    "cp, pl; cp, absPL; sp, pl; sp, absPL; cp, sp; cp, absPL; sp, absPL; cp, sp; cp, pl; sp, pl"
+    name = "Profit & Loss Calculator",
+    repoPath = "ProgrammingFundamentals/Ep2/ProfitLossCalculator",
+    paramNames = "cp, pl; cp, absPL; sp, pl; sp, absPL; cp, sp; cp, absPL; sp, absPL; cp, sp; cp, pl; sp, pl"
 )
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable

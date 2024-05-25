@@ -14,7 +14,11 @@ import com.faangx.ktp.comp.DynamicRowColumn
 import com.faangx.ktp.comp.HighlightedText
 import ksp.MiniApp
 
-@MiniApp("Stage of Life", "age")
+@MiniApp(
+    name = "Stage of Life",
+    repoPath = "ProgrammingFundamentals/Ep2/StageOfLife",
+    paramNames = "age"
+)
 @Composable
 fun StageOfLifeApp(
     stageOfLife: (Int) -> String

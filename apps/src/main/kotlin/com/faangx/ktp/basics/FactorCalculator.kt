@@ -16,7 +16,11 @@ import com.faangx.ktp.util.captureStdOutput
 import com.streamliners.compose.comp.select.LabelledCheckBox
 import ksp.MiniApp
 
-@MiniApp("Factor Calculator", "num; num")
+@MiniApp(
+    name = "Factor Calculator",
+    repoPath = "ProgrammingFundamentals/Ep3/FactorCalculator",
+    paramNames = "num; num"
+)
 @Composable
 fun FactorCalculator(
     printFactorsOf: (Int) -> Unit,
