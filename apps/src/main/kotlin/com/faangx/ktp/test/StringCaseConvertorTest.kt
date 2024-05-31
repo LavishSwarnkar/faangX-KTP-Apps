@@ -98,8 +98,16 @@ object StringCaseConvertorTest {
     internal fun convertToLowercase(text: String): String {
         return buildString {
             for (c in text) {
-                append(com.faangx.ktp.demo.convertToLowercase(c))
+                append(convertToLowercase(c))
             }
+        }
+    }
+
+    private fun convertToLowercase(char: Char): Char {
+        return if (char in 'A'..'Z') {
+            Char(char.code + 32)
+        } else {
+            char
         }
     }
 
