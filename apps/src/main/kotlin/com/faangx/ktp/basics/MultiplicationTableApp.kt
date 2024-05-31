@@ -20,7 +20,8 @@ import java.io.ByteArrayOutputStream
 @MiniApp(
     name = "Multiplication Table",
     repoPath = "ProgrammingFundamentals/Ep3/MultiplicationTable",
-    paramNames = "num"
+    paramNames = "num",
+    supportsParentScroll = false
 )
 @Composable
 fun MultiplicationTableApp(
@@ -35,7 +36,8 @@ fun MultiplicationTableApp(
 @MiniApp(
     name = "Multiplication Table V1",
     repoPath = "ProgrammingFundamentals/Ep3/MultiplicationTableV1",
-    paramNames = "num, start, end"
+    paramNames = "num, start, end",
+    supportsParentScroll = false
 )
 @Composable
 fun MultiplicationTableAppV1(
