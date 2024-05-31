@@ -23,6 +23,7 @@ import com.faangx.ktp.basics.loops.CircleCenter.*
 import com.faangx.ktp.basics.loops.Direction.*
 import com.faangx.ktp.util.captureStdOutput
 import kotlinx.coroutines.delay
+import ksp.MiniApp
 import kotlin.math.roundToInt
 
 enum class Direction {
@@ -65,44 +66,51 @@ class SpiralConfig(
     val showBoxes: Boolean = false
 )
 
-fun SpiralMiniApp(
-    printFibonacciSeries: (Int) -> Unit,
-    animate: Boolean = true,
-    showBoxes: Boolean = false
+fun SpiralFullScreenMiniApp(
+    printFibonacciSeries: (Int) -> Unit
 ) {
-    val series = captureStdOutput {
-        printFibonacciSeries(250)
-    }.split(", ").dropLast(1)
-        .map { it.toLong().toInt() }
-
     application {
         val state = rememberWindowState(
             placement = WindowPlacement.Maximized
         )
         Window(::exitApplication, state, title = "Golden Ratio Spiral") {
 
-            Spiral(
-                if (animate) {
-                    SpiralConfig(
-                        radii = series,
-                        centerOffset = Offset(-25f, 0f),
-                        boxSize = 25f,
-                        showBoxes = showBoxes
-                    )
-                } else {
-                    SpiralConfig(
-                        radii = series,
-                        centerOffset = Offset(-25f, 0f),
-                        rotateAnimation = false,
-                        scaleAnimation = false,
-                        scale = 1f,
-                        boxSize = 25f,
-                        showBoxes = showBoxes
-                    )
-                }
-            )
+            SpiralApp(printFibonacciSeries)
         }
     }
+}
+
+@MiniApp(
+    "Spiral",
+    "ProgrammingFundamentals/Ep4/Spiral",
+    "n"
+)
+@Composable
+fun SpiralApp(
+    printFibonacciSeries: (Int) -> Unit
+) {
+    val series = captureStdOutput {
+        printFibonacciSeries(250)
+    }.split(", ").dropLast(1)
+        .map { it.toLong().toInt() }
+
+    Spiral(
+        SpiralConfig(
+            radii = series,
+            centerOffset = Offset(-25f, 0f),
+            boxSize = 25f,
+            showBoxes = false
+        )
+//        SpiralConfig(
+//            radii = series,
+//            centerOffset = Offset(-25f, 0f),
+//            rotateAnimation = false,
+//            scaleAnimation = false,
+//            scale = 1f,
+//            boxSize = 25f,
+//            showBoxes = false
+//        )
+    )
 }
 
 @Composable
