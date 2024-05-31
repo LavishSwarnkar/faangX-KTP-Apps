@@ -57,7 +57,7 @@ fun StringPalindromeChecker(
 
             VerticalDivider(
                 modifier = Modifier.fillMaxHeight()
-                    .padding(horizontal = 24.dp)
+                    .padding(horizontal = 12.dp)
             )
 
             OutlinedTextField(
