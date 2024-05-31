@@ -8,6 +8,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.faangx.ktp.SMILE_EMOJI
 import com.faangx.ktp.comp.HighlightedText
@@ -42,7 +43,7 @@ fun LcmHcfCalculator(
         modifier = Modifier.fillMaxSize()
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(12.dp, Alignment.CenterVertically)
+        verticalArrangement = Arrangement.spacedBy(24.dp, Alignment.CenterVertically)
     ) {
         Row(
             modifier = Modifier.widthIn(max = 400.dp)
@@ -52,7 +53,7 @@ fun LcmHcfCalculator(
                 value = x,
                 onValueChange = { x = it },
                 label = { Text("X") },
-                textStyle = MaterialTheme.typography.titleLarge,
+                textStyle = MaterialTheme.typography.titleLarge.copy(textAlign = TextAlign.Center),
             )
 
             OutlinedTextField(
@@ -60,7 +61,7 @@ fun LcmHcfCalculator(
                 value = y,
                 onValueChange = { y = it },
                 label = { Text("Y") },
-                textStyle = MaterialTheme.typography.titleLarge,
+                textStyle = MaterialTheme.typography.titleLarge.copy(textAlign = TextAlign.Center),
             )
         }
 
