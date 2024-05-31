@@ -17,7 +17,7 @@ import ksp.MiniApp
 @MiniApp(
     "Armstrong Numbers",
     "ProgrammingFundamentals/Ep4/ArmstrongNumbers",
-    "n"
+    "upTo"
 )
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
