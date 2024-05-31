@@ -1,29 +1,24 @@
 package com.faangx.ktp.basics
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.OutlinedTextField
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.faangx.ktp.MiniApp
+import com.faangx.ktp.comp.DynamicRowColumn
 import com.faangx.ktp.comp.HighlightedText
 import com.faangx.ktp.util.captureStdOutput
+import ksp.MiniApp
 
-fun ArmstrongNumbersMiniApp(
-    printArmstrongNums: (Int) -> Unit
-) {
-    MiniApp(
-        title = "Armstrong Checker",
-        composable = {
-            ArmstrongNumbers(printArmstrongNums)
-        }
-    )
-}
-
+@MiniApp(
+    "Armstrong Numbers",
+    "ProgrammingFundamentals/Ep4/ArmstrongNumbers",
+    "n"
+)
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun ArmstrongNumbers(
@@ -49,30 +44,44 @@ fun ArmstrongNumbers(
         verticalArrangement = Arrangement.Center
     ) {
 
-        Row(
+        DynamicRowColumn(
+            horizontalArrangement = Arrangement.spacedBy(12.dp, Alignment.CenterHorizontally),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(20.dp)
+            verticalArrangement = Arrangement.spacedBy(12.dp, Alignment.CenterVertically),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = "Armstrong numbers between 1 and",
-                style = androidx.compose.material3.MaterialTheme.typography.headlineMedium,
+                text = "Armstrong numbers",
+                style = MaterialTheme.typography.titleLarge,
                 textAlign = TextAlign.Center
             )
 
-            OutlinedTextField(
-                modifier = Modifier.width(130.dp),
-                value = n,
-                onValueChange = { if (it.length <= 6) n = it },
-                textStyle = MaterialTheme.typography.h5
-            )
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "between 1 &",
+                    style = MaterialTheme.typography.titleLarge,
+                    textAlign = TextAlign.Center
+                )
+
+                OutlinedTextField(
+                    modifier = Modifier.width(130.dp)
+                        .padding(start = 12.dp),
+                    value = n,
+                    onValueChange = { if (it.length <= 6) n = it },
+                    textStyle = MaterialTheme.typography.titleLarge
+                )
+            }
 
             Text(
                 text = "are",
-                style = androidx.compose.material3.MaterialTheme.typography.headlineMedium,
+                style = MaterialTheme.typography.titleLarge,
                 textAlign = TextAlign.Center
             )
         }
 
+        Spacer(Modifier.size(12.dp))
 
         FlowRow(
             verticalArrangement = Arrangement.Center
@@ -80,7 +89,7 @@ fun ArmstrongNumbers(
             nums.forEach { factor ->
                 HighlightedText(
                     text = factor.toString(),
-                    style = androidx.compose.material3.MaterialTheme.typography.headlineMedium
+                    style = MaterialTheme.typography.titleLarge
                 )
             }
         }
