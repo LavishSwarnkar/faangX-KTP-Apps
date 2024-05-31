@@ -22,19 +22,13 @@ import com.faangx.ktp.LIGHT_GREEN
 import com.faangx.ktp.MiniApp
 import com.faangx.ktp.SMILE_EMOJI
 import com.streamliners.compose.comp.select.LabelledCheckBox
+import ksp.MiniApp
 
-fun NumberPalindromeCheckerMiniApp(
-    reverseNum: (Long) -> Long,
-    isPalindrome: (Long) -> Boolean
-) {
-    MiniApp(
-        title = "Number Palindrome Checker",
-        composable = {
-            NumberPalindromeChecker(reverseNum, isPalindrome)
-        }
-    )
-}
-
+@MiniApp(
+    "Number Palindrome Checker",
+    "ProgrammingFundamentals/Ep4/NumberPalindrome",
+    "num; num"
+)
 @Composable
 fun NumberPalindromeChecker(
     reverseNum: (Long) -> Long,
@@ -57,9 +51,10 @@ fun NumberPalindromeChecker(
 
         Row(
             modifier = Modifier.height(IntrinsicSize.Min)
+                .widthIn(max = 600.dp)
         ) {
             OutlinedTextField(
-                modifier = Modifier.width(280.dp),
+                modifier = Modifier.weight(1f),
                 value = num,
                 onValueChange = { if (it.length <= 15) num = it },
                 textStyle = MaterialTheme.typography.h5.copy(
@@ -73,11 +68,11 @@ fun NumberPalindromeChecker(
 
             VerticalDivider(
                 modifier = Modifier.fillMaxHeight()
-                    .padding(horizontal = 24.dp)
+                    .padding(horizontal = 12.dp)
             )
 
             OutlinedTextField(
-                modifier = Modifier.width(280.dp),
+                modifier = Modifier.weight(1f),
                 value = reverse.value,
                 readOnly = true,
                 onValueChange = { },
