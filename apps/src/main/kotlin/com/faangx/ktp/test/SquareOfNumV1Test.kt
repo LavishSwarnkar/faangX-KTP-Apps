@@ -7,7 +7,7 @@ import kotlin.random.Random
 typealias SquareOfNumTestcase = Pair<Long, Long>
 
 @MiniAppTest
-object SquareOfNumAppV1Test {
+object SquareOfNumV1Test {
 
     fun test(
         functionality: SquareOfNumAppV1Functionality,
@@ -29,5 +29,7 @@ object SquareOfNumAppV1Test {
             }
         }
     }
+
+    internal fun getSquareOf(x: Long) = x * x
 
 }

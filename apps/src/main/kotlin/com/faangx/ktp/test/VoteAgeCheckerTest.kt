@@ -31,4 +31,8 @@ object VoteAgeCheckerTest {
         )
     }
 
+    internal fun canVote(age: Int): Boolean {
+        return age >= 18
+    }
+
 }

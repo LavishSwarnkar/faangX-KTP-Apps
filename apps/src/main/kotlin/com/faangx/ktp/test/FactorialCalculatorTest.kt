@@ -44,16 +44,32 @@ object FactorialCalculatorTest {
                 val n = Random().nextLong(30)
                 val r = Random().nextLong(15)
 
-                val factorialOf = { x: Long ->
-                    (2L..x).fold(1L) { acc, i -> acc * i }
-                }
-
-                val p = ((n - r + 1)..n).fold(1L) { acc, i -> acc * i }
+                val p = permutationsOf(n, r)
                 val c = p / factorialOf(r)
 
                 add(FactorialCalculatorTestcase(n, r, factorialOf(n), p, c))
             }
         }
+    }
+
+    internal fun factorialOf(x: Long): Long {
+        var factorial = 1L
+        for (i in 2L..x) {
+            factorial *= i
+        }
+        return factorial
+    }
+
+    internal fun permutationsOf(n: Long, r: Long): Long {
+        var permutations = 1L
+        for (i in (n - r + 1)..n) {
+            permutations *= i
+        }
+        return permutations
+    }
+
+    internal fun combinationsOf(n: Long, r: Long): Long {
+        return permutationsOf(n, r) / factorialOf(r)
     }
 
 }

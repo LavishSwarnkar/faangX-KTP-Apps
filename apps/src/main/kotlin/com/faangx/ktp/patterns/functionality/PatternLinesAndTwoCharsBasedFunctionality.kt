@@ -3,6 +3,7 @@ package com.faangx.ktp.patterns.functionality
 import androidx.compose.runtime.Composable
 import com.faangx.ktp.MobileMiniApp
 import com.faangx.ktp.patterns.single.PatternLinesAndTwoCharsBasedApp
+import com.faangx.ktp.patterns.test.PatternCorrectImplHelper
 import com.faangx.ktp.test.mobile.FactorCalculatorMobileMiniAppTest
 import kotlin.Int
 import kotlin.String
@@ -34,6 +35,9 @@ fun PatternLinesAndTwoCharsBased_MobileMiniApp(
 		functionalityImpl = patternLinesAndTwoCharsBasedFunctionality_Impl_AsString(),
 		functionalityFuns = patternLinesAndTwoCharsBasedFunctionality_Funs_AsString(),
 		functionalityImplClassName = "PatternLinesAndTwoCharsBasedFunctionalityImpl",
+		testFunctionality = object : PatternLinesAndTwoCharsBasedFunctionality {
+			override fun printPattern1(lines: Int, char1: Char, char2: Char) = PatternCorrectImplHelper.getForLinesAndTwoCharBased(patternCode)(lines, char1, char2)
+		},
 		testClass = testClass,
 		packageName = "com.faangx.ktp.patterns.functionality",
 		repoPath = repoPath,

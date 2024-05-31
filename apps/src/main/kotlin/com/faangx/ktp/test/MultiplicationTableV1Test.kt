@@ -48,4 +48,10 @@ object MultiplicationTableV1Test {
         }
     }
 
+    internal fun printTable(num: Int, start: Int, end: Int) {
+        for (i in start..end) {
+            println("$num X $i = ${num * i}")
+        }
+    }
+
 }

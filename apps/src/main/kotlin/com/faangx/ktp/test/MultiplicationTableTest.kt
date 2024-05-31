@@ -41,4 +41,10 @@ object MultiplicationTableTest {
         }
     }
 
+    internal fun printTable(num: Int) {
+        repeat(10) {
+            println("$num X ${it + 1} = ${num * (it + 1)}")
+        }
+    }
+
 }

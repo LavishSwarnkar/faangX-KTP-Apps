@@ -2,7 +2,7 @@ package com.faangx.ktp.test.mobile
 
 import com.faangx.ktp.basics.PerimeterAndAreaOfRectAppFunctionality
 import com.faangx.ktp.basics.PerimeterAndAreaOfRect_MobileMiniApp
-import com.faangx.ktp.test.PerimeterAndAreaOfRectAppTest
+import com.faangx.ktp.test.PerimeterAndAreaOfRectTest
 import com.faangx.ktp.test.PerimeterAndAreaOfRectangleTestCase
 import com.faangx.ktp.MiniAppFunctionalityHelper
 import com.faangx.ktp.simpleName
@@ -14,7 +14,7 @@ class PerimeterAndAreaOfRectMobileMiniAppTest {
     @ParameterizedTest
     @MethodSource("TestCases")
     fun Test(testcase: PerimeterAndAreaOfRectangleTestCase) {
-        PerimeterAndAreaOfRectAppTest.test(
+        PerimeterAndAreaOfRectTest.test(
             functionality = MiniAppFunctionalityHelper.getFunctionality(
                 PerimeterAndAreaOfRect_MobileMiniApp().simpleName()
             ) as PerimeterAndAreaOfRectAppFunctionality,
@@ -25,7 +25,7 @@ class PerimeterAndAreaOfRectMobileMiniAppTest {
     companion object {
         @JvmStatic
         fun TestCases(): List<PerimeterAndAreaOfRectangleTestCase> {
-            return PerimeterAndAreaOfRectAppTest.testcases()
+            return PerimeterAndAreaOfRectTest.testcases()
         }
     }
 

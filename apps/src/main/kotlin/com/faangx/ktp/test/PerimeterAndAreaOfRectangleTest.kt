@@ -12,7 +12,7 @@ class PerimeterAndAreaOfRectangleTestCase(
 )
 
 @MiniAppTest
-object PerimeterAndAreaOfRectAppTest {
+object PerimeterAndAreaOfRectTest {
 
     fun test(
         functionality: PerimeterAndAreaOfRectAppFunctionality,
@@ -42,6 +42,14 @@ object PerimeterAndAreaOfRectAppTest {
                 )
             }
         }
+    }
+
+    internal fun getPerimeterOfRectangle(l: Int, b: Int): Int {
+        return 2 * l + b
+    }
+
+    internal fun getAreaOfRectangle(l: Int, b: Int): Int {
+        return l * b
     }
 
 }

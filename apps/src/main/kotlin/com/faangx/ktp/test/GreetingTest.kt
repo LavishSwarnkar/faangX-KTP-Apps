@@ -29,4 +29,8 @@ object GreetingTest {
         )
     }
 
+    internal fun greet(name: String): String {
+        return "Namaste $name"
+    }
+
 }

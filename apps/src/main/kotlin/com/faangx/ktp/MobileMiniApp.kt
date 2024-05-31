@@ -9,6 +9,7 @@ class MobileMiniApp<T>(
     val functionalityImpl: String,
     val functionalityFuns: String,
     val functionalityImplClassName: String,
+    val testFunctionality: T,
     val testClass: Class<*>?,
     val packageName: String,
     val repoPath: String,

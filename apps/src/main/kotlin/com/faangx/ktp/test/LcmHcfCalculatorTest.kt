@@ -24,7 +24,7 @@ object LcmHcfCalculatorTest {
         }
     }
 
-    internal fun lcmOf(x: Int, y: Int): Int {
+    internal fun getLCM(x: Int, y: Int): Int {
         if (x == 0 || y == 0) {
             return 0
         }
@@ -37,7 +37,7 @@ object LcmHcfCalculatorTest {
         }
     }
 
-    internal fun hcfOf(x: Int, y: Int): Int {
+    internal fun getHCF(x: Int, y: Int): Int {
         var a = x
         var b = y
 
@@ -58,8 +58,8 @@ object LcmHcfCalculatorTest {
                 add(
                     LcmHcfCalculatorTestcase(
                         x = x, y = y,
-                        lcm = lcmOf(x, y),
-                        hcf = hcfOf(x, y)
+                        lcm = getLCM(x, y),
+                        hcf = getHCF(x, y)
                     )
                 )
             }

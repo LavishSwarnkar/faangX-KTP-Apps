@@ -30,4 +30,8 @@ object MaxOfTwoNumsTest {
         }
     }
 
+    internal fun maxOf(x: Int, y: Int): Int {
+        return if (x > y) x else y
+    }
+
 }

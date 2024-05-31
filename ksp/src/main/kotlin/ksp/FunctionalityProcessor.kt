@@ -79,6 +79,7 @@ class FunctionalityProcessor(
         val interfaceCode = generateInterface(function, interfaceName, paramNamesArg, fileSpecBuilder)
         val topLevelFunctionsCode = generateTopLevelFunctions(function, paramNamesArg, fileSpecBuilder)
         val implClassCode = generateImplClass(function, interfaceName, implClassName, paramNamesArg, fileSpecBuilder)
+        generateTestImplExtFun(function, interfaceName, implClassName, paramNamesArg, fileSpecBuilder)
         generateComposableFunction(function, interfaceName, fileSpecBuilder)
         generateMiniAppComposableFunction(function, nameArg, fileSpecBuilder)
         generateMobileMiniAppFunction(resolver, function, nameArg, repoPathArg, fileSpecBuilder)
@@ -213,6 +214,51 @@ class FunctionalityProcessor(
         }
     }
 
+    private fun generateTestImplExtFun(function: KSFunctionDeclaration, interfaceName: String, implClassName: String, paramNames: String, fileSpecBuilder: FileSpec.Builder) {
+        val functionName = function.simpleName.asString()
+            .replace("App", "")
+
+        val funSpecBuilder = FunSpec.builder("functionality")
+            .receiver(ClassName("com.faangx.ktp.test", "${functionName}Test"))
+            .returns(ClassName("", interfaceName))
+            .addCode("return object : $interfaceName {\n")
+
+        val paramNamesList = paramNames.split(";").map { it.trim() }
+
+        function.parameters.forEachIndexed { index, parameter ->
+            val paramName = parameter.name?.asString() ?: return@forEachIndexed
+            val functionSignature = getFunctionSignature(parameter, suffix = "1")
+            val paramInputNames = paramNamesList.getOrNull(index)?.split(",")?.map { it.trim() } ?: listOf("param")
+
+            val parameters = functionSignature.first.mapIndexed { idx, paramSpec ->
+                paramSpec.toBuilder(paramInputNames[idx], paramSpec.type).build()
+            }
+
+            val funSpec = FunSpec.builder(paramName + "1")
+                .addModifiers(KModifier.OVERRIDE)
+                .addParameters(parameters)
+                .returns(functionSignature.second)
+                .addStatement("return $paramName(${paramInputNames.joinToString(", ")})")
+                .build()
+
+            val funCode = captureGeneratedCode { stringBuilder ->
+                FileSpec.builder("", "")
+                    .addFunction(funSpec)
+                    .build()
+                    .writeTo(stringBuilder)
+            }.split("\n")
+                .filter { !it.startsWith("import") }
+                .joinToString("\n")
+                .trimStart('\n')
+
+            funSpecBuilder.addCode(funCode)
+        }
+
+        funSpecBuilder.addCode("}")
+
+        fileSpecBuilder.addFunction(funSpecBuilder.build())
+    }
+
     private fun generateComposableFunction(function: KSFunctionDeclaration, interfaceName: String, fileSpecBuilder: FileSpec.Builder) {
         val functionName = function.simpleName.asString()
 
@@ -284,11 +330,8 @@ class FunctionalityProcessor(
         val packageName = function.packageName.asString()
 
         val testClassName = "${functionName.replace("App", "")}MobileMiniAppTest"
-        val testClassExists = classExists(resolver, "com.faangx.ktp.test.mobile",testClassName)
 
-        if (testClassExists) {
-            fileSpecBuilder.addImport("com.faangx.ktp.test.mobile", testClassName)
-        }
+        fileSpecBuilder.addImport("com.faangx.ktp.test.mobile", testClassName)
 
         val funSpec = FunSpec.builder(functionName.replace("App", "") + "_MobileMiniApp")
             .returns(ClassName("com.faangx.ktp", "MobileMiniApp").parameterizedBy(ClassName(packageName, interfaceName)))
@@ -301,7 +344,8 @@ class FunctionalityProcessor(
                 functionalityImpl = ${strFunsName}_Impl_AsString(),
                 functionalityFuns = ${strFunsName}_Funs_AsString(),
                 functionalityImplClassName = %S,
-                testClass = ${if (testClassExists) "$testClassName::class.java" else "null"},
+                testFunctionality = ${functionName.replace("App", "")}Test.functionality(),
+                testClass = $testClassName::class.java,
                 packageName = %S,
                 repoPath = %S,
                 composable = { $functionName(it) }

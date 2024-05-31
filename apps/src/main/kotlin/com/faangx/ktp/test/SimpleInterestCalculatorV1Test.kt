@@ -44,4 +44,8 @@ object SimpleInterestCalculatorV1Test {
         }
     }
 
+    internal fun calculateInterest(p: Float, r: Float, t: Float): Float {
+        return p * r * t / 100
+    }
+
 }

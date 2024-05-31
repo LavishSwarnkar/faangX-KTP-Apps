@@ -2,6 +2,7 @@ package com.faangx.ktp.test
 
 import com.faangx.ktp.basics.ProfitLossCalculatorFunctionality
 import ksp.MiniAppTest
+import kotlin.math.roundToInt
 
 data class ProfitLossCalculatorTestCase(
     val cp: Int,
@@ -73,6 +74,40 @@ object ProfitLossCalculatorTest {
                 }
             }
         }
+    }
+
+    internal fun getSp1(cp: Int, pl: Int): Int {
+        return cp * (100 + pl) / 100
+    }
+    internal fun getSp2(cp: Int, absPL: Int): Int {
+        return cp + absPL
+    }
+
+    internal fun getCp1(sp: Int, pl: Int): Int {
+        return sp * 100 / (100 + pl)
+    }
+    internal fun getCp2(sp: Int, absPL: Int): Int {
+        return sp - absPL
+    }
+
+    internal fun getPl1(cp: Int, sp: Int): Int {
+        return ((sp - cp).toFloat() / cp * 100).roundToInt()
+    }
+    internal fun getPl2(cp: Int, absPL: Int): Int {
+        return (absPL.toFloat() / cp * 100).roundToInt()
+    }
+    internal fun getPl3(sp: Int, absPL: Int): Int {
+        return (absPL.toFloat() / (sp - absPL) * 100).roundToInt()
+    }
+
+    internal fun getAbsPL1(cp: Int, sp: Int): Int {
+        return sp - cp
+    }
+    internal fun getAbsPL2(cp: Int, pl: Int): Int {
+        return cp * pl / 100
+    }
+    internal fun getAbsPL3(sp: Int, pl: Int): Int {
+        return sp * pl / (100 + pl)
     }
 
 }

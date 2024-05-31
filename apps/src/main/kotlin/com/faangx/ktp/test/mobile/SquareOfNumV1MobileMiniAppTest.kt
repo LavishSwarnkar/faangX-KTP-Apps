@@ -2,7 +2,7 @@ package com.faangx.ktp.test.mobile
 
 import com.faangx.ktp.basics.SquareOfNumAppV1Functionality
 import com.faangx.ktp.basics.SquareOfNumV1_MobileMiniApp
-import com.faangx.ktp.test.SquareOfNumAppV1Test
+import com.faangx.ktp.test.SquareOfNumV1Test
 import com.faangx.ktp.test.SquareOfNumTestcase
 import com.faangx.ktp.MiniAppFunctionalityHelper
 import com.faangx.ktp.simpleName
@@ -15,7 +15,7 @@ class SquareOfNumV1MobileMiniAppTest {
     @ParameterizedTest
     @MethodSource("TestCases")
     fun Test(testcase: SquareOfNumTestcase) {
-        SquareOfNumAppV1Test.test(
+        SquareOfNumV1Test.test(
             functionality = MiniAppFunctionalityHelper.getFunctionality(
                 SquareOfNumV1_MobileMiniApp().simpleName()
             ) as SquareOfNumAppV1Functionality,

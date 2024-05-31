@@ -3,6 +3,7 @@ package com.faangx.ktp.patterns.functionality
 import androidx.compose.runtime.Composable
 import com.faangx.ktp.MobileMiniApp
 import com.faangx.ktp.patterns.single.PatternWordBasedApp
+import com.faangx.ktp.patterns.test.PatternCorrectImplHelper
 import com.faangx.ktp.test.mobile.FactorCalculatorMobileMiniAppTest
 
 interface PatternWordBasedFunctionality {
@@ -32,6 +33,9 @@ fun PatternWordBased_MobileMiniApp(
 		functionalityImpl = patternWordBasedFunctionality_Impl_AsString(),
 		functionalityFuns = patternWordBasedFunctionality_Funs_AsString(),
 		functionalityImplClassName = "PatternWordBasedFunctionalityImpl",
+		testFunctionality = object : PatternWordBasedFunctionality {
+			override fun printPattern1(word: String) = PatternCorrectImplHelper.getForWordBased(patternCode)(word)
+		},
 		testClass = testClass,
 		packageName = "com.faangx.ktp.patterns.functionality",
 		repoPath = repoPath,

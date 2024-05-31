@@ -43,4 +43,22 @@ object FactorCalculatorTest {
         }
     }
 
+    internal fun printFactorsOf(num: Int) {
+        for (i in 1..num) {
+            if (num % i == 0) {
+                print("$i, ")
+            }
+        }
+    }
+
+    internal fun isPrime(num: Int): Boolean {
+        var count = 0
+        for (i in 1..num) {
+            if (num % i == 0) {
+                count++
+            }
+        }
+        return count == 2
+    }
+
 }
