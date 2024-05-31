@@ -5,5 +5,6 @@ package ksp
 annotation class MiniApp(
     val name: String,
     val repoPath: String,
-    val paramNames: String = ""
+    val paramNames: String = "",
+    val supportsParentScroll: Boolean = true
 )

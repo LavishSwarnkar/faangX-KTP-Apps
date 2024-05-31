@@ -83,7 +83,8 @@ fun SpiralFullScreenMiniApp(
 @MiniApp(
     "Spiral",
     "ProgrammingFundamentals/Ep4/Spiral",
-    "n"
+    "n",
+    false
 )
 @Composable
 fun SpiralApp(

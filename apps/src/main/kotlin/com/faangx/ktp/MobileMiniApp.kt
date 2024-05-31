@@ -13,6 +13,7 @@ class MobileMiniApp<T>(
     val testClass: Class<*>?,
     val packageName: String,
     val repoPath: String,
+    val supportsParentScroll: Boolean = true,
     val composable: @Composable (T) -> Unit
 )
 

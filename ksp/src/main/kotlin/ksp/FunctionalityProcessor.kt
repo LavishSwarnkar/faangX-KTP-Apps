@@ -67,6 +67,7 @@ class FunctionalityProcessor(
         val nameArg = miniAppAnnotation?.arguments?.find { it.name?.asString() == "name" }?.value as? String ?: ""
         val paramNamesArg = miniAppAnnotation?.arguments?.find { it.name?.asString() == "paramNames" }?.value as? String ?: ""
         val repoPathArg = miniAppAnnotation?.arguments?.find { it.name?.asString() == "repoPath" }?.value as? String ?: ""
+        val supportsParentScrollArg = miniAppAnnotation?.arguments?.find { it.name?.asString() == "supportsParentScroll" }?.value as? Boolean ?: true
 
         val packageName = function.packageName.asString()
         val functionName = function.simpleName.asString()
@@ -82,7 +83,7 @@ class FunctionalityProcessor(
         generateTestImplExtFun(function, interfaceName, implClassName, paramNamesArg, fileSpecBuilder)
         generateComposableFunction(function, interfaceName, fileSpecBuilder)
         generateMiniAppComposableFunction(function, nameArg, fileSpecBuilder)
-        generateMobileMiniAppFunction(resolver, function, nameArg, repoPathArg, fileSpecBuilder)
+        generateMobileMiniAppFunction(resolver, function, nameArg, repoPathArg, supportsParentScrollArg, fileSpecBuilder)
 
         fileSpecBuilder.addFunction(generateStringRepresentation("${strFunsName}_Interface", interfaceCode))
         fileSpecBuilder.addFunction(generateStringRepresentation("${strFunsName}_Impl", implClassCode))
@@ -322,6 +323,7 @@ class FunctionalityProcessor(
         function: KSFunctionDeclaration,
         name: String,
         repoPath: String,
+        supportsParentScrollArg: Boolean,
         fileSpecBuilder: FileSpec.Builder
     ) {
         val functionName = function.simpleName.asString()
@@ -348,6 +350,7 @@ class FunctionalityProcessor(
                 testClass = $testClassName::class.java,
                 packageName = %S,
                 repoPath = %S,
+                supportsParentScroll = $supportsParentScrollArg,
                 composable = { $functionName(it) }
             )
             """.trimIndent(), name, interfaceName, "${interfaceName}Impl", packageName, repoPath
