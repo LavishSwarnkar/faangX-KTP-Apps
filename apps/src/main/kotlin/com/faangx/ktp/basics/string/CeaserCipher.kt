@@ -1,9 +1,7 @@
 package com.faangx.ktp.basics.string
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.OutlinedTextField
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.RangeSlider
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
@@ -13,42 +11,26 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.PointerEventType
 import androidx.compose.ui.input.pointer.onPointerEvent
 import androidx.compose.ui.unit.dp
-import com.faangx.ktp.MiniApp
 import com.faangx.ktp.comp.RadioButtonOptionalTextField
+import com.faangx.ktp.comp.ScreenSize
+import com.faangx.ktp.comp.iz
+import com.faangx.ktp.comp.rememberScreenSize
 import com.streamliners.compose.comp.select.LabelledCheckBox
+import ksp.MiniApp
 import kotlin.math.roundToInt
 
-fun CeaserCipherMiniApp(
-    encode: (String, delta: Int) -> String,
-    decode: (String, delta: Int) -> String
-) {
-    MiniApp(
-        title = "CeaserCipher App",
-        composable = {
-            CeaserCipher(
-                encode = { str, delta, _ ->
-                    encode(str, delta)
-                },
-                decode = { str, delta, _ ->
-                    decode(str, delta)
-                },
-                allowNegativeDelta = false
-            )
-        }
-    )
-}
-
-fun CeaserCipherMiniAppV1(
+@MiniApp(
+    "Ceaser Cipher",
+    "ProgrammingFundamentals/Ep4/CeaserCipher",
+    "text, delta, negative; text, delta, negative"
+)
+@Composable
+fun CeaserCipher(
     encode: (String, delta: Int, negative: Boolean) -> String,
     decode: (String, delta: Int, negative: Boolean) -> String
 ) {
-    MiniApp(
-        title = "CeaserCipher App",
-        composable = {
-            CeaserCipher(
-                encode, decode, true
-            )
-        }
+    CeaserCipher(
+        encode, decode, true
     )
 }
 
@@ -75,6 +57,8 @@ fun CeaserCipher(
             decoded.value = decode(encoded.value, delta, negative.value)
     }
 
+    val screenSize = rememberScreenSize()
+
     Column(
         modifier = Modifier.fillMaxSize()
             .padding(16.dp),
@@ -84,13 +68,23 @@ fun CeaserCipher(
 
         Column(
             modifier = Modifier
-                .width(IntrinsicSize.Min)
-                .onPointerEvent(PointerEventType.Enter) { showRadioButtons.value = true }
-                .onPointerEvent(PointerEventType.Exit) { showRadioButtons.value = false },
+                .widthIn(max = 800.dp)
+                .run {
+                    if (screenSize.iz(ScreenSize.Large)) {
+                        showRadioButtons.value = false
+                        onPointerEvent(PointerEventType.Enter) { showRadioButtons.value = true }
+                            .onPointerEvent(PointerEventType.Exit) { showRadioButtons.value = false }
+                    } else {
+                        showRadioButtons.value = true
+                        this
+                    }
+                },
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
 
             RadioButtonOptionalTextField(
+                modifier = Modifier.fillMaxWidth()
+                    .widthIn(max = 800.dp),
                 selected = encoderMode,
                 onClick = { encoderMode = true },
                 hint = "Plain text",
@@ -141,6 +135,8 @@ fun CeaserCipher(
             }
 
             RadioButtonOptionalTextField(
+                modifier = Modifier.fillMaxWidth()
+                    .widthIn(max = 800.dp),
                 selected = !encoderMode,
                 onClick = { encoderMode = false },
                 hint = "Cipher text",

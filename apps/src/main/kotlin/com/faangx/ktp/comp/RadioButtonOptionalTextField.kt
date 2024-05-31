@@ -52,8 +52,7 @@ fun RadioButtonOptionalTextField(
     singleLine: Boolean = true
 ) {
     Row (
-        modifier.width(400.dp)
-            .clip(RoundedCornerShape(8.dp))
+        modifier.clip(RoundedCornerShape(8.dp))
             .clickable { onClick() }
             .padding(8.dp),
         verticalAlignment = Alignment.CenterVertically
