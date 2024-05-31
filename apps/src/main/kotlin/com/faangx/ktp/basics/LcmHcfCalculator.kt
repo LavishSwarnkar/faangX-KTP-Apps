@@ -9,25 +9,16 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.faangx.ktp.MiniApp
 import com.faangx.ktp.SMILE_EMOJI
 import com.faangx.ktp.comp.HighlightedText
 import com.streamliners.compose.comp.select.LabelledCheckBox
+import ksp.MiniApp
 
-fun LcmHcfCalculatorMiniApp(
-    getLCM: (Int, Int) -> Int,
-    getHCF: (Int, Int) -> Int
-) {
-    MiniApp(
-        title = "LCM HCF Calculator",
-        composable = {
-            LcmHcfCalculator(
-                getLCM, getHCF
-            )
-        }
-    )
-}
-
+@MiniApp(
+    "LCM HCF Calculator",
+    "ProgrammingFundamentals/Ep4/LCM-HCF",
+    "x, y; x, y"
+)
 @Composable
 fun LcmHcfCalculator(
     getLCM: (Int, Int) -> Int,
@@ -53,9 +44,11 @@ fun LcmHcfCalculator(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(12.dp, Alignment.CenterVertically)
     ) {
-        Row {
+        Row(
+            modifier = Modifier.widthIn(max = 400.dp)
+        ) {
             OutlinedTextField(
-                modifier = Modifier.width(200.dp),
+                modifier = Modifier.weight(1f),
                 value = x,
                 onValueChange = { x = it },
                 label = { Text("X") },
@@ -63,7 +56,7 @@ fun LcmHcfCalculator(
             )
 
             OutlinedTextField(
-                modifier = Modifier.width(200.dp).padding(start = 12.dp),
+                modifier = Modifier.weight(1f).padding(start = 12.dp),
                 value = y,
                 onValueChange = { y = it },
                 label = { Text("Y") },
