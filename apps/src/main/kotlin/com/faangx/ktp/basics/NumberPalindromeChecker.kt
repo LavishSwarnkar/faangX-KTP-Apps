@@ -2,10 +2,9 @@ package com.faangx.ktp.basics
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.Text
-import androidx.compose.material.TextFieldDefaults
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
@@ -57,12 +56,12 @@ fun NumberPalindromeChecker(
                 modifier = Modifier.weight(1f),
                 value = num,
                 onValueChange = { if (it.length <= 15) num = it },
-                textStyle = MaterialTheme.typography.h5.copy(
+                textStyle = MaterialTheme.typography.titleLarge.copy(
                     textAlign = TextAlign.End
                 ),
-                colors = TextFieldDefaults.outlinedTextFieldColors(
-                    backgroundColor = if (palindrome.value)
-                        LIGHT_GREEN else Color.Transparent
+                colors = TextFieldDefaults.colors(
+                    focusedContainerColor = if (palindrome.value) LIGHT_GREEN else Color.Transparent,
+                    unfocusedContainerColor = if (palindrome.value) LIGHT_GREEN else Color.Transparent
                 )
             )
 
@@ -76,10 +75,10 @@ fun NumberPalindromeChecker(
                 value = reverse.value,
                 readOnly = true,
                 onValueChange = { },
-                textStyle = MaterialTheme.typography.h5,
-                colors = TextFieldDefaults.outlinedTextFieldColors(
-                    backgroundColor = if (palindrome.value)
-                        LIGHT_GREEN else Color.Transparent
+                textStyle = MaterialTheme.typography.titleLarge,
+                colors = TextFieldDefaults.colors(
+                    focusedContainerColor = if (palindrome.value) LIGHT_GREEN else Color.Transparent,
+                    unfocusedContainerColor = if (palindrome.value) LIGHT_GREEN else Color.Transparent
                 )
             )
         }
@@ -90,7 +89,7 @@ fun NumberPalindromeChecker(
                 label = "Palindrome",
                 checked = true,
                 onToggle = {},
-                labelStyle = androidx.compose.material3.MaterialTheme.typography.titleLarge
+                labelStyle = MaterialTheme.typography.titleLarge
             )
         }
     }
