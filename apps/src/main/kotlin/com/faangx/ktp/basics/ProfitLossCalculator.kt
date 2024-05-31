@@ -4,7 +4,7 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Checkbox
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -143,7 +143,7 @@ fun ProfitLossCalculator(
                  }
             },
             horizontalArrangement = Arrangement.spacedBy(12.dp, Alignment.CenterHorizontally),
-            verticalArrangement = Arrangement.spacedBy(12.dp, Alignment.CenterVertically),
+            verticalArrangement = Arrangement.spacedBy(4.dp, Alignment.CenterVertically),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
@@ -156,7 +156,7 @@ fun ProfitLossCalculator(
             )
 
             Text(
-                modifier = Modifier.padding(bottom = 24.dp)
+                modifier = Modifier
                     .centerAlign(this),
                 text = "+",
                 style = MaterialTheme.typography.headlineMedium
@@ -193,7 +193,7 @@ fun ProfitLossCalculator(
             }
 
             Text(
-                modifier = Modifier.padding(bottom = 24.dp)
+                modifier = Modifier
                     .centerAlign(this),
                 text = "=",
                 style = MaterialTheme.typography.headlineMedium
