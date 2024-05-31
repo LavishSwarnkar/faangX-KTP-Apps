@@ -1,6 +1,7 @@
 package com.faangx.ktp.patterns.comp
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -24,12 +25,13 @@ fun PrintedPatternBox(
         modifier = Modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(8.dp))
-            .background(MaterialTheme.colorScheme.primaryContainer)
             .verticalScroll(rememberScrollState())
+            .horizontalScroll(rememberScrollState())
+            .background(MaterialTheme.colorScheme.primaryContainer)
             .padding(12.dp)
     ) {
         Text(
-            modifier = Modifier.align(Alignment.Center),
+            modifier = Modifier.align(Alignment.Center).fillMaxWidth(),
             text = pattern,
             style = MaterialTheme.typography.titleLarge,
             color = MaterialTheme.colorScheme.onPrimaryContainer,
