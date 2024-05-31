@@ -95,7 +95,7 @@ fun FactorialCalculatorApp(
                 OutlinedTextField(
                     modifier = Modifier.width(80.dp),
                     value = x.value,
-                    textStyle = MaterialTheme.typography.titleLarge,
+                    textStyle = MaterialTheme.typography.titleLarge.copy(textAlign = TextAlign.Center),
                     onValueChange = { if (it.length <= 2) x.value = it }
                 )
 
