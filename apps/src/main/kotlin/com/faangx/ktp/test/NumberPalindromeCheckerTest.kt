@@ -14,11 +14,11 @@ object NumberPalindromeCheckerTest {
         val isPalindromeRes = functionality.isPalindrome1(testcase)
         val isPalindromeExp = isPalindrome(testcase)
 
-        require(reverseRes == reverseExp) {
+        assert(reverseRes == reverseExp) {
             "Wrong reverse $reverseRes for num = $testcase, expected $reverseExp"
         }
 
-        require(isPalindromeRes == isPalindromeExp) {
+        assert(isPalindromeRes == isPalindromeExp) {
             "Wrong output $isPalindromeRes for num = $testcase, expected $isPalindromeExp"
         }
     }
