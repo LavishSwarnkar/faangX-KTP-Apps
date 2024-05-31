@@ -4,9 +4,9 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.Text
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -55,7 +55,7 @@ fun GradeCalculatorApp(
     ) {
         Text(
             text = "Student with marks",
-            style = MaterialTheme.typography.h5
+            style = MaterialTheme.typography.titleLarge
         )
 
         DynamicRowColumn(
@@ -74,7 +74,7 @@ fun GradeCalculatorApp(
                     OutlinedTextField(
                         modifier = Modifier.width(80.dp),
                         value = state.value,
-                        textStyle = MaterialTheme.typography.h5,
+                        textStyle = MaterialTheme.typography.titleLarge,
                         onValueChange = { if (it.length <=3) state.value = it }
                     )
                 }
@@ -87,7 +87,7 @@ fun GradeCalculatorApp(
                     OutlinedTextField(
                         modifier = Modifier.width(80.dp),
                         value = state.value,
-                        textStyle = MaterialTheme.typography.h5,
+                        textStyle = MaterialTheme.typography.titleLarge,
                         onValueChange = { if (it.length <=3) state.value = it }
                     )
                 }
@@ -96,28 +96,28 @@ fun GradeCalculatorApp(
             OutlinedTextField(
                 modifier = Modifier.width(80.dp),
                 value = marks5.value,
-                textStyle = MaterialTheme.typography.h5,
+                textStyle = MaterialTheme.typography.titleLarge,
                 onValueChange = { if (it.length <=3) marks5.value = it }
             )
         }
 
         Text(
             text = "/ 100 has grade",
-            style = MaterialTheme.typography.h5
+            style = MaterialTheme.typography.titleLarge
         )
 
         Text(
             modifier = Modifier.padding(8.dp)
                 .clip(RoundedCornerShape(16.dp))
-                .background(MaterialTheme.colors.surface)
+                .background(MaterialTheme.colorScheme.surface)
                 .border(
                     width = 2.dp,
-                    color = MaterialTheme.colors.primaryVariant,
+                    color = MaterialTheme.colorScheme.primaryContainer,
                     shape = RoundedCornerShape(16.dp)
                 )
                 .padding(horizontal = 16.dp, vertical = 8.dp),
             text = grade.value,
-            style = MaterialTheme.typography.h3
+            style = MaterialTheme.typography.headlineLarge
         )
     }
 }

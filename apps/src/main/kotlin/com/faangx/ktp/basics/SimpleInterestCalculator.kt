@@ -1,14 +1,13 @@
 package com.faangx.ktp.basics
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.Text
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.faangx.ktp.MiniApp
 import com.faangx.ktp.SMILE_EMOJI
 import ksp.MiniApp
 
@@ -93,7 +92,7 @@ private fun Content(
                 label = { Text("Principal amount") },
                 value = principal.value,
                 onValueChange = { principal.value = it },
-                textStyle = MaterialTheme.typography.h5
+                textStyle = MaterialTheme.typography.titleLarge
             )
             Spacer(Modifier.size(8.dp))
 
@@ -101,7 +100,7 @@ private fun Content(
                 label = { Text("Rate in %") },
                 value = rate.value,
                 onValueChange = { rate.value = it },
-                textStyle = MaterialTheme.typography.h5
+                textStyle = MaterialTheme.typography.titleLarge
             )
             Spacer(Modifier.size(8.dp))
 
@@ -109,19 +108,19 @@ private fun Content(
                 label = { Text("Time in years") },
                 value = time.value,
                 onValueChange = { time.value = it },
-                textStyle = MaterialTheme.typography.h5
+                textStyle = MaterialTheme.typography.titleLarge
             )
             Spacer(Modifier.size(16.dp))
 
             Text(
                 text = "Interest = ${interest.value ?: SMILE_EMOJI}",
-                style = MaterialTheme.typography.h5
+                style = MaterialTheme.typography.titleLarge
             )
             Spacer(Modifier.size(16.dp))
 
             Text(
                 text = "Total amount = ${totalAmount.value ?: SMILE_EMOJI}",
-                style = MaterialTheme.typography.h5
+                style = MaterialTheme.typography.titleLarge
             )
         }
     }

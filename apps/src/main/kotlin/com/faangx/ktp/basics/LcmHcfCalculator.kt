@@ -12,7 +12,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.faangx.ktp.SMILE_EMOJI
 import com.faangx.ktp.comp.HighlightedText
-import com.streamliners.compose.comp.select.LabelledCheckBox
 import ksp.MiniApp
 
 @MiniApp(

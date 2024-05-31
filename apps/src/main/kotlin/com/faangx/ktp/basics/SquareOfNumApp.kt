@@ -12,6 +12,7 @@ import androidx.compose.ui.unit.dp
 import com.faangx.ktp.MiniApp
 import com.faangx.ktp.SMILE_EMOJI
 import com.faangx.ktp.comp.DynamicRowColumn
+import com.faangx.ktp.comp.HighlightedText
 import ksp.MiniApp
 
 @Composable
@@ -65,7 +66,7 @@ fun SquareOfNumAppV1(
             style = MaterialTheme.typography.titleLarge
         )
 
-        Text(
+        HighlightedText(
             text = "${square.value}",
             style = MaterialTheme.typography.titleLarge
         )
