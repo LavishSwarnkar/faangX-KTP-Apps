@@ -13,7 +13,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.faangx.ktp.LIGHT_GREEN
-import com.streamliners.compose.comp.select.LabelledCheckBox
 import ksp.MiniApp
 
 @MiniApp(
@@ -78,7 +77,7 @@ fun StringPalindromeChecker(
             label = "Ignore case",
             checked = ignoreCase,
             onToggle = { ignoreCase = !ignoreCase },
-            labelStyle = androidx.compose.material3.MaterialTheme.typography.titleLarge
+            labelStyle = MaterialTheme.typography.titleLarge
         )
 
         AnimatedVisibility(palindrome.value) {
@@ -87,7 +86,7 @@ fun StringPalindromeChecker(
                 label = "Palindrome",
                 checked = true,
                 onToggle = {},
-                labelStyle = androidx.compose.material3.MaterialTheme.typography.titleLarge
+                labelStyle = MaterialTheme.typography.titleLarge
             )
         }
     }

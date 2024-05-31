@@ -13,7 +13,6 @@ import androidx.compose.ui.unit.dp
 import com.faangx.ktp.comp.DynamicRowColumn
 import com.faangx.ktp.comp.HighlightedText
 import com.faangx.ktp.util.captureStdOutput
-import com.streamliners.compose.comp.select.LabelledCheckBox
 import ksp.MiniApp
 
 @MiniApp(

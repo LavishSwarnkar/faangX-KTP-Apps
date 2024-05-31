@@ -11,11 +11,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.PointerEventType
 import androidx.compose.ui.input.pointer.onPointerEvent
 import androidx.compose.ui.unit.dp
+import com.faangx.ktp.basics.LabelledCheckBox
 import com.faangx.ktp.comp.RadioButtonOptionalTextField
 import com.faangx.ktp.comp.ScreenSize
 import com.faangx.ktp.comp.iz
 import com.faangx.ktp.comp.rememberScreenSize
-import com.streamliners.compose.comp.select.LabelledCheckBox
 import ksp.MiniApp
 import kotlin.math.roundToInt
 

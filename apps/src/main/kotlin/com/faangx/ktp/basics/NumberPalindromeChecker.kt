@@ -20,7 +20,6 @@ import androidx.compose.ui.unit.dp
 import com.faangx.ktp.LIGHT_GREEN
 import com.faangx.ktp.MiniApp
 import com.faangx.ktp.SMILE_EMOJI
-import com.streamliners.compose.comp.select.LabelledCheckBox
 import ksp.MiniApp
 
 @MiniApp(
