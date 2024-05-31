@@ -38,8 +38,8 @@ object StringStatsCalculatorTest {
         val resultStatsList = splitStats(result.toString())
         val expectedStatsList = splitStats(expected.toString())
         val common = resultStatsList intersect expectedStatsList
-        val resultStats = (resultStatsList subtract common).toString()
-        val expectedStats = (expectedStatsList subtract common).toString()
+        val resultStats = resultStatsList subtract common
+        val expectedStats = expectedStatsList subtract common
 
         assert(result == expected) {
             "Wrong output $resultStats, expected $expectedStats, for text = \"$testcase\""

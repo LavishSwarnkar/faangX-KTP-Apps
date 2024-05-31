@@ -20,7 +20,17 @@ data class StringCaseConvertorResult(
     val uppercase: String,
     val lowercase: String,
     val snakeCase: String
-)
+) {
+    fun summary(): Set<String> {
+        return setOf(
+            "sentenceCase = \"$sentenceCase\"",
+            "titleCase = \"$titleCase\"",
+            "uppercase = \"$uppercase\"",
+            "lowercase = \"$lowercase\"",
+            "snakeCase = \"$snakeCase\""
+        )
+    }
+}
 
 @MiniApp(
     "String Case Convertor",
