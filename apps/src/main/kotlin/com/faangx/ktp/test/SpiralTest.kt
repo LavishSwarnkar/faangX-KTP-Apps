@@ -3,7 +3,7 @@ package com.faangx.ktp.test
 import com.faangx.ktp.basics.loops.SpiralAppFunctionality
 import com.faangx.ktp.util.captureStdOutput
 
-object SpiralAppTest {
+object SpiralTest {
 
     fun test(
         spiralAppFunctionality: SpiralAppFunctionality,
