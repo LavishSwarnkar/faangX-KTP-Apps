@@ -1,35 +1,18 @@
 package com.faangx.ktp.basics
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.Text
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.faangx.ktp.MiniApp
-
-fun StringCaseConvertorMiniApp(
-    convertToSentenceCase: (String) -> String,
-    convertToTitleCase: (String) -> String,
-    convertToUppercase: (String) -> String,
-    convertToLowercase: (String) -> String,
-    convertToSnakeCase: (String) -> String
-) {
-    MiniApp(
-        title = "String Case Convertor",
-        composable = {
-            StringCaseConvertor(
-                convertToSentenceCase, convertToTitleCase, convertToUppercase, convertToLowercase, convertToSnakeCase
-            )
-        }
-    )
-}
+import ksp.MiniApp
 
 data class StringCaseConvertorResult(
     val sentenceCase: String,
@@ -39,6 +22,11 @@ data class StringCaseConvertorResult(
     val snakeCase: String
 )
 
+@MiniApp(
+    "String Case Convertor",
+    "ProgrammingFundamentals/Ep4/StringCaseConvertor",
+    "text; text; text; text; text"
+)
 @Composable
 fun StringCaseConvertor(
     convertToSentenceCase: (String) -> String,
@@ -72,12 +60,13 @@ fun StringCaseConvertor(
         verticalArrangement = Arrangement.Center
     ) {
         Column(
+            modifier = Modifier.widthIn(max = 500.dp),
             verticalArrangement = Arrangement.spacedBy(24.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
             OutlinedTextField(
-                modifier = Modifier.width(500.dp),
+                modifier = Modifier.fillMaxWidth(),
                 label = { Text("Text") },
                 value = text.value,
                 onValueChange = { input -> text.value = input },
@@ -101,7 +90,7 @@ private fun StringCaseConvertorResultElement(
     value: String
 ) {
     OutlinedTextField(
-        modifier = Modifier.width(500.dp),
+        modifier = Modifier.fillMaxWidth(),
         label = { Text(label) },
         value = value,
         onValueChange = { },
