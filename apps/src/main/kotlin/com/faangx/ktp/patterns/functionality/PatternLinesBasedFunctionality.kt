@@ -41,6 +41,7 @@ fun PatternLinesBased_MobileMiniApp(
 		testClass = testClass,
 		packageName = "com.faangx.ktp.patterns.functionality",
 		repoPath = repoPath,
+		supportsParentScroll = false,
 		composable = { PatternLinesBasedApp(patternCode, it::printPattern1) }
 	)
 

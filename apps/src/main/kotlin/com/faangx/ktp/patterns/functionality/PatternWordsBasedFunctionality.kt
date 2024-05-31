@@ -39,6 +39,7 @@ fun PatternWordBased_MobileMiniApp(
 		testClass = testClass,
 		packageName = "com.faangx.ktp.patterns.functionality",
 		repoPath = repoPath,
+		supportsParentScroll = false,
 		composable = { PatternWordBasedApp(patternCode, it::printPattern1) }
 	)
 

@@ -41,6 +41,7 @@ fun PatternLinesAndCharBased_MobileMiniApp(
 		testClass = testClass,
 		packageName = "com.faangx.ktp.patterns.functionality",
 		repoPath = repoPath,
+		supportsParentScroll = false,
 		composable = { PatternLinesAndCharBasedApp(patternCode, it::printPattern1) }
 	)
 
