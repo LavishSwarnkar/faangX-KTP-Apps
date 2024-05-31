@@ -102,6 +102,7 @@ fun <T> RadioGroup(
     onSelectionChange: (T) -> Unit,
     options: List<T>,
     labelExtractor: (T) -> String,
+    color: Color = Color.Unspecified,
     enabled: Boolean = true,
     layout: Layout = Layout.Column
 ) {
@@ -119,7 +120,8 @@ fun <T> RadioGroup(
                 label = labelExtractor(option),
                 selected = selection == option,
                 onClick = { onSelectionChange(option) },
-                enabled = enabled
+                enabled = enabled,
+                color = color
             )
         }
     }
@@ -137,7 +139,7 @@ fun LabelledRadioButton(
     selected: Boolean,
     textStyle: TextStyle = MaterialTheme.typography.bodyLarge,
     whiteTint: Boolean = false,
-    color: Color = Color.Black,
+    color: Color = Color.Unspecified,
     enabled: Boolean = true,
     onClick: () -> Unit
 ) {
@@ -170,7 +172,7 @@ fun LabelledRadioButton(
         Text(
             text = label,
             style = textStyle,
-            color = color.copy(alpha = if (enabled) 1f else 0.38f)
+            color = if (color == Color.Unspecified) color else color.copy(alpha = if (enabled) 1f else 0.38f)
         )
     }
 }
