@@ -1,4 +1,4 @@
-package com.faangx.ktp.ext
+package com.faangx.ktp.basics
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.OutlinedTextField
@@ -12,18 +12,13 @@ import androidx.compose.ui.unit.dp
 import com.faangx.ktp.MiniApp
 import com.faangx.ktp.SMILE_EMOJI
 import com.faangx.ktp.util.captureStdOutput
+import ksp.MiniApp
 
-fun BinomialExpansionMiniApp(
-    printBinomialExpansion: (Int) -> Unit
-) {
-    MiniApp(
-        title = "Binomial Expansion MiniApp",
-        composable = {
-            BinomialExpansion(printBinomialExpansion)
-        }
-    )
-}
-
+@MiniApp(
+    name = "Binomial Expansion MiniApp",
+    repoPath = "ProgrammingFundamentals/Ep3.Ext/BinomialExpansion",
+    paramNames = "n"
+)
 @Composable
 fun BinomialExpansion(
     printBinomialExpansion: (Int) -> Unit
