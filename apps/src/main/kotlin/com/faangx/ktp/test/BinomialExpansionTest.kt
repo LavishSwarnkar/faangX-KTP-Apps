@@ -3,7 +3,9 @@ package com.faangx.ktp.test
 import com.faangx.ktp.basics.BinomialExpansionFunctionality
 import com.faangx.ktp.test.FactorialCalculatorTest.combinationsOf
 import com.faangx.ktp.util.captureStdOutput
+import ksp.MiniAppTest
 
+@MiniAppTest
 object BinomialExpansionTest {
 
     fun test(
