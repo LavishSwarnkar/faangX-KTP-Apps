@@ -1,6 +1,6 @@
 package com.faangx.ktp.test
 
-import com.faangx.ktp.basics.string.CeaserCipherFunctionality
+import com.faangx.ktp.basics.CeaserCipherFunctionality
 import ksp.MiniAppTest
 
 class CeaserCipherTestcase(

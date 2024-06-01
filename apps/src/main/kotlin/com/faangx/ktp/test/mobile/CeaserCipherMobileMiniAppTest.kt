@@ -1,8 +1,8 @@
 package com.faangx.ktp.test.mobile
 
 import com.faangx.ktp.MiniAppFunctionalityHelper
-import com.faangx.ktp.basics.string.CeaserCipherFunctionality
-import com.faangx.ktp.basics.string.CeaserCipher_MobileMiniApp
+import com.faangx.ktp.basics.CeaserCipherFunctionality
+import com.faangx.ktp.basics.CeaserCipher_MobileMiniApp
 import com.faangx.ktp.simpleName
 import com.faangx.ktp.test.CeaserCipherTest
 import com.faangx.ktp.test.CeaserCipherTestcase

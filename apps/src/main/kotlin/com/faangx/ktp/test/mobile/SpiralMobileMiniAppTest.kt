@@ -1,8 +1,8 @@
 package com.faangx.ktp.test.mobile
 
 import com.faangx.ktp.MiniAppFunctionalityHelper
-import com.faangx.ktp.basics.loops.SpiralAppFunctionality
-import com.faangx.ktp.basics.loops.Spiral_MobileMiniApp
+import com.faangx.ktp.basics.SpiralAppFunctionality
+import com.faangx.ktp.basics.Spiral_MobileMiniApp
 import com.faangx.ktp.simpleName
 import com.faangx.ktp.test.SpiralTest
 import org.junit.jupiter.params.ParameterizedTest

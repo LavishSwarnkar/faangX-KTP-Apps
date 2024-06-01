@@ -1,6 +1,6 @@
 package com.faangx.ktp.test
 
-import com.faangx.ktp.basics.loops.SpiralAppFunctionality
+import com.faangx.ktp.basics.SpiralAppFunctionality
 import com.faangx.ktp.util.captureStdOutput
 import ksp.MiniAppTest
 
