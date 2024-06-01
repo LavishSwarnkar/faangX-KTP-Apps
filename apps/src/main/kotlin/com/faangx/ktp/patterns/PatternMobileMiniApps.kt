@@ -39,3 +39,28 @@ fun Pattern_PD3_MobileMiniApp() = PatternLinesAndTwoCharsBased_MobileMiniApp(
     patternCode = "PD3", testClass = Pattern_PD3_Test::class.java,
     repoPath = "ProgrammingFundamentals/Ep3/Pattern_PD3"
 )
+
+fun Pattern_P1_MobileMiniApp() = PatternLinesAndTwoCharsBased_MobileMiniApp(
+    patternCode = "P1", testClass = Pattern_P1_Test::class.java,
+    repoPath = "ProgrammingFundamentals/Ep3.Ext/Pattern1"
+)
+
+fun Pattern_P2_MobileMiniApp() = PatternLinesAndTwoCharsBased_MobileMiniApp(
+    patternCode = "P2", testClass = Pattern_P2_Test::class.java,
+    repoPath = "ProgrammingFundamentals/Ep3.Ext/Pattern2"
+)
+
+fun Pattern_P3_MobileMiniApp() = PatternLinesAndTwoCharsBased_MobileMiniApp(
+    patternCode = "P3", testClass = Pattern_P1_Test::class.java,
+    repoPath = "ProgrammingFundamentals/Ep3.Ext/Pattern3"
+)
+
+fun Pattern_P4_MobileMiniApp() = PatternLinesAndTwoCharsBased_MobileMiniApp(
+    patternCode = "P4", testClass = Pattern_P1_Test::class.java,
+    repoPath = "ProgrammingFundamentals/Ep3.Ext/Pattern4"
+)
+
+fun Pattern_P5_MobileMiniApp() = PatternLinesAndTwoCharsBased_MobileMiniApp(
+    patternCode = "P5", testClass = Pattern_P1_Test::class.java,
+    repoPath = "ProgrammingFundamentals/Ep3.Ext/Pattern5"
+)
