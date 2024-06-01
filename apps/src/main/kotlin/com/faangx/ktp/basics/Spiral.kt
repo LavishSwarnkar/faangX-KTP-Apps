@@ -1,4 +1,4 @@
-package com.faangx.ktp.basics.loops
+package com.faangx.ktp.basics
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.keyframes
@@ -19,8 +19,8 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowPlacement
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
-import com.faangx.ktp.basics.loops.CircleCenter.*
-import com.faangx.ktp.basics.loops.Direction.*
+import com.faangx.ktp.basics.CircleCenter.*
+import com.faangx.ktp.basics.Direction.*
 import com.faangx.ktp.util.captureStdOutput
 import kotlinx.coroutines.delay
 import ksp.MiniApp

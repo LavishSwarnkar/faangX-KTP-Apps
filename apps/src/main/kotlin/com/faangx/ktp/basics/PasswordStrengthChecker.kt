@@ -1,4 +1,4 @@
-package com.faangx.ktp.basics.string
+package com.faangx.ktp.basics
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.OutlinedTextField

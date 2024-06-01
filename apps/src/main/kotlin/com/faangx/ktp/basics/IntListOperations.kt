@@ -1,4 +1,4 @@
-package com.faangx.ktp.basics.intList
+package com.faangx.ktp.basics
 
 import androidx.compose.animation.*
 import androidx.compose.foundation.layout.*
