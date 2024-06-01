@@ -1,7 +1,9 @@
 package com.faangx.ktp.test
 
 import com.faangx.ktp.basics.NumberPalindromeCheckerFunctionality
+import ksp.MiniAppTest
 
+@MiniAppTest
 object NumberPalindromeCheckerTest {
 
     fun test(

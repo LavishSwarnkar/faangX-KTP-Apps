@@ -2,7 +2,9 @@ package com.faangx.ktp.test
 
 import com.faangx.ktp.basics.ArmstrongNumbersFunctionality
 import com.faangx.ktp.util.captureStdOutput
+import ksp.MiniAppTest
 
+@MiniAppTest
 object ArmstrongNumbersTest {
 
     fun test(

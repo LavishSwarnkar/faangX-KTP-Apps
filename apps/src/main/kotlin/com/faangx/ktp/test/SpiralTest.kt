@@ -2,7 +2,9 @@ package com.faangx.ktp.test
 
 import com.faangx.ktp.basics.loops.SpiralAppFunctionality
 import com.faangx.ktp.util.captureStdOutput
+import ksp.MiniAppTest
 
+@MiniAppTest
 object SpiralTest {
 
     fun test(

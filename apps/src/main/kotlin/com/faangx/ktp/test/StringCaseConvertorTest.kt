@@ -2,7 +2,9 @@ package com.faangx.ktp.test
 
 import com.faangx.ktp.basics.StringCaseConvertorFunctionality
 import com.faangx.ktp.basics.StringCaseConvertorResult
+import ksp.MiniAppTest
 
+@MiniAppTest
 object StringCaseConvertorTest {
 
     fun test(

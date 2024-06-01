@@ -2,7 +2,9 @@ package com.faangx.ktp.test
 
 import com.faangx.ktp.basics.StringStatsCalculatorFunctionality
 import com.faangx.ktp.basics.StringStatsCalculatorResult
+import ksp.MiniAppTest
 
+@MiniAppTest
 object StringStatsCalculatorTest {
 
     fun test(

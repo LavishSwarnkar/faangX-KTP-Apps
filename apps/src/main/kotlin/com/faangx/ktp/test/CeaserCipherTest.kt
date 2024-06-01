@@ -1,6 +1,7 @@
 package com.faangx.ktp.test
 
 import com.faangx.ktp.basics.string.CeaserCipherFunctionality
+import ksp.MiniAppTest
 
 class CeaserCipherTestcase(
     val text: String,
@@ -12,6 +13,7 @@ class CeaserCipherTestcase(
     }
 }
 
+@MiniAppTest
 object CeaserCipherTest {
 
     fun test(

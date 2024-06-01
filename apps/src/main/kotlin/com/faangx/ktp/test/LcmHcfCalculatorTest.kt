@@ -1,12 +1,14 @@
 package com.faangx.ktp.test
 
 import com.faangx.ktp.basics.LcmHcfCalculatorFunctionality
+import ksp.MiniAppTest
 import kotlin.random.Random
 
 class LcmHcfCalculatorTestcase(
     val x: Int, val y: Int, val lcm: Int, val hcf: Int
 )
 
+@MiniAppTest
 object LcmHcfCalculatorTest {
 
     fun test(
