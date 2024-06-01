@@ -1,7 +1,7 @@
 package com.faangx.ktp.basics
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.OutlinedTextField
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
@@ -15,7 +15,7 @@ import com.faangx.ktp.util.captureStdOutput
 import ksp.MiniApp
 
 @MiniApp(
-    name = "Binomial Expansion MiniApp",
+    name = "Binomial Expansion",
     repoPath = "ProgrammingFundamentals/Ep3.Ext/BinomialExpansion",
     paramNames = "n"
 )
@@ -45,7 +45,7 @@ fun BinomialExpansion(
         ) {
             Text(
                 text = "(a + b)",
-                style = MaterialTheme.typography.displayMedium
+                style = MaterialTheme.typography.displaySmall
             )
 
             OutlinedTextField(
@@ -53,18 +53,18 @@ fun BinomialExpansion(
                     .padding(bottom = 24.dp),
                 value = n,
                 onValueChange = { if (it.length <= 2) n = it },
-                textStyle = MaterialTheme.typography.titleMedium
+                textStyle = MaterialTheme.typography.titleLarge
             )
         }
 
         Text(
             text = "=",
-            style = MaterialTheme.typography.displaySmall
+            style = MaterialTheme.typography.titleLarge
         )
 
         Text(
             text = expansion.value,
-            style = MaterialTheme.typography.displaySmall,
+            style = MaterialTheme.typography.titleLarge,
             textAlign = TextAlign.Center
         )
     }
