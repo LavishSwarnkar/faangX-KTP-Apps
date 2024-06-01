@@ -23,6 +23,11 @@ internal object PatternCorrectImplHelper {
         return when (patternCode) {
             "PU2" -> ::patternPU2
             "PD3" -> ::patternPD3
+            "P1" -> ::patternP1
+            "P2" -> ::patternP2
+            "P3" -> ::patternP3
+            "P4" -> ::patternP4
+            "P5" -> ::patternP5
             else -> error("Invalid patternCode : $patternCode")
         }
     }
@@ -112,6 +117,96 @@ internal object PatternCorrectImplHelper {
 
             repeat(2 * (lines - i) - 1) { j ->
                 if (j % 2 == 0) print(char1) else print(char2)
+            }
+
+            println()
+        }
+    }
+
+    private fun patternP1(lines: Int, char1: Char, char2: Char) {
+        repeat(lines) { i ->
+            repeat(lines) { j ->
+                print(
+                    if (j == i) char1 else char2
+                )
+            }
+            println()
+        }
+    }
+
+    private fun patternP2(lines: Int, char1: Char, char2: Char) {
+        repeat(lines) { i ->
+            repeat(lines) { j ->
+                print(
+                    if (j == lines - i - 1) char1 else char2
+                )
+            }
+            println()
+        }
+    }
+
+    private fun patternP3(lines: Int, char1: Char, char2: Char) {
+        repeat(lines) { i ->
+            repeat(2 * lines - 1) { j ->
+                print(
+                    if (j == lines - 1 - i || j == lines - 1 + i) char1 else char2
+                )
+            }
+            println()
+        }
+    }
+
+    private fun patternP4(lines: Int, char1: Char, char2: Char) {
+        for (i in 1..lines) {
+            // *
+            repeat(i) { print(char1) }
+
+            // -
+            repeat(lines) { print(char2) }
+
+            // *
+            repeat(2 * (lines - i + 1)) { print(char1) }
+
+            // -
+            repeat(lines) { print(char2) }
+
+            // *
+            repeat(i) { print(char1) }
+
+            println()
+        }
+    }
+
+    private fun patternP5(lines: Int, char1: Char, char2: Char) {
+        // Part 1
+        repeat(lines / 2) { i ->
+
+            repeat(lines) { j ->
+                when (j) {
+                    i, lines - i - 1 -> print(char2)
+                    lines / 2 -> print(char1)
+                    else -> print(' ')
+                }
+            }
+
+            println()
+        }
+
+        // Part 2
+        repeat(lines) {
+            print(char1)
+        }
+        println()
+
+        // Part 3
+        repeat(lines / 2) { i ->
+
+            repeat(lines) { j ->
+                when (j) {
+                    (lines/2 - 1 - i), (lines/2 + i + 1) -> print(char2)
+                    lines / 2 -> print(char1)
+                    else -> print(' ')
+                }
             }
 
             println()
