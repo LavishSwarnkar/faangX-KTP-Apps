@@ -3,6 +3,7 @@ import com.google.devtools.ksp.symbol.*
 import com.google.devtools.ksp.validate
 import com.squareup.kotlinpoet.*
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
+import com.squareup.kotlinpoet.ksp.toClassName
 import com.squareup.kotlinpoet.ksp.toTypeName
 import ksp.KtFmtFormatter
 import ksp.MiniApp
@@ -452,11 +453,31 @@ class FunctionalityProcessor(
         val functionType = parameter.type.resolve()
         val args = functionType.arguments
         val parameters = args.dropLast(1).mapIndexed { i, arg ->
-            val paramType = arg.type?.resolve()?.declaration?.qualifiedName?.asString() ?: "Unknown"
-            ParameterSpec.builder("p$i", paramType.toTypeName()).build()
+            ParameterSpec.builder("p$i", arg.toTypeName()).build()
         }
         val returnType = args.last().type?.resolve()?.declaration?.qualifiedName?.asString() ?: "Unknown"
         return parameters to returnType.toTypeName()
+    }
+
+    private fun KSTypeArgument.toTypeName(): TypeName {
+        val typeReference = this.type ?: throw IllegalStateException("KSTypeArgument has no type")
+        return typeReference.toTypeName()
+    }
+
+    private fun KSTypeReference.toTypeName(): TypeName {
+        return this.resolve().toTypeName()
+    }
+
+    private fun KSType.toTypeName(): TypeName {
+        val baseType = this.declaration.qualifiedName?.asString()?.let { ClassName.bestGuess(it) }
+            ?: throw IllegalStateException("KSType has no qualified name")
+
+        val typeArguments = this.arguments.map { it.toTypeName() }
+        return if (typeArguments.isNotEmpty()) {
+            baseType.parameterizedBy(*typeArguments.toTypedArray())
+        } else {
+            baseType
+        }
     }
 
     private fun String.toTypeName(): TypeName = when (this) {
