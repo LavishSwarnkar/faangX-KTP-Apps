@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import com.faangx.ktp.basics.intList.model.IntListOp
 import com.faangx.ktp.basics.intList.model.IntListOpsVariant
 import com.faangx.ktp.basics.intList.op.BinarySearchOp
+import com.faangx.ktp.comp.GenerateButton
 import com.streamliners.compose.comp.spinner.OutlinedSpinner
 import com.streamliners.compose.comp.spinner.state.SpinnerState
 import com.streamliners.compose.comp.textInput.state.TextInputState
@@ -99,30 +100,17 @@ fun IntListOperations(
                         textAlign = TextAlign.Center
                     ),
                     trailingIcon = {
-                        AnimatedVisibility(
-                            modifier = Modifier.padding(end = 12.dp),
+                        GenerateButton(
                             visible = showGenerateButton,
-                            enter = fadeIn() + expandHorizontally(
-                                expandFrom = Alignment.Start
-                            ),
-                            exit = fadeOut() + shrinkHorizontally(
-                                shrinkTowards = Alignment.Start
-                            )
-                        ) {
-                            FilledIconButton(
-                                modifier = Modifier.align(Alignment.CenterVertically),
-                                onClick = {
-                                    nums.value = randomList(10)
-                                        .toMutableList()
-                                        .apply {
-                                            if (randomListSortIsRequired) sort(this)
-                                        }
-                                        .joinToString(",")
-                                }
-                            ) {
-                                Icon(Icons.Default.Refresh, "Generate")
+                            onClick = {
+                                nums.value = randomList(10)
+                                    .toMutableList()
+                                    .apply {
+                                        if (randomListSortIsRequired) sort(this)
+                                    }
+                                    .joinToString(",")
                             }
-                        }
+                        )
                     }
                 )
             }

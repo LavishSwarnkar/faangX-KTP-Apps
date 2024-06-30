@@ -6,16 +6,25 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.pointer.PointerEventType
+import androidx.compose.ui.input.pointer.onPointerEvent
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.faangx.ktp.basics.Progression.AP
 import com.faangx.ktp.basics.Progression.GP
-import com.faangx.ktp.comp.DynamicRowColumn
+import com.faangx.ktp.comp.*
+import com.faangx.ktp.comp.ScreenSize.Small
+import com.faangx.ktp.test.ProgressionCheckerTest
+import com.faangx.ktp.test.ProgressionCheckerTest.apExamples
+import com.faangx.ktp.test.ProgressionCheckerTest.gpExamples
+import com.faangx.ktp.test.ProgressionCheckerTest.randomExample
 import ksp.MiniApp
 
 private enum class Progression { AP, GP }
 
+@OptIn(ExperimentalComposeUiApi::class)
 @MiniApp(
     name = "Progression Checker",
     repoPath = "ProgrammingFundamentals/Ep5/ProgressionChecker",
@@ -55,37 +64,78 @@ fun ProgressionChecker(
             verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterVertically)
         ) {
 
-            DynamicRowColumn(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(12.dp),
+            Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
-                Text(
-                    text = "Series",
-                    style = MaterialTheme.typography.titleLarge,
-                    textAlign = TextAlign.Center
-                )
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = "Check",
+                        style = MaterialTheme.typography.titleLarge,
+                        textAlign = TextAlign.Center
+                    )
+
+                    Spacer(modifier = Modifier.size(12.dp))
+
+                    RadioGroup(
+                        state = type,
+                        options = Progression.entries.toList(),
+                        labelExtractor = { it.name },
+                        layout = Layout.Row
+                    )
+                }
+
+                val screenSize = rememberScreenSize()
+
+                var showGenerateButton by remember { mutableStateOf(screenSize.iz(Small)) }
+
+                var apExIndex by remember { mutableStateOf(0) }
+                var gpExIndex by remember { mutableStateOf(0) }
+                var isRandomTurn by remember { mutableStateOf(false) }
 
                 OutlinedTextField(
-                    modifier = Modifier.width(120.dp),
+                    modifier = Modifier.width(500.dp)
+                        .onPointerEvent(PointerEventType.Enter) { showGenerateButton = true }
+                        .onPointerEvent(PointerEventType.Exit) {
+                            showGenerateButton = screenSize.iz(Small)
+                        },
                     value = seriesStr,
                     textStyle = MaterialTheme.typography.titleLarge.copy(textAlign = TextAlign.Center),
-                    onValueChange = { if (it.length <= 4) seriesStr = it }
+                    onValueChange = { seriesStr = it },
+                    trailingIcon = {
+                        GenerateButton(
+                            visible = showGenerateButton,
+                            onClick = {
+                                seriesStr = if (isRandomTurn) {
+                                    isRandomTurn = false
+                                    randomExample()
+                                } else {
+                                    isRandomTurn = true
+                                    when (type.value ?: AP) {
+                                        AP -> {
+                                            apExIndex = (apExIndex + 1) % apExamples().size
+                                            apExamples()[apExIndex]
+                                        }
+                                        GP -> {
+                                            gpExIndex = (gpExIndex + 1) % gpExamples().size
+                                            gpExamples()[gpExIndex]
+                                        }
+                                    }
+                                }
+                            }
+                        )
+                    }
                 )
 
-                Text(
-                    text = output,
-                    style = MaterialTheme.typography.titleLarge,
-                    textAlign = TextAlign.Center
+                LabelledCheckBox(
+                    label = output,
+                    checked = output.contains("with"),
+                    onToggle = {},
+                    labelStyle = MaterialTheme.typography.titleLarge
                 )
             }
-
-            RadioGroup(
-                state = type,
-                options = Progression.entries.toList(),
-                labelExtractor = { it.name }
-            )
         }
     }
 }
