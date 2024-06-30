@@ -83,6 +83,7 @@ class FunctionalityProcessor(
         val implClassCode = generateImplClass(function, interfaceName, implClassName, paramNamesArg, fileSpecBuilder)
         generateTestImplExtFun(function, interfaceName, implClassName, paramNamesArg, fileSpecBuilder)
         generateComposableFunction(function, interfaceName, fileSpecBuilder)
+        generateDemoFunction(function, fileSpecBuilder)
         generateMiniAppComposableFunction(function, nameArg, fileSpecBuilder)
         generateMobileMiniAppFunction(resolver, function, nameArg, repoPathArg, supportsParentScrollArg, fileSpecBuilder)
 
@@ -273,6 +274,29 @@ class FunctionalityProcessor(
             .addAnnotation(ClassName("androidx.compose.runtime", "Composable"))
             .addParameter("functionality", ClassName("", interfaceName))
             .addStatement("$functionName($parameters)")
+            .build()
+
+        fileSpecBuilder.addFunction(funSpec)
+    }
+
+    private fun generateDemoFunction(function: KSFunctionDeclaration, fileSpecBuilder: FileSpec.Builder) {
+        val functionName = function.simpleName.asString()
+        val functionNameWithoutAppSuffix = functionName.replace("App", "")
+        val demoFunName = "${functionName}Demo"
+
+        val parameters = function.parameters.joinToString(", ") { parameter ->
+            val paramName = parameter.name?.asString() ?: return@joinToString ""
+            "::${paramName}1"
+        }
+
+        val funSpec = FunSpec.builder(demoFunName)
+            .addStatement(
+                """
+                    ${functionNameWithoutAppSuffix}_MobileMiniApp().testFunctionality.apply {
+                        ${functionNameWithoutAppSuffix}MiniApp($parameters)
+                    }
+                """.trimIndent()
+            )
             .build()
 
         fileSpecBuilder.addFunction(funSpec)
