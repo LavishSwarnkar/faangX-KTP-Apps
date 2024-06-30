@@ -48,6 +48,8 @@ private fun sort(list: MutableList<Int>) {
     }
 }
 
+// TODO : Mathematical not updating when random generated list
+
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun IntListOperations(
