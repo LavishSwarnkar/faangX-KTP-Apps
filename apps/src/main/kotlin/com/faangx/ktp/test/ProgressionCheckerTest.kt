@@ -11,7 +11,7 @@ data class ProgressionCheckerTestcase(
     val gpCheckResult: String
 )
 
-//@MiniAppTest
+@MiniAppTest
 object ProgressionCheckerTest {
 
     fun test(

@@ -129,13 +129,35 @@ fun ProgressionChecker(
                     }
                 )
 
-                LabelledCheckBox(
-                    label = output,
-                    checked = output.contains("with"),
-                    onToggle = {},
-                    labelStyle = MaterialTheme.typography.titleLarge
-                )
+                if (output.isNotBlank()) {
+                    LabelledCheckBox(
+                        label = output,
+                        checked = output.contains("with"),
+                        onToggle = {},
+                        labelStyle = MaterialTheme.typography.titleLarge
+                    )
+                }
             }
         }
     }
+}
+
+@MiniApp(
+    name = "Progression Checker V1",
+    repoPath = "ProgrammingFundamentals/Ep5/ProgressionCheckerV1",
+    paramNames = "input; input"
+)
+@Composable
+fun ProgressionCheckerV1(
+    checkForAP: (String) -> String,
+    checkForGP: (String) -> String
+) {
+   ProgressionChecker(
+       checkForAP = { list: List<Int> ->
+           checkForAP(list.joinToString(","))
+       },
+       checkForGP = { list: List<Int> ->
+           checkForGP(list.joinToString(","))
+       }
+   )
 }
