@@ -37,6 +37,11 @@ fun FactorCalculator(
 }
 
 @OptIn(ExperimentalLayoutApi::class)
+@MiniApp(
+    name = "Factor Calculator V1",
+    repoPath = "ProgrammingFundamentals/Ep5/FactorCalculatorV1",
+    paramNames = "num; num"
+)
 @Composable
 fun FactorCalculatorV1(
     getFactorsOf: (Int) -> List<Int>,

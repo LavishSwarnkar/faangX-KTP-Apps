@@ -479,8 +479,8 @@ class FunctionalityProcessor(
         val parameters = args.dropLast(1).mapIndexed { i, arg ->
             ParameterSpec.builder("p$i", arg.toTypeName()).build()
         }
-        val returnType = args.last().type?.resolve()?.declaration?.qualifiedName?.asString() ?: "Unknown"
-        return parameters to returnType.toTypeName()
+        val returnType = args.last().type?.toTypeName()
+        return parameters to (returnType ?: "Unknown".toTypeName())
     }
 
     private fun KSTypeArgument.toTypeName(): TypeName {
