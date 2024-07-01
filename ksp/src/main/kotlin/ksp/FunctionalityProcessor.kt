@@ -435,7 +435,7 @@ class FunctionalityProcessor(
             val funcName = func.simpleName.asString()
             val params = func.parameters.joinToString(", ") { param ->
                 val paramName = param.name?.asString() ?: ""
-                val paramType = param.type.resolve().declaration.simpleName.asString()
+                val paramType = param.type.toTypeName().toString()
                 "$paramName: $paramType"
             }
             funBuilder.addParameter(
