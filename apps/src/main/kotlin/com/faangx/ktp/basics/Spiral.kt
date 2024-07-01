@@ -66,20 +66,6 @@ class SpiralConfig(
     val showBoxes: Boolean = false
 )
 
-fun SpiralFullScreenMiniApp(
-    printFibonacciSeries: (Int) -> Unit
-) {
-    application {
-        val state = rememberWindowState(
-            placement = WindowPlacement.Maximized
-        )
-        Window(::exitApplication, state, title = "Golden Ratio Spiral") {
-
-            SpiralApp(printFibonacciSeries)
-        }
-    }
-}
-
 @MiniApp(
     "Spiral",
     "ProgrammingFundamentals/Ep4/Spiral",
@@ -90,14 +76,27 @@ fun SpiralFullScreenMiniApp(
 fun SpiralApp(
     printFibonacciSeries: (Int) -> Unit
 ) {
-    val series = captureStdOutput {
-        printFibonacciSeries(250)
-    }.split(", ").dropLast(1)
-        .map { it.toLong().toInt() }
+    SpiralV1App {
+        captureStdOutput { printFibonacciSeries(250) }
+            .split(", ")
+            .dropLast(1)
+            .map { it.toLong().toInt() }
+    }
+}
 
+@MiniApp(
+    "Spiral V1",
+    "ProgrammingFundamentals/Ep5/SpiralV1",
+    "n",
+    false
+)
+@Composable
+fun SpiralV1App(
+    getFibonacciSeries: (Int) -> List<Int>
+) {
     Spiral(
         SpiralConfig(
-            radii = series,
+            radii = getFibonacciSeries(250),
             centerOffset = Offset(-25f, 0f),
             boxSize = 25f,
             showBoxes = false
