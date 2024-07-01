@@ -95,3 +95,18 @@ fun ArmstrongNumbers(
         }
     }
 }
+
+@MiniApp(
+    "Armstrong Numbers V1",
+    "ProgrammingFundamentals/Ep5/ArmstrongNumbersV1",
+    "upTo"
+)
+@Composable
+fun ArmstrongNumbersV1(
+    getArmstrongNums: (Int) -> List<Int>
+) {
+    ArmstrongNumbers {
+        val nums = getArmstrongNums(it)
+        print(nums.joinToString(", "))
+    }
+}

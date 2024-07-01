@@ -31,7 +31,7 @@ object ArmstrongNumbersTest {
         }
     }
 
-    private fun isArmstrong(num: Int): Boolean {
+    internal fun isArmstrong(num: Int): Boolean {
         val n = noOfDigits(num)
 
         var sum = 0
