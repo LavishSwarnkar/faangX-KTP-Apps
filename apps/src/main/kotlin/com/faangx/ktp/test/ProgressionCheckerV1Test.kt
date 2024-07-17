@@ -59,11 +59,11 @@ object ProgressionCheckerV1Test {
         }
     }
 
-    private fun splitString(string: String, char: Char): List<String> {
+    private fun splitString(string: String, delimiter: Char): List<String> {
         return buildList {
             buildString {
                 for (c in string) {
-                    if (c == char) {
+                    if (c == delimiter) {
                         if (isNotEmpty()) add(toString())
                         clear()
                     } else {

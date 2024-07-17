@@ -73,13 +73,13 @@ object ProgressionCheckerTest {
 
     internal fun checkForAP(series: List<Int>): String {
         if (series.size < 2) return "too short, can't check"
-        val diff = series[1] - series[0]
+        val d = series[1] - series[0]
         for (i in 2..<series.lastIndex) {
-            if (series[i + 1] - series[i] != diff) {
+            if (series[i + 1] - series[i] != d) {
                 return "NOT an AP"
             }
         }
-        return "AP with d = $diff"
+        return "AP with d = $d"
     }
 
     internal fun checkForGP(series: List<Int>): String {
