@@ -90,7 +90,7 @@ object ProgressionCheckerTest {
                 return "NOT a GP"
             }
         }
-        return "GP with d = $ratio"
+        return "GP with r = $ratio"
     }
 
 }
