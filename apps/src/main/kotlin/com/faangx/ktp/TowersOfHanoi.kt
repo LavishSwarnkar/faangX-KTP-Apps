@@ -19,12 +19,22 @@ import androidx.compose.ui.window.rememberWindowState
 
 fun towersOfHanoi(n: Int, src: Char, dest: Char, aux: Char) {
     if (n == 0) return
+    // Move n-1 disks from src to aux
     towersOfHanoi(n - 1, src, aux, dest)
-    towersOfHanoi(1, src, dest, aux)
+
+    // Move the nth disk from src to dest
+    println("Move disk $n from $src to $dest")
+
+    // Move the n-1 disks from aux to dest
     towersOfHanoi(n - 1, aux, dest, src)
 }
 
 fun main() {
+//    App()
+    towersOfHanoi(3, 'A', 'C', 'B')
+}
+
+fun App() {
     application {
         Window(
             onCloseRequest = ::exitApplication,
