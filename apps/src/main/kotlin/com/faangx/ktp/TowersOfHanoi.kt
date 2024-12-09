@@ -6,6 +6,9 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -16,22 +19,49 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
+import kotlinx.coroutines.delay
 
-fun towersOfHanoi(n: Int, src: Char, dest: Char, aux: Char) {
+typealias Step = Pair<Int, Int>
+
+fun towersOfHanoi(n: Int, src: Int, dest: Int, aux: Int, steps: MutableList<Step>) {
     if (n == 0) return
     // Move n-1 disks from src to aux
-    towersOfHanoi(n - 1, src, aux, dest)
+    towersOfHanoi(n - 1, src, aux, dest, steps)
 
-    // Move the nth disk from src to dest
-    println("Move disk $n from $src to $dest")
+    steps.add(src to dest)
 
     // Move the n-1 disks from aux to dest
-    towersOfHanoi(n - 1, aux, dest, src)
+    towersOfHanoi(n - 1, aux, dest, src, steps)
+}
+
+fun getStepsFor(noOfDiscs: Int): List<Step> {
+    val steps = mutableListOf<Step>()
+    towersOfHanoi(noOfDiscs, 0, 1, 2, steps)
+    return steps
+}
+
+fun getIntermediateStates(noOfDiscs: Int): List<List<Int>> {
+    return buildList {
+
+        var rods = listOf(noOfDiscs, 0, 0)
+        add(rods)
+        val steps = getStepsFor(noOfDiscs)
+        steps.forEach { (src, dest) ->
+            rods = rods.mapIndexed { i, el ->
+                when (i) {
+                    src -> el - 1
+                    dest -> el + 1
+                    else -> el
+                }
+            }
+            add(rods)
+        }
+    }
 }
 
 fun main() {
-//    App()
-    towersOfHanoi(3, 'A', 'C', 'B')
+    App()
+//    println(getIntermediateStates(3))
 }
 
 fun App() {
@@ -43,14 +73,31 @@ fun App() {
                 size = DpSize(1000.dp, 700.dp)
             )
         ) {
-            val rods = listOf(3, 6, 9)
+            var i = 0
+
+            val steps = remember {
+                getIntermediateStates(5)
+            }
+
+            val rods = remember {
+                mutableStateOf(
+                    steps[0]
+                )
+            }
+
+            LaunchedEffect(Unit) {
+                repeat(steps.size - 1) {
+                    delay(700)
+                    rods.value = steps[++i]
+                }
+            }
 
             Row(
                 modifier = Modifier.fillMaxSize()
                     .background(Color.Black),
                 horizontalArrangement = Arrangement.spacedBy(50.dp)
             ) {
-                rods.forEachIndexed { i, el ->
+                rods.value.forEachIndexed { i, el ->
                     Rod("${Char('A'.code + i)}", el)
                 }
             }
