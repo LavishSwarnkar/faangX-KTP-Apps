@@ -3,11 +3,14 @@ package com.faangx.ktp
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
@@ -20,29 +23,49 @@ fun main() {
             onCloseRequest = ::exitApplication,
             title = "TowersOfHanoi",
             state = rememberWindowState(
-//                placement = WindowPlacement.Fullscreen,
-                size = DpSize(352.dp, 800.dp)
+                size = DpSize(1000.dp, 700.dp)
             )
         ) {
-            Rod()
+            Row(
+                modifier = Modifier.fillMaxSize()
+                    .background(Color.Black),
+                horizontalArrangement = Arrangement.spacedBy(50.dp)
+            ) {
+                Rod("A", 3)
+                Rod("B", 6)
+                Rod("C", 9)
+            }
         }
     }
 }
 
 @Composable
-fun Rod() {
+fun RowScope.Rod(label: String, noOfDiscs: Int) {
+
+    val widthFractionStart = 0.2f
+
+    val step = (1 - widthFractionStart) / noOfDiscs
+
     Column(
         modifier = Modifier
-            .fillMaxSize()
-            .background(Color.Black)
+            .weight(1f)
+            .fillMaxHeight()
             .padding(16.dp),
         verticalArrangement = Arrangement
             .spacedBy(12.dp, Alignment.Bottom),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Disc(0.5f)
-        Disc(0.75f)
-        Disc(1f)
+        repeat(noOfDiscs) {
+            Disc(widthFractionStart + ((it + 1) * step))
+        }
+
+        Text(
+            text = label,
+            modifier = Modifier.fillMaxWidth(),
+            textAlign = TextAlign.Center,
+            style = MaterialTheme.typography.headlineMedium,
+            color = Color.White
+        )
     }
 }
 
