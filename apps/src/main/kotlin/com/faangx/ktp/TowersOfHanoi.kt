@@ -17,6 +17,13 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
 
+fun towersOfHanoi(n: Int, src: Char, dest: Char, aux: Char) {
+    if (n == 0) return
+    towersOfHanoi(n - 1, src, aux, dest)
+    towersOfHanoi(1, src, dest, aux)
+    towersOfHanoi(n - 1, aux, dest, src)
+}
+
 fun main() {
     application {
         Window(
@@ -26,14 +33,16 @@ fun main() {
                 size = DpSize(1000.dp, 700.dp)
             )
         ) {
+            val rods = listOf(3, 6, 9)
+
             Row(
                 modifier = Modifier.fillMaxSize()
                     .background(Color.Black),
                 horizontalArrangement = Arrangement.spacedBy(50.dp)
             ) {
-                Rod("A", 3)
-                Rod("B", 6)
-                Rod("C", 9)
+                rods.forEachIndexed { i, el ->
+                    Rod("${Char('A'.code + i)}", el)
+                }
             }
         }
     }
