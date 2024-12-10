@@ -2,11 +2,8 @@ package com.faangx.ktp
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -23,10 +20,40 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
-import kotlinx.coroutines.delay
 import java.util.Stack
 
 typealias Step = Pair<Int, Int>
+
+class Towers(
+    noOfDiscs: Int
+) {
+    val towers = listOf(
+        Stack<Int>().apply {
+            for (i in noOfDiscs downTo 1) push(i)
+        },
+        Stack(),
+        Stack()
+    )
+
+    fun apply(step: Step) {
+        val (src, dest) = step
+        towers[dest].push(
+            towers[src].pop()
+        )
+    }
+
+    override fun toString(): String {
+        return buildString {
+            append("A : ${towers[0].stringify()}\n")
+            append("B : ${towers[1].stringify()}\n")
+            append("C : ${towers[2].stringify()}\n\n")
+        }
+    }
+}
+
+fun Stack<Int>.stringify(): String {
+    return toArray().joinToString(" -> ")
+}
 
 private fun towersOfHanoi(n: Int, src: Int, dest: Int, aux: Int, steps: MutableList<Step>) {
     if (n == 0) return
@@ -45,39 +72,32 @@ private fun getStepsFor(noOfDiscs: Int): List<Step> {
     return steps
 }
 
-fun getIntermediateStates(noOfDiscs: Int): List<List<Int>> {
-    return buildList {
+fun main() {
+        App()
+//    println(getIntermediateStates(3))
 
-        var rods = listOf(noOfDiscs, 0, 0)
-        add(rods)
+//    val steps = getStepsFor(3)
+//    val towers = Towers(3)
+//    println(towers)
+//    steps.forEach { step ->
+//        towers.apply(step)
+//        println(towers)
+//    }
+}
+
+fun getIntermediateStates(noOfDiscs: Int): List<Towers> {
+    return buildList {
         val steps = getStepsFor(noOfDiscs)
-        steps.forEach { (src, dest) ->
-            rods = rods.mapIndexed { i, el ->
-                when (i) {
-                    src -> el - 1
-                    dest -> el + 1
-                    else -> el
-                }
-            }
-            add(rods)
+        add(Towers(noOfDiscs))
+        for (i in steps.indices) {
+            val towers = Towers(noOfDiscs)
+            steps.subList(0, i + 1).forEach { towers.apply(it) }
+            add(towers)
         }
     }
 }
 
-fun main() {
-//    App()
-//    println(getIntermediateStates(3))
-    stack()
-}
-
-fun stack() {
-    val stack = Stack<Int>()
-    stack.push(5)
-    stack.push(3)
-    println(stack.pop())
-}
-
-fun App() {
+fun App(noOfDiscs: Int = 3) {
     application {
         Window(
             onCloseRequest = ::exitApplication,
@@ -89,10 +109,10 @@ fun App() {
             var i by remember { mutableStateOf(0) }
 
             val steps = remember {
-                getIntermediateStates(5)
+                getIntermediateStates(noOfDiscs)
             }
 
-            val rods = remember {
+            val towers = remember {
                 mutableStateOf(
                     steps[0]
                 )
@@ -117,8 +137,8 @@ fun App() {
                         .weight(1f),
                     horizontalArrangement = Arrangement.spacedBy(50.dp)
                 ) {
-                    rods.value.forEachIndexed { i, el ->
-                        Rod("${Char('A'.code + i)}", el)
+                    towers.value.towers.forEachIndexed { i, el ->
+                        Tower("${Char('A'.code + i)}", el, noOfDiscs)
                     }
                 }
 
@@ -132,7 +152,7 @@ fun App() {
 
                     IconButton(
                         onClick = {
-                            if (i > 0) rods.value = steps[--i]
+                            if (i > 0) towers.value = steps[--i]
                         }
                     ) {
                         Text(
@@ -156,7 +176,7 @@ fun App() {
 
                     IconButton(
                         onClick = {
-                            if(i < steps.size - 1) rods.value = steps[++i]
+                            if(i < steps.size - 1) towers.value = steps[++i]
                         }
                     ) {
                         Text(
@@ -175,11 +195,7 @@ fun App() {
 }
 
 @Composable
-fun RowScope.Rod(label: String, noOfDiscs: Int) {
-
-    val widthFractionStart = 0.2f
-
-    val step = (1 - widthFractionStart) / noOfDiscs
+fun RowScope.Tower(label: String, tower: Stack<Int>, noOfDiscs: Int) {
 
     Column(
         modifier = Modifier
@@ -190,8 +206,8 @@ fun RowScope.Rod(label: String, noOfDiscs: Int) {
             .spacedBy(12.dp, Alignment.Bottom),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        repeat(noOfDiscs) {
-            Disc(widthFractionStart + ((it + 1) * step))
+        tower.toList().reversed().forEach { discNo: Int ->
+            Disc(discNo, noOfDiscs)
         }
 
         Text(
@@ -205,11 +221,22 @@ fun RowScope.Rod(label: String, noOfDiscs: Int) {
 }
 
 @Composable
-fun Disc(widthFraction: Float) {
+fun Disc(discNo: Int, noOfDiscs: Int) {
+    val widthFractionStart = 0.2f
+
+    val step = (1 - widthFractionStart) / noOfDiscs
+
     Box(
-        modifier = Modifier.fillMaxWidth(widthFraction)
-            .height(40.dp)
-            .clip(RoundedCornerShape(20.dp))
+        modifier = Modifier.fillMaxWidth(widthFractionStart + (discNo * step))
+            .height(60.dp)
+            .clip(CircleShape)
             .background(Color.White)
-    )
+    ) {
+        Text(
+            text = "$discNo",
+            modifier = Modifier.align(Alignment.Center),
+            style = MaterialTheme.typography.headlineMedium,
+            color = Color.Black
+        )
+    }
 }
