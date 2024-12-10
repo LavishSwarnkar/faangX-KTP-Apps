@@ -3,19 +3,23 @@ package com.faangx.ktp
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
@@ -73,7 +77,7 @@ fun App() {
                 size = DpSize(1000.dp, 700.dp)
             )
         ) {
-            var i = 0
+            var i by remember { mutableStateOf(0) }
 
             val steps = remember {
                 getIntermediateStates(5)
@@ -85,20 +89,76 @@ fun App() {
                 )
             }
 
-            LaunchedEffect(Unit) {
-                repeat(steps.size - 1) {
-                    delay(700)
-                    rods.value = steps[++i]
-                }
-            }
+//            LaunchedEffect(Unit) {
+//                repeat(steps.size - 1) {
+//                    delay(700)
+//                    rods.value = steps[++i]
+//                }
+//            }
 
-            Row(
-                modifier = Modifier.fillMaxSize()
-                    .background(Color.Black),
-                horizontalArrangement = Arrangement.spacedBy(50.dp)
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color.Black)
             ) {
-                rods.value.forEachIndexed { i, el ->
-                    Rod("${Char('A'.code + i)}", el)
+
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .weight(1f),
+                    horizontalArrangement = Arrangement.spacedBy(50.dp)
+                ) {
+                    rods.value.forEachIndexed { i, el ->
+                        Rod("${Char('A'.code + i)}", el)
+                    }
+                }
+
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(Color.Yellow)
+                        .padding(24.dp),
+                    horizontalArrangement = Arrangement.Center
+                ) {
+
+                    IconButton(
+                        onClick = {
+                            if (i > 0) rods.value = steps[--i]
+                        }
+                    ) {
+                        Text(
+                            text = "«",
+                            textAlign = TextAlign.Center,
+                            style = MaterialTheme.typography.headlineLarge.copy(
+                                fontWeight = FontWeight.Black,
+                                lineHeight = 30.sp
+                            ),
+                            color = Color.Black
+                        )
+                    }
+
+                    Text(
+                        text = "Step ${i + 1}/${steps.size}",
+                        textAlign = TextAlign.Center,
+                        fontSize = 32.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.Black
+                    )
+
+                    IconButton(
+                        onClick = {
+                            if(i < steps.size - 1) rods.value = steps[++i]
+                        }
+                    ) {
+                        Text(
+                            text = "»",
+                            textAlign = TextAlign.Center,
+                            style = MaterialTheme.typography.headlineLarge.copy(
+                                fontWeight = FontWeight.Black
+                            ),
+                            color = Color.Black
+                        )
+                    }
                 }
             }
         }
