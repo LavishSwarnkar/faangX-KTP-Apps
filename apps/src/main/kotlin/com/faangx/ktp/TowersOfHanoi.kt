@@ -24,10 +24,11 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
 import kotlinx.coroutines.delay
+import java.util.Stack
 
 typealias Step = Pair<Int, Int>
 
-fun towersOfHanoi(n: Int, src: Int, dest: Int, aux: Int, steps: MutableList<Step>) {
+private fun towersOfHanoi(n: Int, src: Int, dest: Int, aux: Int, steps: MutableList<Step>) {
     if (n == 0) return
     // Move n-1 disks from src to aux
     towersOfHanoi(n - 1, src, aux, dest, steps)
@@ -38,7 +39,7 @@ fun towersOfHanoi(n: Int, src: Int, dest: Int, aux: Int, steps: MutableList<Step
     towersOfHanoi(n - 1, aux, dest, src, steps)
 }
 
-fun getStepsFor(noOfDiscs: Int): List<Step> {
+private fun getStepsFor(noOfDiscs: Int): List<Step> {
     val steps = mutableListOf<Step>()
     towersOfHanoi(noOfDiscs, 0, 1, 2, steps)
     return steps
@@ -64,8 +65,16 @@ fun getIntermediateStates(noOfDiscs: Int): List<List<Int>> {
 }
 
 fun main() {
-    App()
+//    App()
 //    println(getIntermediateStates(3))
+    stack()
+}
+
+fun stack() {
+    val stack = Stack<Int>()
+    stack.push(5)
+    stack.push(3)
+    println(stack.pop())
 }
 
 fun App() {
