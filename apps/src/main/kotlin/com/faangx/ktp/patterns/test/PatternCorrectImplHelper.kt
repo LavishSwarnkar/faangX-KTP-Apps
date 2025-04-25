@@ -6,6 +6,8 @@ internal object PatternCorrectImplHelper {
         return when (patternCode) {
             "TLN" -> ::patternTLN
             "TRSR" -> ::patternTRSR
+            "P9" -> ::patternP9
+            "P10" -> ::patternP10
             else -> error("Invalid patternCode : $patternCode")
         }
     }
@@ -34,7 +36,61 @@ internal object PatternCorrectImplHelper {
 
     fun getForWordBased(patternCode: String): (word: String) -> Unit {
         return when (patternCode) {
+            "P6" -> ::patternP6
+            "P7" -> ::patternP7
+            "P8" -> ::patternP8
             else -> error("Invalid patternCode : $patternCode")
+        }
+    }
+
+    private fun patternP6(word: String) {
+        word.forEachIndexed { index, c ->
+            repeat(index + 1) { print(c) }
+            println()
+        }
+    }
+
+    private fun patternP7(word: String) {
+        word.forEachIndexed { index, c ->
+            repeat(index + 1) { print(word[it]) }
+            println()
+        }
+    }
+
+    private fun patternP8(word: String) {
+        word.forEachIndexed { i, c ->
+            repeat(word.length - 1 - i) { print(' ') }
+            repeat(2 * i + 1) { print(c) }
+            println()
+        }
+    }
+
+    private fun patternP9(lines: Int) {
+        var code = 'A'.code
+        repeat(lines) { i ->
+            repeat(i + 1) {
+                print(Char(code))
+                code = if (code == 'Z'.code) 'A'.code else code + 1
+            }
+            println()
+        }
+    }
+
+    private fun patternP10(lines: Int) {
+        var code = '1'.code
+        repeat(lines) { i ->
+            repeat(lines - 1 - i) {
+                print(' ')
+            }
+            repeat(2 * i + 1) {
+                print(Char(code))
+            }
+            code = when (code) {
+                '9'.code -> 'A'.code
+                'Z'.code -> '1'.code
+                else -> code + 1
+            }
+            println()
         }
     }
 

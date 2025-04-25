@@ -2,6 +2,7 @@ package com.faangx.ktp.patterns.comp
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -19,7 +20,8 @@ fun PatternInputsRow(
     customization: MutableState<String>
 ) {
     Row(
-        Modifier.width(300.dp),
+        Modifier.width(300.dp)
+            .padding(horizontal = 30.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {

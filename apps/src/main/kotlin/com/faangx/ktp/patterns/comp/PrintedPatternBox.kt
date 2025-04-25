@@ -24,6 +24,7 @@ fun PrintedPatternBox(
     Box(
         modifier = Modifier
             .fillMaxWidth()
+            .padding(horizontal = 30.dp)
             .clip(RoundedCornerShape(8.dp))
             .verticalScroll(rememberScrollState())
             .horizontalScroll(rememberScrollState())

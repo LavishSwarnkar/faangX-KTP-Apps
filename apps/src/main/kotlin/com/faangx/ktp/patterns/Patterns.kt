@@ -86,44 +86,41 @@ P5.L2C.*+ :
   +*+
  + * +
 +  *  +
-""".trimIndent()
 
-val other = """
-
-P5 :
+P6.W.APPLE :
 A
 PP
 PPP
 LLLL
 EEEEE
 
-P6 :
+P7.W.APPLE :
 A
 AP
 APP
 APPL
 APPLE
 
-P7 :
+P8.W.APPLE :
+    A
+   PPP
+  PPPPP
+ LLLLLLL
+EEEEEEEEE
+
+P9.L :
 A
 BC
 DEF
 GHIJ
 KLMNO
 
-P9 :
-    2
-   444
-  66666
- 8888888
-AAAAAAAAA
-
-P12 :
-    A
-   PPP
-  PPPPP
- LLLLLLL
-EEEEEEEEE
+P10.L :
+    1
+   222
+  33333
+ 4444444
+555555555
 """.trimIndent()
 
 

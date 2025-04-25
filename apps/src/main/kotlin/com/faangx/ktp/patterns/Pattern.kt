@@ -20,6 +20,13 @@ class Pattern(
             LinesAnd2CharBased -> "Characters"
             WordBased -> "Word"
         }
+
+        fun customizationLength() = when (this) {
+            LinesBased -> 0
+            LinesAndCharBased -> 1
+            LinesAnd2CharBased -> 2
+            WordBased -> 1
+        }
     }
 
 }

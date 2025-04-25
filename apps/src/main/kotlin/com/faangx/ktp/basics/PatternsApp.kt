@@ -1,4 +1,4 @@
-package com.faangx.ktp.patterns.catalog
+package com.faangx.ktp.basics
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
@@ -8,36 +8,21 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.faangx.ktp.MiniApp
 import com.faangx.ktp.patterns.comp.PatternCard
 import com.faangx.ktp.patterns.comp.PatternInputsRow
 import com.faangx.ktp.patterns.comp.PrintedPatternBox
 import com.faangx.ktp.patterns.getPatterns
 import com.faangx.ktp.util.captureStdOutput
-import java.io.ByteArrayOutputStream
-import java.io.PrintStream
-import java.nio.charset.StandardCharsets
+import ksp.MiniApp
 
-typealias PrintPatternFunctionality = (
-    patternCode: String,
-    lines: Int,
-    customization: String
-) -> Unit
-
-fun PatternsMiniApp(
-    printPattern: PrintPatternFunctionality
-) {
-    MiniApp(
-        title = "Patterns",
-        composable = {
-            PatternsApp(printPattern)
-        }
-    )
-}
-
+@MiniApp(
+    name = "Patterns",
+    repoPath = "ProgrammingFundamentals/Ep3/Patterns",
+    paramNames = "patternCode, lines, customization"
+)
 @Composable
 fun PatternsApp(
-    printPattern: PrintPatternFunctionality
+    printPattern: (String, Int, String) -> Unit
 ) {
     val patterns = remember { getPatterns() }
 
@@ -48,12 +33,13 @@ fun PatternsApp(
 
     LaunchedEffect(selectedPattern.value, lines.value, customization.value) {
         pattern = captureStdOutput {
+            val mCustomization = if (customization.value.length < selectedPattern.value.type.customizationLength()) {
+                selectedPattern.value.defaultCustomization
+            } else customization.value
             printPattern(
                 selectedPattern.value.code,
                 lines.value.toIntOrNull() ?: return@captureStdOutput,
-                customization.value.ifBlank {
-                    selectedPattern.value.defaultCustomization
-                } ?: ""
+                mCustomization ?: ""
             )
         }
     }
@@ -61,7 +47,7 @@ fun PatternsApp(
     MaterialTheme {
         Column(
             Modifier.fillMaxSize()
-                .padding(30.dp),
+                .padding(vertical = 30.dp),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
