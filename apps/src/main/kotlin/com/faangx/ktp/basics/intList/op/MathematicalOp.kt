@@ -11,6 +11,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.unit.dp
 import com.faangx.ktp.basics.intList.model.IntListOp
+import com.faangx.ktp.comp.DynamicRowColumn
 import com.faangx.ktp.comp.HighlightedText
 import com.streamliners.utils.safeLet
 
@@ -46,8 +47,9 @@ fun MathematicalOp.Comp(list: List<Int>) {
 
     result.value.run {
         safeLet(min, max, sum, mean) { min, max, sum, mean ->
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(16.dp)
+            DynamicRowColumn(
+                horizontalArrangement = Arrangement.spacedBy(16.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp),
             ) {
                 IntListOpsResultElement("Min", min.toString())
                 IntListOpsResultElement("Max", max.toString())
