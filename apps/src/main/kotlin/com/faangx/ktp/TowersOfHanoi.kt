@@ -3,7 +3,6 @@ package com.faangx.ktp
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -20,6 +19,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
+import kotlinx.coroutines.delay
 import java.util.Stack
 
 typealias Step = Pair<Int, Int>
@@ -206,8 +206,31 @@ fun RowScope.Tower(label: String, tower: Stack<Int>, noOfDiscs: Int) {
             .spacedBy(12.dp, Alignment.Bottom),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        tower.toList().reversed().forEach { discNo: Int ->
-            Disc(discNo, noOfDiscs)
+        Box(
+            modifier = Modifier.fillMaxWidth()
+                .height(IntrinsicSize.Min)
+        ) {
+
+            Box(
+                modifier = Modifier
+                    .align(Alignment.Center)
+                    .width(12.dp)
+                    .fillMaxHeight()
+                    .background(Color.LightGray)
+            )
+
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 24.dp),
+                verticalArrangement = Arrangement
+                    .spacedBy(12.dp, Alignment.Bottom),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                tower.toList().reversed().forEach { discNo: Int ->
+                    Disc(discNo, noOfDiscs)
+                }
+            }
         }
 
         Text(
