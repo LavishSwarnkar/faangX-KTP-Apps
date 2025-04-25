@@ -477,6 +477,7 @@ class FunctionalityProcessor(
         val functionType = parameter.type.resolve()
         val args = functionType.arguments
         val parameters = args.dropLast(1).mapIndexed { i, arg ->
+            arg.toTypeName().isNullable
             ParameterSpec.builder("p$i", arg.toTypeName()).build()
         }
         val returnType = args.last().type?.toTypeName()
@@ -497,11 +498,14 @@ class FunctionalityProcessor(
             ?: throw IllegalStateException("KSType has no qualified name")
 
         val typeArguments = this.arguments.map { it.toTypeName() }
-        return if (typeArguments.isNotEmpty()) {
+
+        val typeName = if (typeArguments.isNotEmpty()) {
             baseType.parameterizedBy(*typeArguments.toTypedArray())
         } else {
             baseType
         }
+
+        return typeName.copy(nullable = this.isMarkedNullable)
     }
 
     private fun String.toTypeName(): TypeName = when (this) {
