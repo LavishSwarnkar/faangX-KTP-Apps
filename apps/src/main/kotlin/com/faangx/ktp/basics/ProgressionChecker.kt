@@ -97,9 +97,13 @@ fun ProgressionChecker(
 
                 OutlinedTextField(
                     modifier = Modifier.width(500.dp)
-                        .onPointerEvent(PointerEventType.Enter) { showGenerateButton = true }
-                        .onPointerEvent(PointerEventType.Exit) {
-                            showGenerateButton = screenSize.iz(Small)
+                        .run {
+                            if (screenSize.iz(ScreenSize.Large)) {
+                                onPointerEvent(PointerEventType.Enter) { showGenerateButton = true }
+                                    .onPointerEvent(PointerEventType.Exit) {
+                                        showGenerateButton = screenSize.iz(Small)
+                                    }
+                            } else this
                         },
                     value = seriesStr,
                     textStyle = MaterialTheme.typography.titleLarge.copy(textAlign = TextAlign.Center),
