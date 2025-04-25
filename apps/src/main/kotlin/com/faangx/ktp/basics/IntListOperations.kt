@@ -16,6 +16,9 @@ import com.faangx.ktp.basics.intList.model.IntListOp
 import com.faangx.ktp.basics.intList.model.IntListOpsVariant
 import com.faangx.ktp.basics.intList.op.*
 import com.faangx.ktp.comp.GenerateButton
+import com.faangx.ktp.comp.ScreenSize
+import com.faangx.ktp.comp.iz
+import com.faangx.ktp.comp.rememberScreenSize
 import com.streamliners.compose.comp.spinner.OutlinedSpinner
 import com.streamliners.compose.comp.spinner.state.SpinnerState
 import com.streamliners.compose.comp.textInput.state.TextInputState
@@ -179,6 +182,8 @@ fun IntListOperations(
         nums.value = list.joinToString(",")
     }
 
+    val screenSize = rememberScreenSize()
+
     Column(
         modifier = Modifier.fillMaxSize()
             .padding(16.dp),
@@ -195,8 +200,12 @@ fun IntListOperations(
             Row {
                 OutlinedTextField(
                     modifier = Modifier.width(500.dp)
-                        .onPointerEvent(PointerEventType.Enter) { showGenerateButton = true }
-                        .onPointerEvent(PointerEventType.Exit) { showGenerateButton = false },
+                        .run {
+                            if (screenSize.iz(ScreenSize.Large)) {
+                                onPointerEvent(PointerEventType.Enter) { showGenerateButton = true }
+                                    .onPointerEvent(PointerEventType.Exit) { showGenerateButton = false }
+                            } else this
+                        },
                     label = { Text("Numbers") },
                     value = nums.value,
                     onValueChange = { input ->
