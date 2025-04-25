@@ -40,7 +40,7 @@ dependencies {
     // compose.desktop.currentOs should be used in launcher-sourceSet
     // (in a separate module for demo project and in testMain).
     // With compose.desktop.common you will also lose @Preview functionality
-    implementation(compose.desktop.currentOs)
+    implementation(compose.desktop.macos_arm64)
     implementation("org.jetbrains.compose.material3:material3-desktop:1.6.0")
     implementation("com.github.The-Streamliners.DroidLibs:compose:1.2.14")
     implementation("com.github.The-Streamliners.DroidLibs:utils:1.2.14")

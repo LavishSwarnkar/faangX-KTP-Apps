@@ -213,4 +213,40 @@ internal object PatternCorrectImplHelper {
         }
     }
 
+    private fun patternP5_1(lines: Int, char1: Char, char2: Char) {
+        // Part 1
+        repeat(lines) { i ->
+
+            repeat(2 * lines + 1) { j ->
+                when (j) {
+                    i, 2 * lines - i -> print(char2)
+                    lines -> print(char1)
+                    else -> print(' ')
+                }
+            }
+
+            println()
+        }
+
+        // Part 2
+        repeat(2 * lines + 1) {
+            print(char1)
+        }
+        println()
+
+        // Part 3
+        repeat(lines) { i ->
+
+            repeat(2 * lines + 1) { j ->
+                when (j) {
+                    lines - 1 - i, lines + 1 + i -> print(char2)
+                    lines -> print(char1)
+                    else -> print(' ')
+                }
+            }
+
+            println()
+        }
+    }
+
 }
