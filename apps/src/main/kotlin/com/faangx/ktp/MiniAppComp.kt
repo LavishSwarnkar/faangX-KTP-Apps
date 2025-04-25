@@ -30,8 +30,9 @@ fun MiniApp(
             onCloseRequest = ::exitApplication,
             title = title,
             state = rememberWindowState(
-                placement = WindowPlacement.Fullscreen,
-                size = DpSize(2000.dp, 2000.dp)
+//                placement = WindowPlacement.Fullscreen,
+//                size = DpSize(2000.dp, 2000.dp),
+                size = DpSize(352.dp, 800.dp)
             )
         ) {
 
