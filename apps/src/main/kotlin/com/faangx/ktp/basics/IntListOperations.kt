@@ -141,7 +141,7 @@ fun IntListOperationsP3(
 }
 
 @MiniApp(
-    name = "IntListOps P4",
+    name = "IntListOps (Reverse)",
     repoPath = "ProgrammingFundamentals/Ep5/IntListOpsP4",
     paramNames = "list; list"
 )
@@ -156,6 +156,54 @@ fun IntListOperationsP4(
                 ReverseOp.InPlace(reverseInPlace),
                 ReverseOp.NewList(reverseNewList)
             )
+        )
+    )
+}
+
+@MiniApp(
+    name = "IntListOps (Binary Search)",
+    repoPath = "ProgrammingFundamentals/Ep5/IntListOpsP5",
+    paramNames = "list, x"
+)
+@Composable
+fun IntListOperationsP5(
+    binarySearch: (MutableList<Int>, Int) -> Int
+) {
+    IntListOperations(
+        IntListOpsVariant.Single(
+            BinarySearchOp(binarySearch)
+        )
+    )
+}
+
+@MiniApp(
+    name = "IntListOps (Sorting)",
+    repoPath = "ProgrammingFundamentals/Ep5/IntListOpsP6A",
+    paramNames = "list"
+)
+@Composable
+fun IntListOperationsP6A(
+    sort: (list: MutableList<Int>) -> Unit
+) {
+    IntListOperations(
+        IntListOpsVariant.Single(
+            SortOp.Basic(sort)
+        )
+    )
+}
+
+@MiniApp(
+    name = "IntListOps (Sorting)",
+    repoPath = "ProgrammingFundamentals/Ep5/IntListOpsP6B",
+    paramNames = "list, descending"
+)
+@Composable
+fun IntListOperationsP6B(
+    sort: (list: MutableList<Int>, descending: Boolean) -> Unit
+) {
+    IntListOperations(
+        IntListOpsVariant.Single(
+            SortOp.WithDescendingSupport(sort)
         )
     )
 }

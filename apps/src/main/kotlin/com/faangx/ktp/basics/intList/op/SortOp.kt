@@ -11,13 +11,19 @@ import androidx.compose.ui.unit.dp
 import com.faangx.ktp.basics.RadioGroup
 import com.faangx.ktp.basics.intList.model.IntListOp
 
-class SortOp(
-    val sort: (list: MutableList<Int>) -> Unit,
-    val sort1: (list: MutableList<Int>, descending: Boolean) -> Unit,
-    val allowDescending: Boolean
-): IntListOp {
-    override val label: String = "Sort"
-    override val Composable: @Composable (MutableList<Int>) -> Unit = { Comp(it) }
+sealed interface SortOp: IntListOp {
+    class Basic(
+        val sort: (list: MutableList<Int>) -> Unit
+    ): SortOp {
+        override val label: String = "Sort"
+        override val Composable: @Composable (MutableList<Int>) -> Unit = { Comp(it) }
+    }
+    class WithDescendingSupport(
+        val sort: (list: MutableList<Int>, descending: Boolean) -> Unit
+    ): SortOp {
+        override val label: String = "Sort"
+        override val Composable: @Composable (MutableList<Int>) -> Unit = { Comp(it) }
+    }
 }
 
 @Composable
@@ -27,11 +33,14 @@ fun SortOp.Comp(list: MutableList<Int>) {
 
     LaunchedEffect(list.joinToString(","), descending) {
         val listCopy = mutableListOf(*list.toTypedArray())
-        if (descending) sort1(listCopy, true) else sort(listCopy)
+        when (this@Comp) {
+            is SortOp.Basic -> sort(listCopy)
+            is SortOp.WithDescendingSupport -> sort(listCopy, descending)
+        }
         result = listCopy.joinToString(",")
     }
 
-    if (allowDescending) {
+    if (this is SortOp.WithDescendingSupport) {
         RadioGroup(
             selection = if (descending) "Descending" else "Ascending",
             onSelectionChange = { descending = it == "Descending" },
