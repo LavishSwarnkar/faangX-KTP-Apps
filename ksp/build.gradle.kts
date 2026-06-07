@@ -19,6 +19,14 @@ publishing {
 group = "ksp"
 version = "1.0-SNAPSHOT"
 
+// Match the toolchain used by :apps and :catalog so the project-dependency variants are
+// compatible regardless of which JDK runs the Gradle daemon (e.g. JDK 21).
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
 repositories {
     mavenCentral()
 }
