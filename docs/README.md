@@ -40,6 +40,9 @@ This `docs/` folder documents the **entire system** across its three codebases.
 4. **[04-MiniApps-Index.md](04-MiniApps-Index.md)** — Catalogue of **every MiniApp**: its
    function signature, what concept it teaches, the course episode it maps to, and review
    comments.
+5. **[05-Catalog-Module-Migration.md](05-Catalog-Module-Migration.md)** — How the instructor
+   Catalog became the local `:catalog` module (`./gradlew :catalog:run`) consuming `:apps`
+   directly instead of JitPack, and the build fixes that required.
 
 ---
 

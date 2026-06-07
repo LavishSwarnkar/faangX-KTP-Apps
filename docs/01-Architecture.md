@@ -154,11 +154,24 @@ ksp module ──(:ksp)──▶ apps module ──maven-publish──▶ com.fa
 
 ## 7. The Catalog app (instructor tool)
 
-`faangX-KTP-MiniApps-Catalog` is a small Compose-for-Desktop app (`Main.kt`,
-`MiniAppsCatalog.kt`, `MiniAppsMenu.kt`) that renders every MiniApp using **reference
-implementations** under `catalog/demo/*Demo.kt`. It's for the instructor to eyeball all apps
-at once while authoring; it is **not** part of the student loop. (Its own `MiniApp` enum /
-`MiniAppsAggregator` provide category grouping for the menu.)
+The Catalog is a small Compose-for-Desktop app (`MiniAppsCatalog.kt`, `MiniAppsMenu.kt`) that
+renders every MiniApp using **reference implementations** under `catalog/demo/*Demo.kt`. It's
+for the instructor to eyeball all apps at once while authoring; it is **not** part of the
+student loop. (Its own `MiniApp` enum / `MiniAppsAggregator` provide category grouping for the
+menu.)
+
+It now lives **as a module in this repo** — `:catalog` — and consumes MiniApps via a direct
+`implementation(project(":apps"))` dependency (no JitPack, no publishing). Run it with:
+
+```bash
+./gradlew :catalog:run
+```
+
+Entry point: the top-level `main()` in `MiniAppsCatalog.kt` (`mainClass =
+"com.faangx.ktp.catalog.MiniAppsCatalogKt"`). The original standalone repo
+`faangX-KTP-MiniApps-Catalog` (which pinned `com.github.LavishSwarnkar:faangX-KTP-Apps:1.12`
+from JitPack) is superseded by this module. See
+[05-Catalog-Module-Migration.md](05-Catalog-Module-Migration.md) for what changed.
 
 ---
 
