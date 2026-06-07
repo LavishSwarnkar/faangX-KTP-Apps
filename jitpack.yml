@@ -1,2 +1,6 @@
 jdk:
   - openjdk17
+install:
+  # Exclude :catalog (instructor tool with reference solutions) from the JitPack build, and
+  # publish only :apps (mini-apps) and :ksp to the local Maven repo that JitPack harvests.
+  - ./gradlew publishToMavenLocal -PexcludeCatalog
