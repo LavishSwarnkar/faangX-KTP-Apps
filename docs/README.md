@@ -47,6 +47,10 @@ This `docs/` folder documents the **entire system** across its three codebases.
    Duolingo-style daily-practice app for **algorithm design**: an 11-type exercise taxonomy
    *derived automatically* from each app's reference solution + `@MiniAppTest`, the streak/practice
    mechanics, and a repeatable authoring recipe for existing and future MiniApps.
+7. **[07-Study-Material-Index.md](07-Study-Material-Index.md)** — The **written curriculum is the
+   source of truth**: it was authored by hand first, then each MiniApp was designed per topic in
+   sequence. Full index of all 7 modules, which topics already have a MiniApp (✅ shipped / 🟡 built /
+   🔴 none), and innovative MiniApp ideas for every uncovered topic, with a priority roadmap.
 
 ---
 

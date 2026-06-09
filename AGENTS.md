@@ -25,6 +25,16 @@ All long-form docs live in [`docs/`](docs/):
 - [docs/03-Android-App-Flow.md](docs/03-Android-App-Flow.md) — the student app: on-device Kotlin compile → DEX → classload → inject → JUnit → Git sync.
 - [docs/04-MiniApps-Index.md](docs/04-MiniApps-Index.md) — catalogue of every MiniApp: signature, concept taught, course episode, review comments.
 - [docs/05-Catalog-Module-Migration.md](docs/05-Catalog-Module-Migration.md) — how the Catalog became the local `:catalog` module and the build fixes it needed.
+- [docs/06-Daily-Practice-Pedagogy.md](docs/06-Daily-Practice-Pedagogy.md) — the daily-practice exercise taxonomy derived from each app's reference solution + tests.
+- [docs/07-Study-Material-Index.md](docs/07-Study-Material-Index.md) — the **written study material is the curriculum source of truth** (authored by hand first; MiniApps designed per topic afterwards). Index of all 7 modules, per-topic MiniApp coverage, and ideas + roadmap for uncovered topics.
+
+## The written study material comes first
+
+The course's [written study material](https://github.com/The-Streamliners/FaangX-KTP-Study-Material)
+(local: `…/KTP/FaangX-KTP-Study-Material/ktp`) was written **manually, end to end, before any
+MiniApp existed**; each MiniApp was then designed for a specific topic in the same teaching
+sequence. Treat the study material — not the app registry — as the **curriculum source of truth**
+for what must eventually be teachable. See [docs/07-Study-Material-Index.md](docs/07-Study-Material-Index.md).
 
 ## Modules
 
