@@ -43,6 +43,10 @@ This `docs/` folder documents the **entire system** across its three codebases.
 5. **[05-Catalog-Module-Migration.md](05-Catalog-Module-Migration.md)** — How the instructor
    Catalog became the local `:catalog` module (`./gradlew :catalog:run`) consuming `:apps`
    directly instead of JitPack, and the build fixes that required.
+6. **[06-Daily-Practice-Pedagogy.md](06-Daily-Practice-Pedagogy.md)** — Turning MiniApps into a
+   Duolingo-style daily-practice app for **algorithm design**: an 11-type exercise taxonomy
+   *derived automatically* from each app's reference solution + `@MiniAppTest`, the streak/practice
+   mechanics, and a repeatable authoring recipe for existing and future MiniApps.
 
 ---
 
