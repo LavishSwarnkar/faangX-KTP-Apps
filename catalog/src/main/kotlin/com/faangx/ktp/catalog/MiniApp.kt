@@ -133,6 +133,61 @@ enum class MiniApp(
         title = "Base64 Converter",
         category = "String",
         demo = { Base64AppDemo() }
+    ),
+    GreetingApp(
+        title = "Greeting App",
+        category = "New",
+        demo = { GreetingAppDemo() }
+    ),
+    TextApp(
+        title = "Text App",
+        category = "New",
+        demo = { TextAppDemo() }
+    ),
+    StringStatsCalculator(
+        title = "String Stats Calculator",
+        category = "New",
+        demo = { StringStatsCalculatorDemo() }
+    ),
+    StringCaseConvertor(
+        title = "String Case Convertor",
+        category = "New",
+        demo = { StringCaseConvertorDemo() }
+    ),
+    NumberPalindromeChecker(
+        title = "Number Palindrome Checker",
+        category = "New",
+        demo = { NumberPalindromeCheckerDemo() }
+    ),
+    StringPalindromeChecker(
+        title = "String Palindrome Checker",
+        category = "New",
+        demo = { StringPalindromeCheckerDemo() }
+    ),
+    BinomialExpansion(
+        title = "Binomial Expansion",
+        category = "New",
+        demo = { BinomialExpansionDemo() }
+    ),
+    ArmstrongNumbers(
+        title = "Armstrong Numbers",
+        category = "New",
+        demo = { ArmstrongNumbersDemo() }
+    ),
+    ProgressionChecker(
+        title = "Progression Checker",
+        category = "New",
+        demo = { ProgressionCheckerDemo() }
+    ),
+    IntListOperations(
+        title = "Int List Operations",
+        category = "New",
+        demo = { IntListOperationsDemo() }
+    ),
+    Spiral(
+        title = "Spiral",
+        category = "New",
+        demo = { SpiralDemo() }
     );
 
     companion object
